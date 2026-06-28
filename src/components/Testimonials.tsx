@@ -23,7 +23,7 @@ export default function Testimonials() {
     <section id="reviews" className="py-24 px-6 md:px-12 bg-brand-dark">
       <div className="max-w-7xl mx-auto">
         <div className="mb-24">
-          <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-brand-accent mb-4">Testimonials</p>
+          <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-accent mb-4">Testimonials</p>
           <h2 className="text-6xl md:text-8xl leading-none">What Our <br />Clients Are Saying</h2>
         </div>
 

@@ -9,20 +9,19 @@ export default function Vision() {
           <div className="lg:col-span-5 relative">
             <div className="aspect-[3/4] rounded-[40px] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
               <img 
-                src="https://picsum.photos/seed/vision/800/1200" 
-                alt="Visionary Design" 
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
+                src="/tower.jpg" 
+                alt="Stenth Founders" 
+                className="w-full h-full object-cover object-center"
               />
             </div>
             <div className="absolute -bottom-6 -right-6 bg-brand-accent text-brand-dark p-8 rounded-3xl hidden md:block">
-              <p className="text-sm font-bold uppercase tracking-widest">Sarah West</p>
-              <p className="text-[10px] uppercase tracking-widest opacity-60">Co-Founder & Strategy Officer</p>
+              <p className="text-sm font-bold uppercase tracking-widest">Founders</p>
+              <p className="text-xs uppercase tracking-widest opacity-60">Stenth Leadership</p>
             </div>
           </div>
 
           <div className="lg:col-span-7 lg:pl-12">
-            <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-brand-accent mb-8">Our Philosophy</p>
+            <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-accent mb-8">Our Philosophy</p>
             <h2 className="text-6xl md:text-8xl leading-none mb-12">
               Imagine <br />
               <span className="text-brand-accent">What Happens</span> <br />

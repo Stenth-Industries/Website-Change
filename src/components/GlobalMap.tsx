@@ -117,7 +117,7 @@ export default function GlobalMap() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-brand-accent mb-4">Global Presence</p>
+            <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-accent mb-4">Global Presence</p>
             <h2 className="text-5xl md:text-7xl leading-none">Available <br /> <span className="text-brand-accent">Everywhere</span> It Matters.</h2>
           </div>
           <div className="max-w-xs text-right">

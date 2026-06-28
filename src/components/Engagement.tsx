@@ -69,7 +69,7 @@ export default function Engagement() {
     <section className="py-24 px-6 md:px-12 bg-brand-light text-brand-dark rounded-[40px] md:rounded-[80px] relative z-20">
       <div className="max-w-7xl mx-auto">
         <div className="mb-24">
-          <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-brand-muted mb-4">Engagement Models</p>
+          <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-muted mb-4">Engagement Models</p>
           <h2 className="text-6xl md:text-8xl leading-none">Choose Your <br />Speed.</h2>
         </div>
 
@@ -86,7 +86,7 @@ export default function Engagement() {
               <div className="mb-8">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-2xl font-display">{model.title}</h3>
-                  <span className={`text-[10px] px-2 py-1 rounded-full border ${model.featured ? 'border-brand-dark/20' : 'border-brand-light/20'}`}>
+                  <span className={`text-xs px-2 py-1 rounded-full border ${model.featured ? 'border-brand-dark/20' : 'border-brand-light/20'}`}>
                     {model.duration}
                   </span>
                 </div>
@@ -96,11 +96,11 @@ export default function Engagement() {
               </div>
 
               <div className="flex-grow space-y-4 mb-12">
-                <p className="text-[10px] uppercase tracking-widest font-bold opacity-40">What's Included:</p>
+                <p className="text-xs uppercase tracking-widest font-bold opacity-70">What's Included:</p>
                 <ul className="space-y-3">
                   {model.includes.map((item, idx) => (
                     <li key={idx} className="text-xs flex gap-2">
-                      <span className="opacity-40">•</span>
+                      <span className="opacity-70">•</span>
                       {item}
                     </li>
                   ))}

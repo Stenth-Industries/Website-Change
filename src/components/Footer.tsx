@@ -22,11 +22,11 @@ export default function Footer() {
               </a>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-brand-accent mb-2">Canada Hub</p>
+                  <p className="text-xs uppercase tracking-widest font-bold text-brand-accent mb-2">Canada Hub</p>
                   <p className="text-sm text-brand-muted">368 Prince of Wales Dr, Mississauga, ON L5B 0A1</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-brand-accent mb-2">Australia Hub</p>
+                  <p className="text-xs uppercase tracking-widest font-bold text-brand-accent mb-2">Australia Hub</p>
                   <p className="text-sm text-brand-muted">Picnic Ave Clyde North VIC 3978, Australia</p>
                 </div>
               </div>
@@ -34,7 +34,7 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-3 md:pt-12">
-            <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-brand-muted mb-8">Navigation</p>
+            <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-muted mb-8">Navigation</p>
             <ul className="space-y-4">
               {['Services', 'About', 'Portfolio', 'Contact'].map(item => (
                 <li key={item}>
@@ -45,7 +45,7 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-3 md:pt-12">
-            <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-brand-muted mb-8">Social</p>
+            <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-muted mb-8">Social</p>
             <div className="flex gap-6">
               <a href="#" className="hover:text-brand-accent transition-colors"><Instagram size={24} /></a>
               <a href="#" className="hover:text-brand-accent transition-colors"><Linkedin size={24} /></a>
@@ -58,7 +58,7 @@ export default function Footer() {
           <div className="flex items-center gap-4">
             <div className="w-8 h-8">
               <img 
-                src="https://raw.githubusercontent.com/StenthAgency/assets/main/logo.png" 
+                src="/Logo.png" 
                 alt="Stenth Logo" 
                 className="w-full h-full object-contain opacity-50 hover:opacity-100 transition-opacity"
                 onError={(e) => {
@@ -67,9 +67,9 @@ export default function Footer() {
               />
             </div>
             <span className="font-display text-2xl tracking-tighter">STENTH</span>
-            <span className="text-[10px] text-brand-muted uppercase tracking-widest">© 2026 Stenth Agency. All rights reserved.</span>
+            <span className="text-xs text-brand-muted uppercase tracking-widest">© 2026 Stenth Agency. All rights reserved.</span>
           </div>
-          <div className="flex gap-8 text-[10px] text-brand-muted uppercase tracking-widest">
+          <div className="flex gap-8 text-xs text-brand-muted uppercase tracking-widest">
             <a href="#" className="hover:text-brand-light transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-brand-light transition-colors">Terms of Service</a>
           </div>

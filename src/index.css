@@ -21,15 +21,43 @@
 }
 
 @layer base {
+  @keyframes orbit {
+    0% {
+      transform: rotate(0deg) translateY(calc(var(--radius) * 1px)) rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg) translateY(calc(var(--radius) * 1px)) rotate(-360deg);
+    }
+  }
+}
+
+@layer utilities {
+  .animate-orbit {
+    animation: orbit calc(var(--duration) * 1s) linear infinite;
+    animation-delay: calc(var(--delay) * 1000ms);
+    animation-direction: normal;
+  }
+
+  .animate-orbit[class*="[animation-direction:reverse]"],
+  .orbit-reverse {
+    animation-direction: reverse;
+  }
+}
+
+@layer base {
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply bg-brand-dark text-brand-light font-sans antialiased selection:bg-brand-accent selection:text-brand-dark;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     @apply font-display uppercase tracking-tighter;
   }
 }
@@ -50,3 +78,49 @@
   @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-light via-brand-accent to-brand-light bg-[length:200%_auto] animate-shimmer;
 }
 
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* 3D Utilities */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.perspective-none {
+  perspective: none;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}

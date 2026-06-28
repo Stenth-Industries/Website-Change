@@ -76,7 +76,7 @@ export default function FAQ() {
           <div className="w-16 h-16 rounded-full border border-brand-accent flex items-center justify-center animate-pulse">
             <Plus className="text-brand-accent" />
           </div>
-          <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-brand-muted">Growth Diagnostic</p>
+          <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-muted">Growth Diagnostic</p>
         </div>
       </div>
     </section>

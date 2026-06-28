@@ -21,7 +21,7 @@ export default function Marquee() {
         >
           {results.map((text, i) => (
             <div key={i} className="flex items-center gap-12">
-              <span className="text-brand-dark text-[10px] font-bold uppercase tracking-widest">
+              <span className="text-brand-dark text-xs font-bold uppercase tracking-widest">
                 {text}
               </span>
               <span className="w-2 h-2 bg-brand-dark rounded-full" />
@@ -36,7 +36,7 @@ export default function Marquee() {
         >
           {results.map((text, i) => (
             <div key={i + 'copy'} className="flex items-center gap-12">
-              <span className="text-brand-dark text-[10px] font-bold uppercase tracking-widest">
+              <span className="text-brand-dark text-xs font-bold uppercase tracking-widest">
                 {text}
               </span>
               <span className="w-2 h-2 bg-brand-dark rounded-full" />

@@ -57,7 +57,7 @@ export default function Services() {
             </p>
           </div>
           <div className="text-right">
-            <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-brand-muted mb-2">Service Portfolio</p>
+            <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-muted mb-2">Service Portfolio</p>
             <p className="text-4xl font-display">01 — 04</p>
           </div>
         </div>
@@ -76,7 +76,7 @@ export default function Services() {
                 <div className="w-12 h-12 rounded-full border border-brand-dark/10 flex items-center justify-center group-hover:border-brand-accent transition-colors">
                   <service.icon size={20} className="text-brand-dark group-hover:text-brand-accent transition-colors" />
                 </div>
-                <span className="text-[10px] font-bold opacity-20">0{index + 1}</span>
+                <span className="text-xs font-bold opacity-60">0{index + 1}</span>
               </div>
               
               <h3 className="text-3xl md:text-4xl mb-4 group-hover:text-brand-accent transition-colors">
@@ -88,7 +88,7 @@ export default function Services() {
               
               <div className="flex flex-wrap gap-2">
                 {service.tags.map(tag => (
-                  <span key={tag} className="px-3 py-1 rounded-full border border-brand-dark/5 text-[10px] uppercase tracking-wider font-bold opacity-60">
+                  <span key={tag} className="px-3 py-1 rounded-full border border-brand-dark/5 text-xs uppercase tracking-wider font-bold opacity-90">
                     {tag}
                   </span>
                 ))}

@@ -62,7 +62,7 @@ export default function Process() {
                   }}
                 >
                   <div className="flex flex-col items-center gap-2">
-                    <span className="text-[10px] font-bold text-brand-accent">{stage.id}</span>
+                    <span className="text-xs font-bold text-brand-accent">{stage.id}</span>
                     <span className="text-sm uppercase tracking-widest font-bold whitespace-nowrap">{stage.name}</span>
                   </div>
                 </motion.div>
@@ -79,7 +79,7 @@ export default function Process() {
         {/* Step by Step */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-brand-accent mb-8">The Process</p>
+            <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-accent mb-8">The Process</p>
             <h3 className="text-4xl md:text-6xl leading-tight mb-12">We follow a <span className="text-brand-accent">strategic, outcome-driven</span> process:</h3>
             
             <div className="space-y-4">

@@ -35,11 +35,11 @@ export default function Cases() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-brand-accent mb-4">Selected Work</p>
+            <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-accent mb-4">Selected Work</p>
             <h2 className="text-6xl md:text-9xl leading-none">Case Studies</h2>
           </div>
           <div className="max-w-xs text-right">
-            <p className="text-brand-muted text-sm italic">
+            <p className="text-brand-light/80 text-sm italic">
               "We don't do 'one-size-fits-all'. Each funnel, ad, and campaign is tailored to the unique DNA of your business."
             </p>
           </div>
@@ -51,7 +51,7 @@ export default function Cases() {
             <button
               key={cat}
               onClick={() => setActiveTab(cat)}
-              className={`text-[10px] uppercase tracking-[0.3em] font-bold transition-all ${activeTab === cat ? 'text-brand-accent' : 'text-brand-muted hover:text-brand-light'}`}
+              className={`text-xs uppercase tracking-[0.3em] font-bold transition-all ${activeTab === cat ? 'text-brand-accent' : 'text-brand-light/60 hover:text-brand-light'}`}
             >
               {cat}
             </button>
@@ -88,7 +88,7 @@ export default function Cases() {
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-3xl mb-2">{item.title}</h3>
-                  <p className="text-brand-muted text-xs font-medium">{item.desc}</p>
+                  <p className="text-brand-light/80 text-xs font-medium">{item.desc}</p>
                 </div>
                 <div className="w-10 h-10 rounded-full border border-brand-light/10 flex items-center justify-center group-hover:bg-brand-accent group-hover:text-brand-dark transition-all">
                   <span className="text-lg">↗</span>

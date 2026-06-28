@@ -1,172 +1,213 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useScroll, useTransform } from 'motion/react';
-import { Plus, Radio } from 'lucide-react';
+
+const HEADLINE = "BUILD YOUR BUSINESS";
+const SERVICES = [
+  'Paid Advertising',
+  'SEO Services',
+  'Web Development',
+  'Content Marketing',
+  'Analytics & Tracking',
+  'Branding',
+];
+
+const MARQUEE_TEXT = [...SERVICES, ...SERVICES, ...SERVICES, ...SERVICES]; // quadrupled for seamless loop on wide screens
 
 export default function Hero() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const { scrollY } = useScroll();
 
-  const springConfig = { damping: 20, stiffness: 100 };
-  const spotlightX = useSpring(mouseX, springConfig);
-  const spotlightY = useSpring(mouseY, springConfig);
+  const auroraX = useSpring(useTransform(mouseX, [0, 1440], [-80, 80]), { stiffness: 60, damping: 30 });
+  const auroraY = useSpring(useTransform(mouseY, [0, 900], [-40, 40]), { stiffness: 60, damping: 30 });
 
-  const bgY = useTransform(scrollY, [0, 500], [0, 100]);
+  const watermarkY = useTransform(scrollY, [0, 600], [0, 140]);
+  const watermarkX = useSpring(useTransform(mouseX, [0, 1440], [-30, 30]), { stiffness: 40, damping: 25 });
+
+  const headlineOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const headlineY = useTransform(scrollY, [0, 400], [0, 80]);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      mouseX.set(clientX);
-      mouseY.set(clientY);
+    const onMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mouseX, mouseY]);
+    window.addEventListener('mousemove', onMove);
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-end px-6 pb-12 md:px-12 md:pb-24 overflow-hidden bg-brand-dark">
-      {/* Video Texture Background */}
-      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-          className="w-full h-full object-cover grayscale contrast-125"
-        >
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-flowing-dark-smoke-2471-large.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-brand-dark/60" />
+    <section className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-brand-dark">
+
+      {/* ── Layer 0: Grain Texture ── */}
+      <div className="noise-bg" aria-hidden />
+
+      {/* ── Layer 1: Aurora Atmosphere ── */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Primary glow – follows mouse */}
+        <motion.div
+          style={{ x: auroraX, y: auroraY }}
+          className="absolute top-[20%] left-[30%] w-[900px] h-[700px] rounded-full bg-blue-600/10 blur-[180px]"
+        />
+        {/* Secondary glow – slow pulse, fixed */}
+        <motion.div
+          animate={{ scale: [1, 1.12, 1], opacity: [0.06, 0.12, 0.06] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-[-10%] right-[-5%] w-[700px] h-[700px] rounded-full bg-indigo-500/10 blur-[200px]"
+        />
+        {/* Vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,transparent_30%,#01080F_100%)]" />
       </div>
 
-      {/* Interactive Spotlight */}
-      <motion.div 
-        className="absolute inset-0 pointer-events-none z-0 opacity-30"
-        style={{
-          background: `radial-gradient(600px circle at ${spotlightX}px ${spotlightY}px, rgba(111, 156, 235, 0.15), transparent 80%)`
-        }}
-      />
-
-      {/* Live Status Indicator */}
-      <div className="absolute top-32 left-6 md:left-12 z-20 flex items-center gap-3">
-        <div className="relative flex h-3 w-3">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-brand-accent"></span>
-        </div>
-        <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-accent">Strategy. Marketing. Growth.</span>
-      </div>
-
-      {/* Background Large Text & Logo */}
-      <motion.div 
-        style={{ y: bgY }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full pointer-events-none opacity-[0.03] select-none flex flex-col items-center"
+      {/* ── Layer 2: Giant STENTH Watermark (parallax) ── */}
+      <motion.div
+        style={{ y: watermarkY, x: watermarkX }}
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0"
+        aria-hidden
       >
-        <div className="w-[30vw] h-[30vw] mb-8">
-           <img 
-            src="https://raw.githubusercontent.com/StenthAgency/assets/main/logo.png" 
-            alt="Stenth Logo Watermark" 
-            className="w-full h-full object-contain"
-          />
-        </div>
-        <h1 className="text-[40vw] leading-none text-center font-display">
+        <span
+          className="font-display text-[28vw] leading-none tracking-tighter text-brand-light"
+          style={{ opacity: 0.03 }}
+        >
           STENTH
-        </h1>
+        </span>
       </motion.div>
 
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
-        <div className="md:col-span-4 space-y-6">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <p className="text-brand-accent text-sm md:text-base font-medium uppercase tracking-widest leading-tight">
-              Digital Marketing<br />
-              That Builds<br />
-              Businesses.
-            </p>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex items-center gap-4 text-brand-muted"
-          >
-            <div className="h-[1px] w-12 bg-brand-muted/30" />
-            <p className="text-[10px] uppercase tracking-[0.3em]">
-              Data-driven strategies & measurable results
-            </p>
-          </motion.div>
-        </div>
-
-        <div className="md:col-span-4 flex justify-center md:justify-start">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="group relative flex flex-col items-center gap-4"
-          >
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-brand-accent/30 flex items-center justify-center group-hover:bg-brand-accent group-hover:border-brand-accent transition-all duration-500 overflow-hidden">
-              <Plus className="text-brand-accent group-hover:text-brand-dark transition-colors relative z-10" size={32} />
-              <motion.div 
-                className="absolute inset-0 bg-brand-accent opacity-0 group-hover:opacity-100 transition-opacity"
-                initial={false}
-              />
-            </div>
-            <span className="text-[10px] uppercase tracking-[0.4em] font-bold">Start Growing</span>
-          </motion.button>
-        </div>
-
-        <div className="md:col-span-4 text-right hidden md:block">
-          <div className="space-y-2">
-            <p className="text-brand-muted text-[10px] uppercase tracking-widest">Our Focus:</p>
-            <p className="text-sm opacity-60 italic">Transforming brands into market leaders</p>
-            <div className="flex justify-end gap-1 pt-2">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className={`w-1 h-1 rounded-full ${i === 0 ? 'bg-brand-accent' : 'bg-brand-muted/30'}`} />
-              ))}
-            </div>
+      {/* ── Layer 3: Top Status Bar ── */}
+      <div className="relative z-10 flex items-center justify-between px-6 md:px-12 pt-10 md:pt-14">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="flex items-center gap-3"
+        >
+          <div className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-accent" />
           </div>
-        </div>
+          <span className="text-xs uppercase tracking-[0.5em] font-mono text-brand-accent/70">
+            Strategy. Marketing. Growth.
+          </span>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="hidden md:block text-right"
+        >
+          <p className="text-xs uppercase tracking-[0.4em] text-brand-light/70 font-mono">Stenth Agency</p>
+          <p className="text-xs uppercase tracking-[0.4em] text-brand-light/40 font-mono">Est. 2024</p>
+        </motion.div>
       </div>
 
-      <div className="mt-12 md:mt-24 relative z-10">
-        <motion.h1 
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-[9vw] md:text-[10vw] leading-[0.85] font-display text-brand-light whitespace-nowrap relative"
-        >
-          <span className="relative z-10 text-gradient">Build Your Business</span>
-          {/* Video Mask Overlay (Subtle) */}
-          <div className="absolute inset-0 z-0 mix-blend-overlay opacity-40 pointer-events-none overflow-hidden">
-             <video 
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              className="w-full h-full object-cover scale-150"
+      {/* ── Layer 4: Main Copy + Headline ── */}
+      <motion.div
+        style={{ opacity: headlineOpacity, y: headlineY }}
+        className="relative z-10 px-6 md:px-12 flex flex-col gap-10 md:gap-16"
+      >
+        {/* Sub-copy block */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="space-y-3 max-w-xs"
+          >
+            <p className="text-brand-accent text-base md:text-lg font-medium uppercase tracking-widest leading-snug">
+              Digital Marketing<br />That Builds<br />Businesses.
+            </p>
+            <p className="text-brand-light/60 text-xs uppercase tracking-[0.35em] font-mono">
+              Data-driven. Revenue-focused.
+            </p>
+          </motion.div>
+
+          <motion.a
+            href="#contact"
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{ x: 4 }}
+            className="hidden md:inline-flex items-center gap-3 text-xs uppercase tracking-[0.4em] font-bold text-brand-light/70 hover:text-brand-accent transition-colors group"
+          >
+            Book a Call
+            <span className="inline-block group-hover:translate-x-1 transition-transform">↗</span>
+          </motion.a>
+        </div>
+
+        {/* Staggered Headline — Two line editorial layout */}
+        <div aria-label="Build Your Business" className="space-y-2">
+          {/* Line 1: BUILD YOUR */}
+          <div className="overflow-hidden">
+            <motion.div
+              initial={{ y: '110%' }}
+              animate={{ y: '0%' }}
+              transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[13vw] md:text-[13vw] leading-[0.85] font-display text-brand-light whitespace-nowrap"
             >
-              <source src="https://assets.mixkit.co/videos/preview/mixkit-liquid-ink-swirling-in-water-4445-large.mp4" type="video/mp4" />
-            </video>
+              BUILD YOUR
+            </motion.div>
           </div>
-        </motion.h1>
-        
-        <div className="flex flex-wrap gap-x-12 gap-y-4 mt-8 opacity-40">
-          {['Paid Advertising', 'SEO Services', 'Web Development', 'Content Marketing', 'Analytics & Tracking', 'Branding'].map((text, i) => (
-            <motion.span 
-              key={text} 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1 + (i * 0.1) }}
-              className="text-[10px] uppercase tracking-[0.2em] font-medium whitespace-nowrap"
+          {/* Line 2: BUSINESS — offset + accent color */}
+          <div className="overflow-hidden">
+            <motion.div
+              initial={{ y: '110%' }}
+              animate={{ y: '0%' }}
+              transition={{ duration: 1, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[13vw] md:text-[13vw] leading-[0.85] font-display whitespace-nowrap pl-[6vw]"
+              style={{ color: '#6F9CEB' }}
             >
-              {text}
+              BUSINESS.
+            </motion.div>
+          </div>
+        </div>
+
+        {/* ── Service Marquee Strip ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
+          className="w-full overflow-hidden border-t border-b border-white/5 py-3"
+        >
+          <div className="flex animate-marquee whitespace-nowrap gap-0 w-max">
+            {MARQUEE_TEXT.map((text, i) => (
+              <span key={i} className="flex items-center">
+                <span className="text-xs uppercase tracking-[0.4em] font-mono text-brand-light/80 px-8">
+                  {text}
+                </span>
+                <span className="text-brand-accent/60 text-sm">·</span>
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* ── Layer 5: Bottom Bar ── */}
+      <div className="relative z-10 px-6 md:px-12 pb-8 md:pb-10 flex items-center justify-between gap-6 border-t border-white/5 pt-6 mt-4">
+        <div className="flex flex-wrap gap-x-8 gap-y-2">
+          {SERVICES.map((s, i) => (
+            <motion.span
+              key={s}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.7 }}
+              transition={{ delay: 1.6 + i * 0.07 }}
+              className="text-xs uppercase tracking-[0.3em] font-mono text-brand-light"
+            >
+              {s}
             </motion.span>
           ))}
         </div>
+        <motion.a
+          href="#contact"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.0 }}
+          whileHover={{ scale: 1.02 }}
+          className="flex-shrink-0 text-xs uppercase tracking-[0.4em] font-bold text-brand-accent border border-brand-accent/30 px-5 py-2.5 rounded-full hover:bg-brand-accent hover:text-brand-dark transition-all duration-300"
+        >
+          Book Free Session ↗
+        </motion.a>
       </div>
     </section>
   );
 }
-

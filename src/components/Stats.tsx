@@ -1,75 +1,209 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useRef, useMemo } from 'react';
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'motion/react';
+
+const StatSlab = ({ val, label, story, index, progress, mouseX, mouseY }: any) => {
+  const ref = useRef(null);
+  const depth = useMemo(() => 1 + index * 0.15, [index]);
+
+  // High-fidelity inertial fluid motion
+  const yBase = useTransform(progress, [0, 1], [60 * depth, -60 * depth]);
+  const y = useSpring(yBase, { stiffness: 120, damping: 35 });
+
+  const rotateXBase = useTransform(mouseY, [0, 1000], [8, -8]);
+  const rotateX = useSpring(rotateXBase, { stiffness: 80, damping: 25 });
+
+  const rotateYBase = useTransform(mouseX, [0, 1400], [-8, 8]);
+  const rotateY = useSpring(rotateYBase, { stiffness: 80, damping: 25 });
+
+  // Holographic Chromatic Aberration positions
+  const shiftX = useTransform(mouseX, [0, 1400], [-3, 3]);
+  const shiftY = useTransform(mouseY, [0, 1000], [-3, 3]);
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ y, rotateX, rotateY, zIndex: 10 - index }}
+      className="relative group w-full aspect-[4/3] rounded-[2.5rem] p-8 overflow-hidden 
+                 border border-white/10 bg-white/[0.01] backdrop-blur-[100px] 
+                 shadow-[0_45px_100px_-20px_rgba(0,0,0,0.6)] transition-all duration-700
+                 hover:bg-white/[0.03] hover:border-white/30 hover:shadow-blue-500/15"
+    >
+      {/* Holographic RGB Shift Layers */}
+      <motion.div
+        style={{ x: shiftX, y: shiftY }}
+        className="absolute inset-0 border border-red-500/10 rounded-[2.5rem] pointer-events-none mix-blend-screen opacity-0 group-hover:opacity-40 transition-opacity duration-700"
+      />
+      <motion.div
+        style={{ x: useTransform(shiftX, v => -v), y: useTransform(shiftY, v => -v) }}
+        className="absolute inset-0 border border-blue-500/10 rounded-[2.5rem] pointer-events-none mix-blend-screen opacity-0 group-hover:opacity-40 transition-opacity duration-700"
+      />
+
+      {/* Internal Glare Flare */}
+      <motion.div
+        style={{
+          left: useTransform(mouseX, [0, 1400], ["-30%", "130%"]),
+          top: useTransform(mouseY, [0, 1000], ["-30%", "130%"])
+        }}
+        className="absolute w-96 h-96 bg-blue-500/5 blur-[80px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-1000"
+      />
+
+      <div className="relative z-10 h-full flex flex-col justify-end">
+        {/* Story Lead-in */}
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          whileInView={{ opacity: 0.9, x: 0 }}
+          transition={{ delay: 0.3 + index * 0.1 }}
+          className="font-mono text-xs uppercase tracking-[0.3em] text-blue-400 mb-4 font-bold"
+        >
+          {story}
+        </motion.div>
+
+        {/* Ignition Metrics */}
+        <motion.div
+          className="text-6xl md:text-8xl font-display text-white mb-2 tracking-tighter"
+          whileInView={{
+            filter: ["brightness(1) blur(0px)", "brightness(2) blur(4px)", "brightness(1) blur(0px)"],
+            scale: [1, 1.05, 1]
+          }}
+          transition={{ duration: 1.2, ease: "easeOut", delay: index * 0.1 }}
+        >
+          {val}
+        </motion.div>
+
+        <p className="text-xs uppercase font-mono tracking-[0.5em] text-blue-500/70 font-bold">
+          {label}
+        </p>
+      </div>
+
+      {/* Technical Decals */}
+      <div className="absolute top-8 right-8 opacity-30">
+        <div className="w-16 h-px bg-gradient-to-r from-blue-500/40 to-transparent" />
+        <div className="h-16 w-px bg-gradient-to-b from-blue-500/40 to-transparent absolute top-0 left-0" />
+      </div>
+    </motion.div>
+  );
+};
 
 export default function Stats() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const { clientX, clientY } = e;
+    mouseX.set(clientX);
+    mouseY.set(clientY);
+  };
+
+  const stats = [
+    { val: '3.8x', label: 'Average ROAS Delivered', story: 'From every dollar spent' },
+    { val: '41%', label: 'Drop in Acquisition Cost', story: 'Optimised for zero waste' },
+    { val: '90', label: 'Days to First Profitable Campaign', story: 'Delivered at surgical speed' },
+    { val: '100%', label: 'Client Renewal Rate', story: 'Built for the long term' }
+  ];
+
   return (
-    <section className="py-24 px-6 md:px-12 bg-brand-dark text-brand-light relative overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-wrap justify-center gap-8 md:gap-24 mb-32 opacity-40 text-[10px] uppercase tracking-[0.4em] font-bold">
-          <span>SAAS</span>
-          <span>EXPERT</span>
-          <span>PRODUCT</span>
-          <span>AGENCY</span>
+    <section
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      className="py-40 px-6 md:px-12 bg-brand-dark text-brand-light relative overflow-hidden"
+    >
+      {/* Cinematic Aurora Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <motion.div
+          style={{
+            x: useTransform(mouseX, [0, 1400], [-120, 120]),
+            y: useTransform(mouseY, [0, 1000], [-80, 80]),
+            opacity: useTransform(scrollYProgress, [0.1, 0.4, 0.7], [0.2, 0.8, 0.2])
+          }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1000px] bg-blue-600/5 blur-[200px] rounded-full"
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_20%,#01080F_100%)]" />
+      </div>
+
+      <div className="max-w-[1400px] mx-auto relative z-10">
+        <div className="flex flex-wrap justify-center gap-8 md:gap-32 mb-40 opacity-70 text-sm uppercase tracking-[0.6em] font-medium text-brand-light">
+          <span>Strategy</span>
+          <span>Performance</span>
+          <span>Growth</span>
+          <span>Retention</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-          <div className="space-y-12">
-            <h2 className="text-6xl md:text-8xl leading-none">
-              We don't just <br />
-              <span className="text-brand-accent">Market Brands.</span>
-            </h2>
-            
-            <div className="max-w-md space-y-8">
-              <p className="text-brand-muted uppercase tracking-widest text-xs font-bold leading-relaxed">
-                We build businesses through data-driven strategies and measurable results.
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
+          {/* Narrative Content */}
+          <div className="lg:col-span-5 space-y-20">
+            <div className="space-y-10">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-px bg-blue-600/40" />
+                <span className="font-mono text-xs uppercase tracking-[0.6em] text-blue-500">Performance Index</span>
+              </div>
+
+              <h2 className="text-8xl md:text-[10rem] leading-[0.8] tracking-tighter">
+                We do not just <br />
+                <span className="text-gradient">market brands.</span>
+              </h2>
+            </div>
+
+            <div className="max-w-md space-y-12 border-l border-white/5 pl-10 ml-2">
+              <p className="text-brand-light/80 text-base leading-relaxed font-light">
+                Our methodology is built on data and delivered with surgical precision. We prioritize sustainable revenue over temporary reach.
               </p>
-              <p className="text-xl md:text-2xl font-medium leading-tight">
-                Stenth is a <span className="text-brand-accent">Growth Engine</span> — we don't just provide services; we partner with you to scale your vision into a market leader.
+              <p className="text-2xl md:text-3xl font-light leading-snug text-white/90 tracking-tight">
+                Stenth operates as your strategic partner. We bridge the gap between where your vision is now and where it deserves to be.
               </p>
             </div>
           </div>
 
-          <div className="relative h-[500px] flex items-center justify-center">
-            {/* Isometric Stats Block */}
-            <div className="relative w-full max-w-md perspective-[1000px]">
-              <motion.div 
-                initial={{ rotateX: 45, rotateZ: -45, y: 50, opacity: 0 }}
-                whileInView={{ rotateX: 45, rotateZ: -45, y: 0, opacity: 1 }}
-                animate={{ 
-                  y: [0, -20, 0],
-                }}
-                transition={{ 
-                  initial: { duration: 1, ease: "easeOut" },
-                  animate: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-                }}
-                className="relative transform-gpu"
-              >
-                {/* Top Face */}
-                <div className="bg-brand-light p-12 shadow-2xl border border-brand-accent/20">
-                  <div className="grid grid-cols-2 gap-12">
-                    <div className="space-y-2">
-                      <p className="text-5xl font-display text-brand-dark">60+</p>
-                      <p className="text-[10px] uppercase tracking-widest text-brand-muted font-bold">Launches</p>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-5xl font-display text-brand-dark">$4M+</p>
-                      <p className="text-[10px] uppercase tracking-widest text-brand-muted font-bold">In Revenue</p>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-5xl font-display text-brand-dark">X 12</p>
-                      <p className="text-[10px] uppercase tracking-widest text-brand-muted font-bold">ROI Up To</p>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-5xl font-display text-brand-dark">90%</p>
-                      <p className="text-[10px] uppercase tracking-widest text-brand-muted font-bold">Customers Return</p>
-                    </div>
-                  </div>
+          {/* Cinematic Narrative Sculpture */}
+          <div className="lg:col-span-7 relative">
+            {/* Particle Data-Stream Connectivity */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-0" viewBox="0 0 600 850">
+              <motion.path
+                d="M 150 150 L 450 350 L 150 550 L 450 750"
+                fill="none"
+                stroke="rgba(111, 156, 235, 0.1)"
+                strokeWidth="1"
+              />
+              {/* Particle flow */}
+              <motion.path
+                d="M 150 150 L 450 350 L 150 550 L 450 750"
+                fill="none"
+                stroke="rgba(111, 156, 235, 0.6)"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeDasharray="1 100"
+                animate={{ strokeDashoffset: [1000, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              />
+              <motion.path
+                d="M 150 150 L 450 350 L 150 550 L 450 750"
+                fill="none"
+                stroke="rgba(111, 156, 235, 0.4)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeDasharray="1 80"
+                animate={{ strokeDashoffset: [800, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear", delay: 1 }}
+              />
+            </svg>
+
+            <div className="grid grid-cols-2 gap-6 md:gap-12 perspective-[2500px] relative z-10">
+              {stats.map((s, i) => (
+                <div key={s.label} className={`relative ${i % 2 !== 0 ? 'mt-40 md:mt-64' : ''}`}>
+                  <StatSlab
+                    {...s}
+                    index={i}
+                    progress={scrollYProgress}
+                    mouseX={mouseX}
+                    mouseY={mouseY}
+                  />
                 </div>
-                
-                {/* Side Faces (Simulated with borders and shadows) */}
-                <div className="absolute top-full left-0 w-full h-12 bg-brand-muted/20 origin-top transform-gpu -skew-x-[45deg]" />
-                <div className="absolute top-0 left-full w-12 h-full bg-brand-muted/10 origin-left transform-gpu -skew-y-[45deg]" />
-              </motion.div>
+              ))}
             </div>
           </div>
         </div>
