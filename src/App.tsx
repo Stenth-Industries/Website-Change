@@ -19,6 +19,7 @@ import ShowcaseVideo from './components/ShowcaseVideo';
 import ExpertiseSection from './components/ExpertiseSection';
 import { motion, useScroll, useSpring, MotionConfig } from 'motion/react';
 import LawFirmsPage from './components/LawFirmsPage';
+import ScanPage from './components/ScanPage';
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -28,12 +29,20 @@ export default function App() {
     restDelta: 0.001
   });
 
-  // Lightweight routing: /law-firms renders the niche landing page.
-  // Static hosts need a rewrite of /law-firms -> /index.html in production.
-  if (window.location.pathname.replace(/\/$/, '') === '/law-firms') {
+  // Lightweight routing for standalone pages. Static hosts need a rewrite
+  // of these paths -> /index.html in production.
+  const path = window.location.pathname.replace(/\/$/, '');
+  if (path === '/law-firms') {
     return (
       <MotionConfig reducedMotion="user">
         <LawFirmsPage />
+      </MotionConfig>
+    );
+  }
+  if (path === '/scan') {
+    return (
+      <MotionConfig reducedMotion="user">
+        <ScanPage />
       </MotionConfig>
     );
   }

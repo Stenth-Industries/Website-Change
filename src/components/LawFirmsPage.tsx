@@ -299,7 +299,10 @@ export default function LawFirmsPage() {
                 Book Your Audit Call <ArrowRight size={16} />
               </a>
               <p className="mt-5 text-xs text-brand-light/40 font-mono uppercase tracking-[0.2em]">
-                Or email info@stenth.com with your firm name
+                Or email info@stenth.com · Impatient?{' '}
+                <a href="/scan" className="text-brand-accent hover:underline normal-case tracking-normal font-sans font-semibold">
+                  Run the 60-second scan yourself
+                </a>
               </p>
             </motion.div>
             <motion.div
