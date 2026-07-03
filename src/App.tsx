@@ -24,6 +24,7 @@ import ScanCTA from './components/ScanCTA';
 const GlobalMap = lazy(() => import('./components/GlobalMap'));
 const LawFirmsPage = lazy(() => import('./components/LawFirmsPage'));
 const ScanPage = lazy(() => import('./components/ScanPage'));
+const RoiPage = lazy(() => import('./components/RoiPage'));
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -50,6 +51,15 @@ export default function App() {
       <MotionConfig reducedMotion="user">
         <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
           <ScanPage />
+        </Suspense>
+      </MotionConfig>
+    );
+  }
+  if (path === '/roi') {
+    return (
+      <MotionConfig reducedMotion="user">
+        <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+          <RoiPage />
         </Suspense>
       </MotionConfig>
     );

@@ -491,7 +491,11 @@ export default function LawFirmsPage() {
               <p className="mt-5 text-xs text-brand-light/40 font-mono uppercase tracking-[0.2em]">
                 Or email info@stenth.com · Impatient?{' '}
                 <a href="/scan" className="text-brand-accent hover:underline normal-case tracking-normal font-sans font-semibold">
-                  Run the 60-second scan yourself
+                  Run the 60-second scan
+                </a>{' '}
+                or{' '}
+                <a href="/roi" className="text-brand-accent hover:underline normal-case tracking-normal font-sans font-semibold">
+                  calculate what an enquiry is worth
                 </a>
               </p>
             </motion.div>

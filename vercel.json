@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/law-firms", "destination": "/index.html" },
-    { "source": "/scan", "destination": "/index.html" }
+    { "source": "/scan", "destination": "/index.html" },
+    { "source": "/roi", "destination": "/index.html" }
   ]
 }

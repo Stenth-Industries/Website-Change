@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, Search, CheckCircle2, AlertTriangle, XCircle, RefreshCw } from 'lucide-react';
+import { ArrowRight, Search, CheckCircle2, AlertTriangle, XCircle, RefreshCw, Swords, Mail } from 'lucide-react';
 import { CAL_BOOKING_URL } from '../constants';
 
 /* Optional PageSpeed Insights API key (free, 25k queries/day). Without it the
@@ -173,6 +173,92 @@ const VerdictIcon = ({ verdict }: { verdict: Verdict }) =>
     <XCircle size={18} style={{ color: '#f87171' }} className="flex-shrink-0 mt-0.5" />
   );
 
+const domainOf = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+
+/* ── Email-capture card: request the full report ─────────────────────────── */
+const EmailReportCard = ({ result, vsResult }: { result: ScanResult; vsResult: ScanResult | null }) => {
+  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const emailRef = useRef<HTMLInputElement>(null);
+
+  const request = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const email = (emailRef.current?.value ?? '').trim();
+    if (!email) return;
+    setState('sending');
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/info@stenth.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject: `Full scan report request: ${domainOf(result.url)}`,
+          _template: 'table',
+          _captcha: 'false',
+          email,
+          scanned_site: result.url,
+          scores: result.scores.map((s) => `${s.label} ${s.value}`).join(', '),
+          top_findings: result.findings.slice(0, 4).map((f) => `[${f.verdict}] ${f.text}`).join(' | '),
+          competitor: vsResult ? `${vsResult.url} (${vsResult.scores.map((s) => `${s.label} ${s.value}`).join(', ')})` : 'none',
+        }),
+      });
+      if (!res.ok) throw new Error();
+      setState('sent');
+    } catch {
+      setState('error');
+    }
+  };
+
+  return (
+    <div className="rounded-[2rem] border border-white/[0.08] bg-white/[0.02] p-8 md:p-10 mb-12">
+      {state === 'sent' ? (
+        <div className="flex items-start gap-4">
+          <CheckCircle2 size={20} style={{ color: '#4ade80' }} className="flex-shrink-0 mt-1" />
+          <div>
+            <p className="text-brand-light/90 font-semibold mb-1">Done. Your full report is on its way.</p>
+            <p className="text-sm text-brand-light/50">
+              A founder will review your scan and send the complete report with an action plan within 24 hours.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-brand-accent mb-3 flex items-center gap-2">
+              <Mail size={13} /> Full report
+            </p>
+            <p className="text-brand-light/85 text-lg leading-snug mb-1">
+              Want the complete breakdown with an action plan?
+            </p>
+            <p className="text-sm text-brand-light/45">
+              We review every scan by hand and send the full report within 24 hours. No spam, no list.
+            </p>
+          </div>
+          <form onSubmit={request} className="flex flex-col sm:flex-row gap-3">
+            <input
+              ref={emailRef}
+              type="email"
+              required
+              placeholder="you@yourfirm.com.au"
+              className="flex-1 rounded-full border border-white/15 bg-white/[0.04] px-6 py-3.5 outline-none text-sm text-brand-light placeholder:text-white/30 focus:border-brand-accent/60 transition-colors"
+            />
+            <button
+              type="submit"
+              disabled={state === 'sending'}
+              className="px-7 py-3.5 rounded-full bg-brand-accent text-brand-dark text-xs uppercase tracking-[0.25em] font-bold hover:shadow-[0_0_40px_rgba(111,156,235,0.5)] transition-all duration-300 disabled:opacity-50"
+            >
+              {state === 'sending' ? 'Sending…' : 'Send It'}
+            </button>
+            {state === 'error' && (
+              <p className="text-xs text-red-400 self-center">
+                That didn't go through. Email us at info@stenth.com instead.
+              </p>
+            )}
+          </form>
+        </div>
+      )}
+    </div>
+  );
+};
+
 /* ── Scanning progress messages ──────────────────────────────────────────── */
 const SCAN_STEPS = [
   'Loading your site on a simulated phone…',
@@ -186,9 +272,11 @@ const SCAN_STEPS = [
 /* ── Page ─────────────────────────────────────────────────────────────────── */
 export default function ScanPage() {
   const inputRef = useRef<HTMLInputElement>(null);
+  const vsInputRef = useRef<HTMLInputElement>(null);
   const [phase, setPhase] = useState<'idle' | 'scanning' | 'done' | 'error'>('idle');
   const [stepIdx, setStepIdx] = useState(0);
   const [result, setResult] = useState<ScanResult | null>(null);
+  const [vsResult, setVsResult] = useState<ScanResult | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
   const abortRef = useRef<AbortController | null>(null);
 
@@ -202,29 +290,40 @@ export default function ScanPage() {
     return () => clearInterval(id);
   }, [phase]);
 
-  const startScan = async (raw: string) => {
-    let target = raw.trim();
-    if (!target) return;
-    if (!/^https?:\/\//i.test(target)) target = 'https://' + target;
+  const normalize = (raw: string): string | null => {
+    let t = raw.trim();
+    if (!t) return null;
+    if (!/^https?:\/\//i.test(t)) t = 'https://' + t;
     try {
-      new URL(target);
+      new URL(t);
+      return t;
     } catch {
+      return null;
+    }
+  };
+
+  const startScan = async (raw: string, vsRaw = '') => {
+    const target = normalize(raw);
+    if (!raw.trim()) return;
+    if (!target) {
       setErrorMsg("That doesn't look like a website address. Try something like yourfirm.com.au");
       setPhase('error');
       return;
     }
+    const vsTarget = normalize(vsRaw); // invalid competitor input is dropped silently
 
     setPhase('scanning');
     setStepIdx(0);
+    setVsResult(null);
     abortRef.current?.abort();
     const controller = new AbortController();
     abortRef.current = controller;
-    const timeout = setTimeout(() => controller.abort(), 75000);
+    const timeout = setTimeout(() => controller.abort(), 90000);
 
-    try {
+    const fetchPsi = async (url: string) => {
       const api =
         'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=' +
-        encodeURIComponent(target) +
+        encodeURIComponent(url) +
         '&strategy=mobile&category=PERFORMANCE&category=SEO&category=ACCESSIBILITY&category=BEST_PRACTICES' +
         (PSI_KEY ? '&key=' + encodeURIComponent(PSI_KEY) : '');
       const res = await fetch(api, { signal: controller.signal });
@@ -239,7 +338,17 @@ export default function ScanPage() {
       }
       const data = await res.json();
       if (!data.lighthouseResult) throw new Error('Google could not load that site. Check the address and try again.');
+      return data;
+    };
+
+    try {
+      // A failed competitor scan never sinks the main result.
+      const [data, vsData] = await Promise.all([
+        fetchPsi(target),
+        vsTarget ? fetchPsi(vsTarget).catch(() => null) : Promise.resolve(null),
+      ]);
       setResult(buildResult(target, data));
+      if (vsTarget && vsData) setVsResult(buildResult(vsTarget, vsData));
       setPhase('done');
     } catch (err: any) {
       setErrorMsg(
@@ -255,18 +364,22 @@ export default function ScanPage() {
 
   const runScan = (e: React.FormEvent) => {
     e.preventDefault();
-    startScan(inputRef.current?.value ?? '');
+    startScan(inputRef.current?.value ?? '', vsInputRef.current?.value ?? '');
   };
 
-  /* Outreach and homepage handoff: /scan?site=firm.com.au starts the scan on
-     arrival. Ref guard keeps StrictMode's double effect from scanning twice. */
+  /* Outreach and homepage handoff: /scan?site=firm.com.au&vs=rival.com.au
+     starts scanning on arrival. Ref guard keeps StrictMode's double effect
+     from scanning twice. */
   const autoRan = useRef(false);
   useEffect(() => {
-    const site = new URLSearchParams(window.location.search).get('site');
+    const params = new URLSearchParams(window.location.search);
+    const site = params.get('site');
+    const vs = params.get('vs') ?? '';
     if (!site || autoRan.current) return;
     autoRan.current = true;
     if (inputRef.current) inputRef.current.value = site;
-    startScan(site);
+    if (vsInputRef.current && vs) vsInputRef.current.value = vs;
+    startScan(site, vs);
   }, []);
 
   const overall = result ? Math.round(result.scores.reduce((s, x) => s + x.value, 0) / result.scores.length) : 0;
@@ -303,25 +416,38 @@ export default function ScanPage() {
             English. About 60 seconds. No email required.
           </p>
 
-          <form onSubmit={runScan} className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
-            <div className="flex-1 flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.04] px-6 py-4 focus-within:border-brand-accent/60 transition-colors">
-              <Search size={16} className="text-white/40 flex-shrink-0" />
+          <form onSubmit={runScan} className="max-w-xl mx-auto space-y-3">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex-1 flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.04] px-6 py-4 focus-within:border-brand-accent/60 transition-colors">
+                <Search size={16} className="text-white/40 flex-shrink-0" />
+                <input
+                  ref={inputRef}
+                  type="text"
+                  name="site"
+                  placeholder="yourfirm.com.au"
+                  autoComplete="url"
+                  className="w-full bg-transparent outline-none text-brand-light placeholder:text-white/30 text-sm"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={phase === 'scanning'}
+                className="px-8 py-4 rounded-full bg-brand-accent text-brand-dark text-xs uppercase tracking-[0.3em] font-bold hover:shadow-[0_0_40px_rgba(111,156,235,0.5)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {phase === 'scanning' ? 'Scanning…' : 'Scan My Site'}
+              </button>
+            </div>
+            <div className="flex items-center gap-3 rounded-full border border-white/[0.08] bg-white/[0.02] px-6 py-3 focus-within:border-brand-accent/40 transition-colors">
+              <Swords size={14} className="text-white/30 flex-shrink-0" />
               <input
-                ref={inputRef}
+                ref={vsInputRef}
                 type="text"
-                name="site"
-                placeholder="yourfirm.com.au"
-                autoComplete="url"
-                className="w-full bg-transparent outline-none text-brand-light placeholder:text-white/30 text-sm"
+                name="vs"
+                placeholder="Optional: a competitor to go head-to-head against"
+                autoComplete="off"
+                className="w-full bg-transparent outline-none text-brand-light/80 placeholder:text-white/25 text-sm"
               />
             </div>
-            <button
-              type="submit"
-              disabled={phase === 'scanning'}
-              className="px-8 py-4 rounded-full bg-brand-accent text-brand-dark text-xs uppercase tracking-[0.3em] font-bold hover:shadow-[0_0_40px_rgba(111,156,235,0.5)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {phase === 'scanning' ? 'Scanning…' : 'Scan My Site'}
-            </button>
           </form>
         </section>
 
@@ -398,10 +524,20 @@ export default function ScanPage() {
               {/* Verdict line */}
               <div className="text-center mb-10">
                 <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/40 mb-3">
-                  {result.url.replace(/^https?:\/\//, '').replace(/\/$/, '')} · mobile test
+                  {domainOf(result.url)}{vsResult ? ` vs ${domainOf(vsResult.url)}` : ''} · mobile test
                 </p>
                 <h2 className="font-display text-3xl md:text-5xl uppercase tracking-tight">
-                  Overall: <span style={{ color: tone(overall).color }}>{overall}/100 · {tone(overall).label}</span>
+                  {vsResult ? (
+                    <>
+                      You: <span style={{ color: tone(overall).color }}>{overall}</span>
+                      {' · '}Them:{' '}
+                      <span style={{ color: tone(Math.round(vsResult.scores.reduce((s, x) => s + x.value, 0) / vsResult.scores.length)).color }}>
+                        {Math.round(vsResult.scores.reduce((s, x) => s + x.value, 0) / vsResult.scores.length)}
+                      </span>
+                    </>
+                  ) : (
+                    <>Overall: <span style={{ color: tone(overall).color }}>{overall}/100 · {tone(overall).label}</span></>
+                  )}
                 </h2>
               </div>
 
@@ -411,6 +547,44 @@ export default function ScanPage() {
                   <Dial key={s.key} label={s.label} value={s.value} delay={i * 0.08} />
                 ))}
               </div>
+
+              {/* Head-to-head */}
+              {vsResult && (
+                <div className="rounded-[2rem] border border-white/[0.08] bg-white/[0.02] p-8 md:p-10 mb-12">
+                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/50 mb-6 flex items-center gap-2">
+                    <Swords size={13} className="text-brand-accent" /> Head to head
+                  </p>
+                  <div className="space-y-4">
+                    {result.scores.map((s, i) => {
+                      const them = vsResult.scores[i];
+                      const win = s.value > them.value;
+                      const tie = s.value === them.value;
+                      return (
+                        <div key={s.key} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-4">
+                          <span className="text-sm text-brand-light/70">{s.label}</span>
+                          <span className="font-display text-xl w-12 text-right" style={{ color: tone(s.value).color }}>
+                            {s.value}
+                          </span>
+                          <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/30 w-10 text-center">vs</span>
+                          <span className="font-display text-xl w-12 text-brand-light/45">{them.value}</span>
+                          <span className="sr-only">{tie ? 'tied' : win ? 'you lead' : 'they lead'}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <p className="mt-8 text-brand-light/70 leading-relaxed">
+                    {(() => {
+                      const wins = result.scores.filter((s, i) => s.value > vsResult.scores[i].value).length;
+                      const them = domainOf(vsResult.url);
+                      return wins >= 3
+                        ? `You lead ${them} in ${wins} of 4 categories. The gap is your head start: the full audit shows how to press it where clients actually search.`
+                        : wins >= 2
+                          ? `Dead heat with ${them}: ${wins} categories each way. Ties go to whoever moves first, and the full audit shows where to move.`
+                          : `${them} leads you in ${4 - wins} of 4 categories. Every point of that gap is enquiries going their way. The full audit maps the fastest route back.`;
+                    })()}
+                  </p>
+                </div>
+              )}
 
               {/* Findings */}
               <div className="rounded-[2rem] border border-white/[0.08] bg-white/[0.02] p-8 md:p-10 mb-12">
@@ -429,6 +603,9 @@ export default function ScanPage() {
                   ))}
                 </ul>
               </div>
+
+              {/* Full report by email */}
+              <EmailReportCard result={result} vsResult={vsResult} />
 
               {/* Close */}
               <div className="rounded-[2rem] border border-brand-accent/25 bg-brand-accent/[0.04] p-8 md:p-12 text-center">
@@ -468,6 +645,7 @@ export default function ScanPage() {
           </div>
           <div className="flex gap-8 text-xs text-brand-light/40 uppercase tracking-widest">
             <a href="/" className="hover:text-brand-light transition-colors">Main Site</a>
+            <a href="/roi" className="hover:text-brand-light transition-colors">Enquiry Calculator</a>
             <a href="/law-firms" className="hover:text-brand-light transition-colors">For Law Firms</a>
             <a href="/privacy.html" className="hover:text-brand-light transition-colors">Privacy</a>
           </div>
