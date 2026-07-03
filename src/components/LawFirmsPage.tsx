@@ -10,8 +10,24 @@ const reveal = {
   transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
 } as const;
 
+/* ── Outreach personalization: /law-firms?firm=smith-legal ───────────────
+   Renders the firm's name into the page. Accepts slugs or plain text;
+   anything unexpected falls back to the generic page. */
+function getFirmName(): string | null {
+  const raw = new URLSearchParams(window.location.search).get('firm');
+  if (!raw) return null;
+  const cleaned = raw
+    .replace(/[-_+]/g, ' ')
+    .replace(/[^a-zA-Z0-9&'. ]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 40);
+  if (cleaned.length < 2) return null;
+  return cleaned.replace(/\b[a-z]/g, (c) => c.toUpperCase());
+}
+
 /* ── Google results mockup: the signature visual ─────────────────────────── */
-const SearchMockup = () => (
+const SearchMockup = ({ firm }: { firm: string | null }) => (
   <motion.div
     initial={{ opacity: 0, y: 40, rotate: -1 }}
     whileInView={{ opacity: 1, y: 0, rotate: 0 }}
@@ -44,7 +60,7 @@ const SearchMockup = () => (
       {/* Row 2 — the empty seat */}
       <div className="relative flex items-center justify-between rounded-xl border-2 border-dashed border-brand-accent/60 bg-brand-accent/[0.06] px-4 py-3">
         <div>
-          <p className="text-sm text-brand-accent font-semibold">Your firm belongs here</p>
+          <p className="text-sm text-brand-accent font-semibold">{firm ? `${firm} belongs here` : 'Your firm belongs here'}</p>
           <p className="text-xs text-white/50">This spot wins the enquiry.</p>
         </div>
         <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-brand-accent border border-brand-accent/40 rounded-full px-2.5 py-1">
@@ -68,10 +84,14 @@ const SearchMockup = () => (
 
 /* ── Page ─────────────────────────────────────────────────────────────────── */
 export default function LawFirmsPage() {
+  const firm = getFirmName();
+
   useEffect(() => {
-    document.title = 'Digital Marketing for Melbourne Law Firms — Stenth';
+    document.title = firm
+      ? `${firm} — Growth Audit by Stenth`
+      : 'Digital Marketing for Melbourne Law Firms — Stenth';
     window.scrollTo(0, 0);
-  }, []);
+  }, [firm]);
 
   const pains = [
     'New matters depend on referrals, and referrals are unpredictable.',
@@ -141,7 +161,7 @@ export default function LawFirmsPage() {
                 transition={{ duration: 0.8 }}
                 className="font-mono text-xs uppercase tracking-[0.4em] text-brand-accent mb-6"
               >
-                For Melbourne Law Firms
+                {firm ? `Prepared for ${firm}` : 'For Melbourne Law Firms'}
               </motion.p>
               <h1 className="font-display text-5xl md:text-7xl uppercase tracking-tighter leading-[0.95] mb-8">
                 Your next client is searching{' '}
@@ -150,7 +170,10 @@ export default function LawFirmsPage() {
               <p className="text-lg md:text-xl text-brand-light/70 leading-relaxed max-w-xl mb-10">
                 When someone in Melbourne needs a lawyer, they search, compare the top
                 results, and call one or two firms. The firms they find first win the
-                matter. We make sure one of them is yours.
+                matter.{' '}
+                {firm
+                  ? `We've started looking at where ${firm} shows up. Book a call and we'll walk you through what we found.`
+                  : 'We make sure one of them is yours.'}
               </p>
               <div className="flex flex-wrap items-center gap-5">
                 <a
@@ -165,7 +188,7 @@ export default function LawFirmsPage() {
               </div>
             </div>
             <div className="lg:col-span-6">
-              <SearchMockup />
+              <SearchMockup firm={firm} />
             </div>
           </div>
         </section>
@@ -259,13 +282,13 @@ export default function LawFirmsPage() {
                 The Free Audit
               </p>
               <h2 className="font-display text-4xl md:text-6xl uppercase tracking-tighter leading-[0.95] mb-8">
-                See exactly where your firm stands.{' '}
+                See exactly where {firm ?? 'your firm'} stands.{' '}
                 <span className="text-brand-accent">Free.</span>
               </h2>
               <p className="text-lg text-brand-light/70 leading-relaxed mb-10 max-w-xl">
-                We audit your firm's entire online presence and hand you the findings,
-                whether or not you ever work with us. It takes us a few days and costs
-                you nothing but a 30-minute call.
+                We audit {firm ? `${firm}'s` : "your firm's"} entire online presence
+                and hand you the findings, whether or not you ever work with us. It
+                takes us a few days and costs you nothing but a 30-minute call.
               </p>
               <a
                 href={CAL_BOOKING_URL}
