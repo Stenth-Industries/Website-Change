@@ -54,7 +54,7 @@ export default function Testimonials() {
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-brand-accent/20" />
                   <div>
-                    <h4 className="text-lg font-bold">{t.name}</h4>
+                    <h3 className="text-lg font-bold">{t.name}</h3>
                     <p className="text-xs text-brand-muted uppercase tracking-widest">{t.role} @ {t.company}</p>
                   </div>
                 </div>

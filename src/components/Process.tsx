@@ -86,7 +86,7 @@ export default function Process() {
               {steps.map((step) => (
                 <div key={step.id} className="group border-b border-brand-light/10 pb-4">
                   <div className="flex items-center gap-6">
-                    <span className="text-4xl font-display opacity-20 group-hover:opacity-100 group-hover:text-brand-accent transition-all">
+                    <span className="text-4xl font-display opacity-40 group-hover:opacity-100 group-hover:text-brand-accent transition-all">
                       {step.id}
                     </span>
                     <h4 className="text-3xl uppercase tracking-tighter">{step.title}</h4>

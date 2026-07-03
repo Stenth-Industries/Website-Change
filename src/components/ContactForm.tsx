@@ -105,8 +105,8 @@ export default function ContactForm() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs uppercase tracking-widest font-bold opacity-70">What do you want to improve?</label>
-                    <select name="goal" defaultValue="" className="w-full bg-transparent border-b border-brand-dark/10 py-2 focus:border-brand-accent outline-none transition-colors appearance-none">
+                    <label htmlFor="goal-select" className="text-xs uppercase tracking-widest font-bold opacity-70">What do you want to improve?</label>
+                    <select id="goal-select" name="goal" defaultValue="" className="w-full bg-transparent border-b border-brand-dark/10 py-2 focus:border-brand-accent outline-none transition-colors appearance-none">
                       <option value="" disabled>Select your goal</option>
                       <option>SEO & Organic Growth</option>
                       <option>Paid Ads Scaling</option>

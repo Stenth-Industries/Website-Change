@@ -77,7 +77,7 @@ export default function ShowcaseVideo() {
                         src="/stenth-explainer.mp4"
                         poster="/stenth-explainer-poster.jpg"
                         className="w-full h-full object-cover"
-                        preload="metadata"
+                        preload="none"
                         loop
                         muted={isMuted}
                         playsInline
@@ -95,6 +95,7 @@ export default function ShowcaseVideo() {
                             animate={{ scale: 1, opacity: 1 }}
                             whileHover={{ scale: 1.1 }}
                             onClick={togglePlay}
+                            aria-label="Play video"
                             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-brand-accent/90 flex items-center justify-center text-brand-dark backdrop-blur-sm shadow-xl z-20"
                         >
                             <Play fill="currentColor" size={32} className="ml-1" />

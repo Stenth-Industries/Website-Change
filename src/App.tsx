@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Stats from './components/Stats';
@@ -8,7 +8,6 @@ import About from './components/About';
 import HowItWorks from './components/HowItWorks';
 import Process from './components/Process';
 import Marquee from './components/Marquee';
-import GlobalMap from './components/GlobalMap';
 import FAQ from './components/FAQ';
 import Engagement from './components/Engagement';
 import Testimonials from './components/Testimonials';
@@ -18,9 +17,13 @@ import CustomCursor from './components/CustomCursor';
 import ShowcaseVideo from './components/ShowcaseVideo';
 import ExpertiseSection from './components/ExpertiseSection';
 import { motion, useScroll, useSpring, MotionConfig } from 'motion/react';
-import LawFirmsPage from './components/LawFirmsPage';
-import ScanPage from './components/ScanPage';
 import ScanCTA from './components/ScanCTA';
+
+/* Code-split the heavy leaves: the D3 world map and the standalone pages
+   load their own chunks instead of shipping in the main bundle. */
+const GlobalMap = lazy(() => import('./components/GlobalMap'));
+const LawFirmsPage = lazy(() => import('./components/LawFirmsPage'));
+const ScanPage = lazy(() => import('./components/ScanPage'));
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -36,14 +39,18 @@ export default function App() {
   if (path === '/law-firms') {
     return (
       <MotionConfig reducedMotion="user">
-        <LawFirmsPage />
+        <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+          <LawFirmsPage />
+        </Suspense>
       </MotionConfig>
     );
   }
   if (path === '/scan') {
     return (
       <MotionConfig reducedMotion="user">
-        <ScanPage />
+        <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+          <ScanPage />
+        </Suspense>
       </MotionConfig>
     );
   }
@@ -68,7 +75,9 @@ export default function App() {
         <Reasons />
         <ScanCTA />
         <HowItWorks />
-        <GlobalMap />
+        <Suspense fallback={<div className="min-h-[60vh] bg-brand-dark" />}>
+          <GlobalMap />
+        </Suspense>
         <Process />
         <Marquee />
         <FAQ />

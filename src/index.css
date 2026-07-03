@@ -9,7 +9,7 @@
   --color-brand-dark: #01080F;
   --color-brand-light: #F2F8FC;
   --color-brand-accent: #6F9CEB;
-  --color-brand-muted: #797979;
+  --color-brand-muted: #8b929b; /* AA contrast on brand-dark */
 
   --animate-shimmer: shimmer 8s linear infinite;
 

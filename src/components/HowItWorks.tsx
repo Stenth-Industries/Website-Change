@@ -193,12 +193,12 @@ export default function HowItWorks() {
                                         {String(i + 1).padStart(2, '0')}
                                     </div>
                                     <div>
-                                        <h4
+                                        <h3
                                             className="font-display text-xl uppercase tracking-tighter mb-1 group-hover:text-brand-accent transition-colors"
                                             style={{ color: node.color }}
                                         >
                                             {node.label}
-                                        </h4>
+                                        </h3>
                                         <p className="text-brand-light/80 text-sm leading-relaxed">
                                             {[
                                                 'Deep audit of your current stack, competitors, and untapped market opportunities.',
