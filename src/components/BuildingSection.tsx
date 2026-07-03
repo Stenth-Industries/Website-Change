@@ -1,214 +1,168 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'motion/react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useSpring, useTransform, useReducedMotion, MotionValue } from 'motion/react';
+import { CAL_BOOKING_URL } from '../constants';
 
-// ── Statement data ────────────────────────────────────────────────────────────
-const STATEMENTS = [
-  {
-    id: 'recognition',
-    range: [0.0, 0.20] as [number, number],
-    blocks: [
-      { text: "You're spending money on marketing.", weight: 'primary' },
-      { text: "You have no idea if it's working.", weight: 'secondary' },
-    ],
-    heat: 'rgba(251,191,36,0.06)',
-  },
-  {
-    id: 'fragmentation',
-    range: [0.25, 0.45] as [number, number],
-    blocks: [
-      { text: "3 agencies. 3 reports.", weight: 'primary' },
-      { text: "3 different versions of the truth.", weight: 'accent' },
-    ],
-    heat: 'rgba(239,68,68,0.06)',
-  },
-  {
-    id: 'attribution',
-    range: [0.50, 0.70] as [number, number],
-    blocks: [
-      { text: "Your ads say it's working.", weight: 'primary' },
-      { text: "Your revenue disagrees.", weight: 'secondary' },
-    ],
-    heat: 'rgba(239,68,68,0.08)',
-  },
-  {
-    id: 'reframe',
-    range: [0.75, 0.85] as [number, number],
-    blocks: [
-      { text: "This isn't bad luck.", weight: 'muted' },
-      { text: "It's a systems problem.", weight: 'primary' },
-    ],
-    heat: 'rgba(255,255,255,0.03)',
-    mono: true,
-  },
-] as const;
+/* ── The chaos: fragments of a broken growth operation ───────────────────── */
+const CHAOS = [
+  { text: '3 REPORTS', left: 8, top: 14, rot: -8, drift: -6, size: 'text-4xl md:text-6xl', color: 'text-amber-400/80' },
+  { text: 'NO ATTRIBUTION', left: 48, top: 18, rot: 5, drift: -10, size: 'text-3xl md:text-5xl', color: 'text-red-400/80' },
+  { text: 'VANITY METRICS', left: 10, top: 72, rot: 6, drift: -8, size: 'text-2xl md:text-4xl', color: 'text-white/40' },
+  { text: 'WASTED SPEND', left: 62, top: 76, rot: -5, drift: -12, size: 'text-3xl md:text-5xl', color: 'text-red-400/70' },
+  { text: '3 TRUTHS', left: 76, top: 36, rot: 10, drift: -7, size: 'text-3xl md:text-5xl', color: 'text-amber-400/70' },
+  { text: 'GUESSWORK', left: 4, top: 40, rot: -12, drift: -9, size: 'text-3xl md:text-6xl', color: 'text-white/60' },
+  { text: 'ZERO CLARITY', left: 46, top: 66, rot: 7, drift: -13, size: 'text-3xl md:text-5xl', color: 'text-white/70' },
+  { text: 'SILOED DATA', left: 33, top: 86, rot: 4, drift: -5, size: 'text-2xl md:text-4xl', color: 'text-white/40', hideMobile: true },
+  { text: 'REVENUE DISAGREES', left: 24, top: 16, rot: -4, drift: -11, size: 'text-2xl md:text-4xl', color: 'text-white/50', hideMobile: true },
+  { text: 'MIXED SIGNALS', left: 72, top: 58, rot: -9, drift: -6, size: 'text-2xl md:text-4xl', color: 'text-white/40', hideMobile: true },
+  { text: 'RISING CPCS', left: 18, top: 28, rot: 9, drift: -8, size: 'text-2xl md:text-4xl', color: 'text-white/40', hideMobile: true },
+  { text: 'AGENCY BLAME', left: 58, top: 24, rot: -7, drift: -9, size: 'text-2xl md:text-4xl', color: 'text-white/50', hideMobile: true },
+];
 
-type Weight = 'primary' | 'secondary' | 'accent' | 'muted';
+/* ── A single fragment: drifts, then gets pulled into the core ───────────── */
+function ChaosWord({ word, progress, index }: {
+  key?: React.Key;
+  word: typeof CHAOS[0];
+  progress: MotionValue<number>;
+  index: number;
+}) {
+  // Each fragment collapses on its own cue — a staggered implosion.
+  // Fades late in its travel so the pull toward the core stays visible,
+  // and the last fragments are still falling in as the headline assembles.
+  const start = 0.3 + index * 0.012;
+  const end = start + 0.22;
 
-// ── Solid line animated block ─────────────────────────────────────────────
-function AnimLine({
-  text, weight, delay, mono
-}: { key?: React.Key; text: string; weight: Weight; delay: number; mono?: boolean }) {
-  
-  // Predictable, non-overlapping responsive font sizes
-  const sizeClass = weight === 'primary' ? 'text-4xl md:text-6xl lg:text-7xl leading-[1.1] font-bold'
-    : weight === 'secondary' ? 'text-3xl md:text-5xl lg:text-6xl leading-[1.15] text-white/50'
-      : weight === 'accent' ? 'text-3xl md:text-5xl lg:text-6xl leading-[1.15] text-brand-accent'
-        : 'text-2xl md:text-4xl lg:text-5xl leading-[1.2] text-white/70';
-
-  const fontClass = mono ? 'font-mono uppercase tracking-[0.1em]' : 'font-display uppercase tracking-tight';
+  const x = useTransform(progress, [0, start, end], ['0vw', '0vw', `${(50 - word.left) * 0.85}vw`]);
+  const y = useTransform(progress, [0, start, end], ['0vh', `${word.drift}vh`, `${(44 - word.top) * 0.85}vh`]);
+  const rotate = useTransform(progress, [0, start, end], [word.rot, word.rot, 0]);
+  const scale = useTransform(progress, [start, end], [1, 0.2]);
+  const opacity = useTransform(progress, [start + 0.08, end], [1, 0]);
 
   return (
-    <motion.h3 
-      initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
-      animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-      exit={{ y: -20, opacity: 0, filter: 'blur(4px)' }}
-      transition={{ delay: delay, duration: 0.6, ease: 'easeOut' }}
-      className={`text-center w-full px-4 ${sizeClass} ${fontClass}`}
+    <motion.span
+      aria-hidden
+      style={{ x, y, rotate, scale, opacity, left: `${word.left}%`, top: `${word.top}%` }}
+      className={`absolute whitespace-nowrap font-display uppercase tracking-tight select-none pointer-events-none ${word.size} ${word.color} ${word.hideMobile ? 'hidden md:block' : ''}`}
     >
-      {text}
-    </motion.h3>
+      {word.text}
+    </motion.span>
   );
 }
 
-// ── Main component ─────────────────────────────────────────────────────────
-export default function BuildingSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [scrollPct, setScrollPct] = useState(0);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  const smooth = useSpring(scrollYProgress, { stiffness: 40, damping: 20 });
-  useEffect(() => smooth.on('change', v => setScrollPct(v)), [smooth]);
-
-  const activeIdx = STATEMENTS.findIndex(
-    s => scrollPct >= s.range[0] && scrollPct < s.range[1]
+/* ── Static fallback for reduced motion ──────────────────────────────────── */
+function StaticVersion() {
+  return (
+    <div className="max-w-4xl mx-auto px-6 py-32 text-center flex flex-col items-center">
+      <p className="font-mono text-xs uppercase tracking-[0.4em] text-white/60 mb-8">The Problem</p>
+      <h2 className="font-display text-4xl md:text-6xl uppercase tracking-tighter leading-tight mb-8">
+        Wasted spend. Three reports. <br />
+        <span className="text-white/50">Zero clarity.</span>
+      </h2>
+      <p className="font-mono text-xs uppercase tracking-[0.5em] text-brand-accent mb-8 border border-brand-accent/30 px-5 py-2 rounded-full bg-brand-accent/5">
+        The Solution
+      </p>
+      <h2 className="font-display text-5xl md:text-8xl uppercase tracking-tighter leading-none mb-6">
+        Stenth is <span className="text-brand-accent">the system.</span>
+      </h2>
+      <p className="text-white/80 text-lg max-w-2xl mb-10">
+        One unified growth architecture. Every channel. One truth.
+      </p>
+      <a href={CAL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="px-10 py-4 rounded-full bg-brand-accent text-brand-dark text-xs uppercase tracking-[0.3em] font-bold">
+        Book a Free Strategy Session
+      </a>
+    </div>
   );
-  const activeStmt = activeIdx >= 0 ? STATEMENTS[activeIdx] : null;
-  const inResolution = scrollPct >= 0.85;
+}
 
-  const heatColor = activeStmt?.heat ?? 'rgba(0,0,0,0)';
-  
-  // Always-visible scroll guide fades out near end
-  const scrollGuideOpacity = useTransform(smooth, [0, 0.8], [1, 0]);
-  const resolveOpacity = useTransform(smooth, [0.85, 0.95], [0, 1]);
-  const resolveY = useTransform(smooth, [0.85, 0.98], [40, 0]);
+/* ── Main component ──────────────────────────────────────────────────────── */
+export default function BuildingSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const prefersReduced = useReducedMotion();
 
-  // Timeline Progress
-  const progressH = useTransform(smooth, [0, 1], ['0%', '100%']);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  // Tight spring: just enough to take the notch out of wheel steps without
+  // trailing the scrollbar — heavy smoothing here reads as lag, not cinema.
+  const smooth = useSpring(scrollYProgress, { stiffness: 300, damping: 40, restDelta: 0.001 });
+
+  // The gravity well at the center — intensifies as chaos gets pulled in
+  const coreOpacity = useTransform(smooth, [0.28, 0.55, 0.82], [0, 0.55, 0.2]);
+  const coreScale = useTransform(smooth, [0.28, 0.7], [0.4, 1.4]);
+
+  // Payoff: assembles while the last fragments are still falling in
+  const hlOpacity = useTransform(smooth, [0.48, 0.64], [0, 1]);
+  const hlScale = useTransform(smooth, [0.48, 0.78], [1.14, 1]);
+  const hlFilter = useTransform(smooth, [0.48, 0.64], ['blur(8px)', 'blur(0px)']);
+  const subOpacity = useTransform(smooth, [0.64, 0.76], [0, 1]);
+  const subY = useTransform(smooth, [0.64, 0.76], [24, 0]);
+  const ctaEvents = useTransform(smooth, v => (v > 0.64 ? 'auto' : 'none'));
+
+  // Caption crossfade: the act labels
+  const probOpacity = useTransform(smooth, [0, 0.42, 0.54], [1, 1, 0]);
+  const sysOpacity = useTransform(smooth, [0.58, 0.7], [0, 1]);
+
+  if (prefersReduced) {
+    return (
+      <section className="relative bg-[#010308] text-white overflow-hidden">
+        <StaticVersion />
+      </section>
+    );
+  }
 
   return (
-    <section ref={containerRef} className="relative h-[400vh] bg-[#000] font-sans text-white">
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-[#010308]">
+    <section ref={ref} className="relative h-[260vh] bg-[#010308] font-sans text-white">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        <div className="noise-bg absolute inset-0 opacity-40 pointer-events-none" />
 
-        {/* ── Background Heat & Noise ─── */}
-        <div
-          className="absolute inset-0 pointer-events-none transition-all duration-1000 mix-blend-screen"
-          style={{ background: `radial-gradient(circle 800px at 50% 50%, ${heatColor}, transparent)` }}
-        />
-        <div className="noise-bg absolute inset-0 opacity-40 pointer-events-none z-10" />
-
-        {/* ── Giant Section Header (ALWAYS VISIBLE, CLEAR) ───────────────────────── */}
-        <div className="absolute top-12 md:top-16 left-0 right-0 z-20 flex flex-col items-center pointer-events-none">
-          <p className="font-mono text-[11px] md:text-sm uppercase tracking-[0.4em] text-white/40 mb-2 border border-white/10 px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-sm">
-            Phase 1: The Problem
-          </p>
-          <div className="w-px h-16 bg-gradient-to-b from-white/20 to-transparent" />
-        </div>
-
-        {/* ── Right-Side Progress Timeline (MOBILE FRIENDLY) ─────────── */}
-        <div className="absolute right-4 md:right-12 top-1/4 bottom-1/4 w-[2px] bg-white/10 rounded-full z-40">
-          <motion.div style={{ height: progressH }} className="w-full bg-brand-accent rounded-full origin-top shadow-[0_0_10px_#6F9CEB]" />
-        </div>
-
-        {/* ── Explicit Persistent Scroll Hint at Bottom ──────────── */}
-        <motion.div 
-          style={{ opacity: scrollGuideOpacity }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-30 pointer-events-none"
-        >
-          <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/50">Keep Scrolling</p>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-            className="w-px h-12 bg-gradient-to-b from-white/50 to-transparent"
-          />
-        </motion.div>
-
-        {/* ── Statements Container ───────────────────────────────────── */}
-        <div className="relative w-full max-w-5xl px-6 md:px-16 z-20 flex flex-col items-center justify-center -mt-10">
-          <AnimatePresence mode="wait">
-            
-            {/* ── Intro State ── */}
-            {activeIdx === -1 && scrollPct < 0.05 && (
-              <motion.div
-                key="intro"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="flex flex-col items-center text-center"
-              >
-                <h2 className="font-display text-5xl md:text-7xl lg:text-8xl uppercase tracking-tighter leading-tight mb-6">
-                  Running growth is <br/>
-                  <span className="text-white/20">unnecessarily hard.</span>
-                </h2>
-              </motion.div>
-            )}
-
-            {/* ── Floating Statements ── */}
-            {activeStmt && !inResolution && (
-              <motion.div
-                key={activeStmt.id}
-                className="flex flex-col items-center gap-4 w-full"
-              >
-                {activeStmt.blocks.map((block, bi) => (
-                  <AnimLine
-                    key={bi}
-                    text={block.text}
-                    weight={block.weight as Weight}
-                    delay={bi * 0.15}
-                    mono={'mono' in activeStmt && activeStmt.mono}
-                  />
-                ))}
-              </motion.div>
-            )}
-            
-          </AnimatePresence>
-        </div>
-
-        {/* ── The Solution Screen (Resolution) ─────────────── */}
+        {/* ── Gravity well ─────────────────────────────────────────────── */}
         <motion.div
-          style={{ opacity: resolveOpacity }}
-          className="absolute inset-0 z-20 pointer-events-none bg-black/60 backdrop-blur-md"
+          style={{ opacity: coreOpacity, scale: coreScale }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vmin] h-[60vmin] rounded-full bg-[radial-gradient(circle,rgba(111,156,235,0.35),rgba(111,156,235,0.08)_45%,transparent_70%)] pointer-events-none"
         />
-        <motion.div
-          style={{ opacity: resolveOpacity, y: resolveY }}
-          className="absolute inset-0 z-30 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
-        >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] md:w-[40vw] h-[70vw] md:h-[40vw] bg-brand-accent/20 blur-[100px] rounded-full pointer-events-none" />
-          
-          <p className="font-mono text-xs md:text-sm uppercase tracking-[0.6em] text-brand-accent mb-6 border border-brand-accent/30 px-5 py-2 rounded-full bg-brand-accent/5 backdrop-blur-sm">Phase 2: The Solution</p>
 
-          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl uppercase tracking-tighter leading-none mb-6">
-            Stenth is <br />
-            <span className="text-brand-accent drop-shadow-[0_0_30px_rgba(111,156,235,0.6)]">the system.</span>
+        {/* ── Act labels ───────────────────────────────────────────────── */}
+        <div className="absolute bottom-8 left-6 md:left-12 font-mono text-[10px] uppercase tracking-[0.5em] pointer-events-none">
+          <motion.p style={{ opacity: probOpacity }} className="text-white/50">
+            01 &mdash; Growth, Today
+          </motion.p>
+          <motion.p style={{ opacity: sysOpacity }} className="absolute inset-0 text-brand-accent whitespace-nowrap">
+            02 &mdash; Growth, With Stenth
+          </motion.p>
+        </div>
+
+        {/* ── The chaos field ──────────────────────────────────────────── */}
+        <div className="absolute inset-0" aria-hidden>
+          {CHAOS.map((word, i) => (
+            <ChaosWord key={word.text} word={word} progress={smooth} index={i} />
+          ))}
+        </div>
+
+        {/* ── The payoff ───────────────────────────────────────────────── */}
+        <motion.div
+          style={{ opacity: hlOpacity, scale: hlScale, filter: hlFilter, pointerEvents: ctaEvents as any }}
+          className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6"
+        >
+          <h2 className="font-display text-6xl md:text-8xl lg:text-[9rem] uppercase tracking-tighter leading-[0.9]">
+            Stenth is
+            <br />
+            <span className="text-brand-accent drop-shadow-[0_0_40px_rgba(111,156,235,0.5)]">
+              the system.
+            </span>
           </h2>
 
-          <p className="font-sans text-sm md:text-xl text-white/80 max-w-2xl leading-relaxed mb-10">
-            One unified growth architecture. No gaps. No guessing. Just clear attribution and compounding scale.
-          </p>
-
-          <motion.a
-            href="#contact"
-            whileHover={{ scale: 1.05 }}
-            style={{ pointerEvents: 'auto' }}
-            className="px-8 md:px-12 py-4 md:py-5 rounded-full bg-brand-accent text-brand-dark text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold hover:shadow-[0_0_40px_rgba(111,156,235,0.6)] transition-all duration-300"
-          >
-            Start Growing Now
-          </motion.a>
+          <motion.div style={{ opacity: subOpacity, y: subY }} className="flex flex-col items-center">
+            <p className="font-sans text-base md:text-xl text-white/80 max-w-xl leading-relaxed mt-8 mb-10">
+              One unified growth architecture. Every channel. One truth.
+            </p>
+            <motion.a
+              href={CAL_BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              className="px-8 md:px-12 py-4 md:py-5 rounded-full bg-brand-accent text-brand-dark text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold hover:shadow-[0_0_40px_rgba(111,156,235,0.6)] transition-all duration-300"
+            >
+              Book a Free Strategy Session
+            </motion.a>
+          </motion.div>
         </motion.div>
-
       </div>
     </section>
   );

@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { motion, useSpring, useMotionValue } from 'motion/react';
+import { motion, useSpring, useMotionValue, useReducedMotion } from 'motion/react';
 
 export default function CustomCursor() {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-  
+
   const springConfig = { damping: 25, stiffness: 700 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
   const [isHovering, setIsHovering] = useState(false);
+  const reduceMotion = useReducedMotion();
+
+  // Only enable the custom cursor on devices with a fine pointer (mouse/trackpad)
+  const [hasFinePointer, setHasFinePointer] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    setHasFinePointer(window.matchMedia('(pointer: fine)').matches);
+  }, []);
+
+  const enabled = hasFinePointer && !reduceMotion;
 
   useEffect(() => {
+    if (!enabled) return;
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
@@ -39,7 +50,9 @@ export default function CustomCursor() {
       window.removeEventListener('mousemove', moveCursor);
       window.removeEventListener('mouseover', handleMouseOver);
     };
-  }, [cursorX, cursorY]);
+  }, [cursorX, cursorY, enabled]);
+
+  if (!enabled) return null;
 
   return (
     <motion.div

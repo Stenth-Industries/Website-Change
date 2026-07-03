@@ -75,7 +75,9 @@ export default function ShowcaseVideo() {
                     <video
                         ref={videoRef}
                         src="/stenth-explainer.mp4"
+                        poster="/stenth-explainer-poster.jpg"
                         className="w-full h-full object-cover"
+                        preload="metadata"
                         loop
                         muted={isMuted}
                         playsInline

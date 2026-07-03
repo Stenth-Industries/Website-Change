@@ -12,20 +12,20 @@ const stages = [
 ];
 
 const steps = [
-  { id: '01', title: 'Request', desc: 'After your request you meet directly with our strategy and growth team to map out your goals.' },
-  { id: '02', title: 'Deep Brief', desc: 'We unpack your product, funnel, and market positioning to build a strategy tailored to your business.' },
-  { id: '03', title: 'MVP Launch', desc: 'In 7-14 days, we roll out a minimal yet functional funnel that collects real data and gets early traction.' },
-  { id: '04', title: 'Scaling', desc: 'We analyze, optimize, and scale what performs — every next step is backed by conversion metrics, not intuition.' },
+  { id: '01', title: 'Request', desc: 'After your enquiry, you meet directly with our strategy team to map out your goals and the customers you want more of.' },
+  { id: '02', title: 'Deep Brief', desc: 'We unpack your offers, ideal customers, and market to build a strategy tailored to your business.' },
+  { id: '03', title: 'Quick Launch', desc: 'In 7-14 days, we roll out a focused setup — landing page, tracking, and a first campaign — that starts collecting real enquiry data.' },
+  { id: '04', title: 'Scaling', desc: 'We analyse, optimise, and scale what works — every next step backed by real enquiry and conversion data, not intuition.' },
 ];
 
 export default function Process() {
   return (
-    <section className="py-24 px-6 md:px-12 bg-brand-dark overflow-hidden">
+    <section id="process" className="py-24 px-6 md:px-12 bg-brand-dark overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-32">
           <h2 className="text-6xl md:text-9xl leading-none mb-8">
-            You're the CMO. <br />
-            <span className="text-brand-accent">We're the Launch Team.</span>
+            You run the business. <br />
+            <span className="text-brand-accent">We run the growth.</span>
           </h2>
         </div>
 

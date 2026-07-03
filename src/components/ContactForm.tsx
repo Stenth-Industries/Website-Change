@@ -1,10 +1,22 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
+import { CAL_BOOKING_URL } from '../constants';
 
 export default function ContactForm() {
+  // No backend yet: open the visitor's mail client pre-filled to info@stenth.com
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const subject = encodeURIComponent(`Growth audit request — ${data.get('name')}`);
+    const body = encodeURIComponent(
+      `Name: ${data.get('name')}\nEmail: ${data.get('email')}\nWebsite: ${data.get('website')}\nGoal: ${data.get('goal')}\n\n${data.get('message')}`
+    );
+    window.location.href = `mailto:info@stenth.com?subject=${subject}&body=${body}`;
+  };
+
   return (
-    <section className="py-24 px-6 md:px-12 bg-brand-dark">
+    <section id="contact" className="py-24 px-6 md:px-12 bg-brand-dark">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
           <div>
@@ -18,32 +30,41 @@ export default function ContactForm() {
 
             <div className="p-8 rounded-3xl bg-brand-light/5 border border-brand-light/5">
               <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-muted mb-4">Not ready to chat?</p>
-              <h3 className="text-2xl mb-6">Download our 2025 B2B Funnel Checklist</h3>
-              <button className="flex items-center gap-2 text-brand-accent font-bold uppercase tracking-widest text-xs hover:gap-4 transition-all">
+              <h3 className="text-2xl mb-6">Download our 2026 B2B Funnel Checklist</h3>
+              <a
+                href="/stenth-funnel-checklist.pdf"
+                download
+                className="flex items-center gap-2 text-brand-accent font-bold uppercase tracking-widest text-xs hover:gap-4 transition-all"
+              >
                 Download Free PDF <ArrowRight size={16} />
-              </button>
+              </a>
             </div>
           </div>
 
           <div className="bg-brand-light p-8 md:p-12 rounded-[40px] text-brand-dark">
             <h3 className="text-4xl mb-8">Map Your Next <span className="text-brand-accent">Growth Step</span></h3>
             
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs uppercase tracking-widest font-bold opacity-70">Name</label>
-                  <input type="text" className="w-full bg-transparent border-b border-brand-dark/10 py-2 focus:border-brand-accent outline-none transition-colors" placeholder="John Doe" />
+                  <input type="text" name="name" required className="w-full bg-transparent border-b border-brand-dark/10 py-2 focus:border-brand-accent outline-none transition-colors" placeholder="John Doe" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-widest font-bold opacity-70">Company Website</label>
-                  <input type="text" className="w-full bg-transparent border-b border-brand-dark/10 py-2 focus:border-brand-accent outline-none transition-colors" placeholder="example.com" />
+                  <label className="text-xs uppercase tracking-widest font-bold opacity-70">Email</label>
+                  <input type="email" name="email" required className="w-full bg-transparent border-b border-brand-dark/10 py-2 focus:border-brand-accent outline-none transition-colors" placeholder="you@company.com" />
                 </div>
               </div>
 
               <div className="space-y-2">
+                <label className="text-xs uppercase tracking-widest font-bold opacity-70">Company Website</label>
+                <input type="text" name="website" className="w-full bg-transparent border-b border-brand-dark/10 py-2 focus:border-brand-accent outline-none transition-colors" placeholder="example.com" />
+              </div>
+
+              <div className="space-y-2">
                 <label className="text-xs uppercase tracking-widest font-bold opacity-70">What do you want to improve?</label>
-                <select className="w-full bg-transparent border-b border-brand-dark/10 py-2 focus:border-brand-accent outline-none transition-colors appearance-none">
-                  <option>Select your goal</option>
+                <select name="goal" defaultValue="" className="w-full bg-transparent border-b border-brand-dark/10 py-2 focus:border-brand-accent outline-none transition-colors appearance-none">
+                  <option value="" disabled>Select your goal</option>
                   <option>SEO & Organic Growth</option>
                   <option>Paid Ads Scaling</option>
                   <option>AI Automation</option>
@@ -53,12 +74,18 @@ export default function ContactForm() {
 
               <div className="space-y-2">
                 <label className="text-xs uppercase tracking-widest font-bold opacity-70">Your Goal</label>
-                <textarea className="w-full bg-transparent border-b border-brand-dark/10 py-2 focus:border-brand-accent outline-none transition-colors min-h-[100px]" placeholder="Tell us about your targets..." />
+                <textarea name="message" className="w-full bg-transparent border-b border-brand-dark/10 py-2 focus:border-brand-accent outline-none transition-colors min-h-[100px]" placeholder="Tell us about your targets..." />
               </div>
 
               <button className="w-full py-6 bg-brand-dark text-brand-light rounded-full font-bold uppercase tracking-[0.2em] text-xs hover:bg-brand-accent hover:text-brand-dark transition-all">
                 Get My Audit Plan
               </button>
+              <p className="text-center text-xs text-brand-dark/50">
+                Prefer to talk?{' '}
+                <a href={CAL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="font-bold text-brand-accent hover:underline">
+                  Book a free 30-minute call
+                </a>
+              </p>
             </form>
           </div>
         </div>

@@ -14,10 +14,10 @@ const processNodes = [
 
 // ─── Floating activity cards that cycle ───────────────────────────────────────
 const activityCards = [
-    { title: 'Campaign Live', metric: '+37%', sub: 'CTR vs last period', color: '#6F9CEB' },
-    { title: 'SEO Audit Done', metric: '2.1K', sub: 'new keywords ranked', color: '#34d399' },
-    { title: 'Lead Qualified', metric: '4.7x', sub: 'pipeline velocity', color: '#fbbf24' },
-    { title: 'ROAS Optimised', metric: 'x9.2', sub: 'return on ad spend', color: '#a78bfa' },
+    { title: 'Strategy Mapped', metric: '01', sub: 'audit complete', color: '#6F9CEB' },
+    { title: 'Campaign Built', metric: '02', sub: 'ready to launch', color: '#34d399' },
+    { title: 'Live & Tracked', metric: '03', sub: 'enquiries flowing', color: '#fbbf24' },
+    { title: 'Optimised Weekly', metric: '04', sub: 'every metric reviewed', color: '#a78bfa' },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -150,7 +150,7 @@ export default function HowItWorks() {
                                         </p>
                                         <p className="text-xs text-brand-light font-medium">{card.sub.split(' vs ')[0]}</p>
                                     </div>
-                                    <p className="text-xs text-brand-light/60 mt-1 uppercase tracking-widest leading-none">Real-time status</p>
+                                    <p className="text-xs text-brand-light/60 mt-1 uppercase tracking-widest leading-none">Our process</p>
                                 </motion.div>
                             </AnimatePresence>
                         </div>

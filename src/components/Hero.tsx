@@ -1,14 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useScroll, useTransform } from 'motion/react';
+import { CAL_BOOKING_URL } from '../constants';
 
-const HEADLINE = "BUILD YOUR BUSINESS";
+const HEADLINE = "GROW YOUR BUSINESS";
 const SERVICES = [
-  'Paid Advertising',
-  'SEO Services',
-  'Web Development',
-  'Content Marketing',
+  'SEO & Organic Growth',
+  'Paid Media & Google Ads',
+  'Website Design',
+  'Content & Authority',
   'Analytics & Tracking',
-  'Branding',
+  'Brand & Identity',
 ];
 
 const MARQUEE_TEXT = [...SERVICES, ...SERVICES, ...SERVICES, ...SERVICES]; // quadrupled for seamless loop on wide screens
@@ -115,15 +116,17 @@ export default function Hero() {
             className="space-y-3 max-w-xs"
           >
             <p className="text-brand-accent text-base md:text-lg font-medium uppercase tracking-widest leading-snug">
-              Digital Marketing<br />That Builds<br />Businesses.
+              Growth Consulting<br />For Ambitious<br />Businesses.
             </p>
             <p className="text-brand-light/60 text-xs uppercase tracking-[0.35em] font-mono">
-              Data-driven. Revenue-focused.
+              Data-driven. Results-focused.
             </p>
           </motion.div>
 
           <motion.a
-            href="#contact"
+            href={CAL_BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -136,8 +139,8 @@ export default function Hero() {
         </div>
 
         {/* Staggered Headline — Two line editorial layout */}
-        <div aria-label="Build Your Business" className="space-y-2">
-          {/* Line 1: BUILD YOUR */}
+        <div aria-label="Grow Your Business" className="space-y-2">
+          {/* Line 1: GROW YOUR */}
           <div className="overflow-hidden">
             <motion.div
               initial={{ y: '110%' }}
@@ -145,7 +148,7 @@ export default function Hero() {
               transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="text-[13vw] md:text-[13vw] leading-[0.85] font-display text-brand-light whitespace-nowrap"
             >
-              BUILD YOUR
+              GROW YOUR
             </motion.div>
           </div>
           {/* Line 2: BUSINESS — offset + accent color */}
@@ -198,7 +201,9 @@ export default function Hero() {
           ))}
         </div>
         <motion.a
-          href="#contact"
+          href={CAL_BOOKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.0 }}

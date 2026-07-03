@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useSpring, useTransform, useMotionValue } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
+import { CAL_BOOKING_URL } from '../constants';
 
 const NOISE_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
 
-const MagneticLink = ({ children, href }: { children: React.ReactNode; href: string }) => {
+const MagneticLink: React.FC<{ children: React.ReactNode; href: string }> = ({ children, href }) => {
   const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -66,7 +67,7 @@ export default function Navbar() {
   const navItems = [
     { label: 'Services', href: '#services' },
     { label: 'About', href: '#about' },
-    { label: 'Portfolio', href: '#portfolio' },
+    { label: 'Process', href: '#process' },
     { label: 'Contact', href: '#contact' },
   ];
 
@@ -109,7 +110,9 @@ export default function Navbar() {
 
         {/* CTA Button */}
         <motion.a
-          href="#contact"
+          href={CAL_BOOKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="relative z-10 group flex items-center gap-2 text-xs md:text-xs uppercase tracking-[0.2em] font-bold bg-white text-brand-dark px-4 md:px-6 py-2 rounded-full overflow-hidden hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-500"

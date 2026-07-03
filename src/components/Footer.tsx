@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Mail, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Instagram, Linkedin } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer id="contact" className="pt-24 pb-12 px-6 md:px-12 bg-brand-dark border-t border-brand-light/5">
+    <footer className="pt-24 pb-12 px-6 md:px-12 bg-brand-dark border-t border-brand-light/5">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-24">
           <div className="md:col-span-6">
@@ -36,7 +36,7 @@ export default function Footer() {
           <div className="md:col-span-3 md:pt-12">
             <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-muted mb-8">Navigation</p>
             <ul className="space-y-4">
-              {['Services', 'About', 'Portfolio', 'Contact'].map(item => (
+              {['Services', 'About', 'Process', 'Contact'].map(item => (
                 <li key={item}>
                   <a href={`#${item.toLowerCase()}`} className="text-lg hover:text-brand-accent transition-colors">{item}</a>
                 </li>
@@ -47,9 +47,8 @@ export default function Footer() {
           <div className="md:col-span-3 md:pt-12">
             <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-muted mb-8">Social</p>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-brand-accent transition-colors"><Instagram size={24} /></a>
-              <a href="#" className="hover:text-brand-accent transition-colors"><Linkedin size={24} /></a>
-              <a href="#" className="hover:text-brand-accent transition-colors"><Twitter size={24} /></a>
+              <a href="https://www.instagram.com/stenth.official" target="_blank" rel="noopener noreferrer" aria-label="Stenth on Instagram" className="hover:text-brand-accent transition-colors"><Instagram size={24} /></a>
+              <a href="https://www.linkedin.com/company/stenth" target="_blank" rel="noopener noreferrer" aria-label="Stenth on LinkedIn" className="hover:text-brand-accent transition-colors"><Linkedin size={24} /></a>
             </div>
           </div>
         </div>
@@ -70,8 +69,8 @@ export default function Footer() {
             <span className="text-xs text-brand-muted uppercase tracking-widest">© 2026 Stenth Agency. All rights reserved.</span>
           </div>
           <div className="flex gap-8 text-xs text-brand-muted uppercase tracking-widest">
-            <a href="#" className="hover:text-brand-light transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-brand-light transition-colors">Terms of Service</a>
+            <a href="/privacy.html" className="hover:text-brand-light transition-colors">Privacy Policy</a>
+            <a href="/terms.html" className="hover:text-brand-light transition-colors">Terms of Service</a>
           </div>
         </div>
       </div>

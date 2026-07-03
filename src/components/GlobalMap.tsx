@@ -117,12 +117,12 @@ export default function GlobalMap() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div>
-            <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-accent mb-4">Global Presence</p>
-            <h2 className="text-5xl md:text-7xl leading-none">Available <br /> <span className="text-brand-accent">Everywhere</span> It Matters.</h2>
+            <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-accent mb-4">Where We Work</p>
+            <h2 className="text-5xl md:text-7xl leading-none">Rooted in <br /> <span className="text-brand-accent">Canada &amp; Australia.</span></h2>
           </div>
           <div className="max-w-xs text-right">
             <p className="text-brand-muted text-sm italic">
-              "From Toronto to Mumbai, we help businesses scale across borders with localized growth strategies."
+              "Based in Canada and Australia, with project experience across the US, India and beyond — we help businesses grow with data-driven, search-first strategies."
             </p>
           </div>
         </div>

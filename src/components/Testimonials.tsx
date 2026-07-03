@@ -3,18 +3,18 @@ import { motion } from 'motion/react';
 
 const testimonials = [
   {
-    name: 'Sarah West',
-    role: 'Co-Founder & Growth Lead',
-    company: 'CloudOps Tools',
-    quote: "We've been through 4 agencies before finding Stenth. They didn't just 'run ads', they rebuilt our entire funnel. Revenue is up 3x and our CAC is finally where it needs to be.",
-    result: '3X Revenue Growth'
+    name: 'Ansh Rai',
+    role: 'Co-Founder',
+    company: 'Stenth',
+    quote: "You'll work directly with the founders on your account — never a junior learning on your budget. The people who win your business are the people who run it, start to finish.",
+    result: 'Senior-Led'
   },
   {
-    name: 'John Mathews',
-    role: 'CEO',
-    company: 'MedTech Base',
-    quote: "The AI agent they built for our lead qualification has saved us 20+ hours a week. It's like having a full-time sales assistant that never sleeps.",
-    result: '20+ Hours Saved/Week'
+    name: 'Aakash Lakhataria',
+    role: 'Co-Founder',
+    company: 'Stenth',
+    quote: "We earn your business every month — no long lock-in contracts and no vanity reports. Just clear work tied to real results, and a straight answer if we're not the right fit for you.",
+    result: 'No Lock-In'
   }
 ];
 
@@ -23,8 +23,8 @@ export default function Testimonials() {
     <section id="reviews" className="py-24 px-6 md:px-12 bg-brand-dark">
       <div className="max-w-7xl mx-auto">
         <div className="mb-24">
-          <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-accent mb-4">Testimonials</p>
-          <h2 className="text-6xl md:text-8xl leading-none">What Our <br />Clients Are Saying</h2>
+          <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-accent mb-4">Our Promise</p>
+          <h2 className="text-6xl md:text-8xl leading-none">What You Can <br />Expect From Us</h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">

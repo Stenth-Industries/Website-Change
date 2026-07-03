@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stenth.com/sitemap.xml

@@ -101,10 +101,10 @@ export default function Stats() {
   };
 
   const stats = [
-    { val: '3.8x', label: 'Average ROAS Delivered', story: 'From every dollar spent' },
-    { val: '41%', label: 'Drop in Acquisition Cost', story: 'Optimised for zero waste' },
-    { val: '90', label: 'Days to First Profitable Campaign', story: 'Delivered at surgical speed' },
-    { val: '100%', label: 'Client Renewal Rate', story: 'Built for the long term' }
+    { val: '1:1', label: 'Senior-Led, No Juniors', story: 'You work with the founders' },
+    { val: '48h', label: 'Response Time', story: 'We move at your pace' },
+    { val: '0', label: 'Long-Term Lock-Ins', story: 'Earn your business monthly' },
+    { val: '100%', label: 'Focused on Your Growth', story: 'Revenue over vanity metrics' }
   ];
 
   return (
@@ -145,13 +145,13 @@ export default function Stats() {
 
               <h2 className="text-8xl md:text-[10rem] leading-[0.8] tracking-tighter">
                 We do not just <br />
-                <span className="text-gradient">market brands.</span>
+                <span className="text-gradient">run marketing.</span>
               </h2>
             </div>
 
             <div className="max-w-md space-y-12 border-l border-white/5 pl-10 ml-2">
               <p className="text-brand-light/80 text-base leading-relaxed font-light">
-                Our methodology is built on data and delivered with surgical precision. We prioritize sustainable revenue over temporary reach.
+                Our methodology is built on data and delivered with precision. We prioritise qualified leads and revenue over vanity metrics.
               </p>
               <p className="text-2xl md:text-3xl font-light leading-snug text-white/90 tracking-tight">
                 Stenth operates as your strategic partner. We bridge the gap between where your vision is now and where it deserves to be.

@@ -1,60 +1,61 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView, useScroll, useTransform, useSpring } from 'motion/react';
+import { CAL_BOOKING_URL } from '../constants';
 
 
 const reasons = [
   {
     line1: 'Growth Compounds.',
     line2: 'Guesswork Doesn\'t.',
-    desc: 'We build the full system: funnel, traffic, content, and CRM. Every channel feeds the next. Your growth stacks up instead of starting over.',
-    stat: '3.8',
-    suffix: '×',
-    statLabel: 'Average ROAS delivered',
-    decimals: 1,
+    desc: 'We build the full system: website, search, content, and intake. Every channel feeds the next, so your visibility stacks up instead of starting over.',
+    stat: '4',
+    suffix: '',
+    statLabel: 'Channels, one system',
+    decimals: 0,
   },
   {
     line1: 'We Plan Before',
     line2: 'We Spend. Period.',
     desc: 'Not a single dollar moves until we have the data, the audience, and the strategy locked in. Precision over speed. Every time.',
-    stat: '41',
-    suffix: '%',
-    statLabel: 'Average drop in acquisition cost',
+    stat: '0',
+    suffix: '',
+    statLabel: 'Spent before strategy',
     decimals: 0,
   },
   {
-    line1: 'Revenue Is The Only',
+    line1: 'Revenue Is The',
     line2: 'Metric That Matters.',
-    desc: 'Impressions don\'t pay wages. We track ROI, LTV, CAC, and conversions. The numbers that actually move your business forward.',
+    desc: 'Impressions don\'t pay wages. We track enquiries, conversions, and revenue — the numbers that actually move your business forward.',
     stat: '100',
     suffix: '%',
-    statLabel: 'Full revenue attribution',
+    statLabel: 'Focused on real results',
     decimals: 0,
   },
   {
     line1: 'Senior Talent.',
     line2: 'Day One To Done.',
     desc: 'The team that pitches you is the team that runs your account. No hand-offs. No juniors learning on your budget. Just expertise, start to finish.',
-    stat: '100',
-    suffix: '%',
-    statLabel: 'Client renewal rate',
+    stat: '1',
+    suffix: ':1',
+    statLabel: 'Senior-led, no juniors',
     decimals: 0,
   },
   {
-    line1: 'From Zero To',
-    line2: 'Profitable In 90 Days.',
-    desc: 'We don\'t take six months to warm up. We audit, build, launch, and optimize fast. Because every delayed week is revenue you don\'t get back.',
-    stat: '90',
+    line1: 'We Move Fast,',
+    line2: 'From Day One.',
+    desc: 'We don\'t take six months to warm up. We audit, build, and launch quickly — because every delayed week is revenue your business doesn\'t get back.',
+    stat: '14',
     suffix: '',
-    statLabel: 'Days to first profitable campaign',
+    statLabel: 'Day strategy roadmap',
     decimals: 0,
   },
   {
     line1: 'We\'re Proactive.',
     line2: 'Not On-Call.',
     desc: 'You\'ll hear from us before you think to reach out. We\'re watching the data, flagging the shifts, and bringing you the next move. Not waiting to be briefed.',
-    stat: '20',
-    suffix: '+',
-    statLabel: 'Ambitious brands scaled',
+    stat: '48',
+    suffix: 'h',
+    statLabel: 'Max response time',
     decimals: 0,
   },
 ];
@@ -215,7 +216,7 @@ export default function Reasons() {
               <span className="text-gradient">Rely On Us.</span>
             </h2>
             <p className="text-brand-light/80 text-base md:text-lg leading-relaxed max-w-sm md:text-right md:pb-2 hidden md:block">
-              Six reasons why 20+ ambitious brands chose Stenth over every other agency — and kept renewing.
+              Six principles that define how we work — and why the right brands choose to partner with Stenth.
             </p>
           </motion.div>
         </div>
@@ -237,11 +238,13 @@ export default function Reasons() {
           className="mt-20 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
         >
           <p className="text-brand-light/80 text-lg md:text-xl">
-            Ready to be our{' '}
-            <span className="text-brand-light font-medium">next case study?</span>
+            Ready to be one of our{' '}
+            <span className="text-brand-light font-medium">founding case studies?</span>
           </p>
           <motion.a
-            href="#contact"
+            href={CAL_BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ x: 6 }}
             className="flex items-center gap-3 text-xs uppercase tracking-[0.4em] font-bold text-brand-accent"
           >

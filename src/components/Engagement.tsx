@@ -1,48 +1,49 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
+import { CAL_BOOKING_URL } from '../constants';
 
 const models = [
   {
     title: 'Pilot Sprint',
     duration: '14-21 Days',
-    desc: 'Test a single growth hypothesis with a fast-track MVP launch.',
+    desc: 'Test a single growth channel for your business with a fast, focused launch.',
     includes: [
-      'Mini funnel design (Lead Magnet / LP)',
-      '1-2 campaigns on Meta or Google Ads',
-      'Conversion-focused landing page',
-      'Copy & creative assets (up to 3 variations)',
-      'Weekly reporting: CAC, LTV, ROI',
-      'Optimization loop: 1 iteration included'
+      'Conversion-focused page for one core offer',
+      '1-2 Google Ads campaigns (local, high-intent)',
+      'Call tracking & enquiry form setup',
+      'Ad copy & creative (up to 3 variations)',
+      'Weekly reporting: clicks, calls, cost per enquiry',
+      'Optimisation loop: 1 iteration included'
     ],
     cta: 'Start From Here'
   },
   {
     title: 'Diagnostic',
     duration: '30-45 Days',
-    desc: 'A deep dive into your existing funnel to find and fix leaks.',
+    desc: 'A deep dive into your website and marketing to find what\'s costing you customers.',
     includes: [
-      'Full funnel audit with strategy comments',
-      'Review of all accounts and creatives',
-      'Market & competitor research',
-      'Analysis of positioning, audience, and messaging',
-      '2x 60-min consulting call with strategist',
-      'Step-by-step roadmap for traction/scaling'
+      'Full website & SEO audit with recommendations',
+      'Google Business Profile & local ranking review',
+      'Competitor & market research',
+      'Analysis of positioning, messaging & lead capture',
+      '2x 60-min strategy call with our team',
+      'Step-by-step roadmap to more enquiries'
     ],
     cta: 'Start From Here'
   },
   {
     title: 'Full Project',
     duration: 'Custom',
-    desc: 'End-to-end growth engine build and management.',
+    desc: 'End-to-end website and marketing build for your business.',
     includes: [
-      'Full funnel build out (click to sale)',
-      'Traffic plan + ad setup',
-      'Ads on 2 platforms',
-      'Landing pages & funnels',
+      'New conversion-first website',
+      'Local SEO & Google Business Profile setup',
+      'Google Ads campaign build',
+      'Offer-specific landing pages',
       'Weekly strategy calls',
-      'Full CRM / GTM / GA4 tracking',
-      'Monthly strategic growth audit'
+      'Full tracking: GA4, call tracking, attribution',
+      'Monthly strategic growth review'
     ],
     cta: 'Start From Here',
     featured: true
@@ -50,15 +51,15 @@ const models = [
   {
     title: 'Partnership',
     duration: 'Retainer Based',
-    desc: 'Long-term growth partnership for established brands.',
+    desc: 'Long-term growth partnership for established businesses.',
     includes: [
-      'Dedicated strategist, analyst & ad team',
-      'Ongoing funnel design and iterations',
-      'Multi-channel Ads (FB, IG, Google, LinkedIn)',
-      'Campaigns for retention, upsell, referral',
+      'Dedicated strategist & specialist team',
+      'Ongoing SEO & content for your core offers',
+      'Google Ads management & optimisation',
+      'Reputation & review-generation campaigns',
       'Monthly growth experiments roadmap',
       'Strategic reviews every 2 weeks',
-      'Priority 24/5 messaging support'
+      'Priority messaging support'
     ],
     cta: 'Start From Here'
   }
@@ -107,18 +108,23 @@ export default function Engagement() {
                 </ul>
               </div>
 
-              <button className={`w-full py-4 rounded-full flex items-center justify-center gap-2 text-xs uppercase tracking-widest font-bold transition-all ${model.featured ? 'bg-brand-dark text-brand-light hover:bg-brand-dark/90' : 'bg-brand-accent text-brand-dark hover:bg-brand-accent/90'}`}>
+              <a
+                href={CAL_BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`w-full py-4 rounded-full flex items-center justify-center gap-2 text-xs uppercase tracking-widest font-bold transition-all ${model.featured ? 'bg-brand-dark text-brand-light hover:bg-brand-dark/90' : 'bg-brand-accent text-brand-dark hover:bg-brand-accent/90'}`}
+              >
                 {model.cta} <ArrowUpRight size={14} />
-              </button>
+              </a>
             </motion.div>
           ))}
         </div>
 
         <div className="mt-24 pt-12 border-t border-brand-dark/10 flex flex-col md:flex-row justify-between items-center gap-8">
           <h3 className="text-3xl md:text-4xl">No clue <span className="text-brand-accent">what to choose?</span> Let's fix that.</h3>
-          <button className="px-8 py-4 rounded-full border border-brand-dark/20 text-xs uppercase tracking-[0.2em] font-bold hover:bg-brand-dark hover:text-brand-light transition-all">
-            Try our quick-fit quiz
-          </button>
+          <a href={CAL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="px-8 py-4 rounded-full border border-brand-dark/20 text-xs uppercase tracking-[0.2em] font-bold hover:bg-brand-dark hover:text-brand-light transition-all">
+            Book a free fit call
+          </a>
         </div>
       </div>
     </section>

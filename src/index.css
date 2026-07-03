@@ -124,3 +124,28 @@
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
+
+/* ── Accessibility: honour reduced-motion preference ───────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Neutralise looping CSS animations */
+  .animate-orbit,
+  .animate-marquee,
+  .animate-float,
+  .text-gradient {
+    animation: none !important;
+  }
+
+  /* Kill remaining transitions/animations site-wide */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

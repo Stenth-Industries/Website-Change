@@ -1,43 +1,44 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useSpring, useTransform, useMotionValue, useVelocity, useAnimation, AnimatePresence } from 'motion/react';
 import { Zap, Search, Globe, Cpu, BarChart3, Layers, ArrowUpRight } from 'lucide-react';
+import { CAL_BOOKING_URL } from '../constants';
 
 const services = [
     {
-        id: '01', title: 'Paid Advertising',
-        description: 'We manage performance campaigns across Google, Meta, and LinkedIn with a level of precision most agencies simply do not apply. Every budget decision is grounded in revenue data, not vanity metrics, so your spend works exactly as hard as it should.',
-        icon: Zap, tags: ['Google Ads', 'Meta Ads', 'LinkedIn Ads'],
-        stats: [{ val: '3.8', label: 'Average ROAS', suffix: 'x' }, { val: '41', label: 'Reduction in Acquisition Cost', suffix: '%' }]
+        id: '01', title: 'Paid Media & Google Ads',
+        description: 'We manage paid campaigns built around how your customers actually search — high-intent, precisely targeted, and tied to real buying signals. Every budget decision is grounded in conversion data, not vanity metrics, so your spend works exactly as hard as it should.',
+        icon: Zap, tags: ['Google Search Ads', 'Paid Social', 'Conversion Tracking'],
+        stats: [{ val: 'High', label: 'Intent Keywords Only', suffix: '' }, { val: 'Zero', label: 'Focus on Wasted Spend', suffix: '' }]
     },
     {
-        id: '02', title: 'Expert SEO',
-        description: 'Organic search is the highest-margin growth channel available to most businesses. We build the technical infrastructure, earn the authority, and create the content that earns rankings and holds them across competitive markets.',
-        icon: Search, tags: ['Technical SEO', 'Link Building', 'Content Strategy'],
-        stats: [{ val: '312', label: 'Average Organic Traffic Growth', suffix: '%' }, { val: '6', label: 'Months to Page One', suffix: 'mo' }]
+        id: '02', title: 'SEO & Organic Growth',
+        description: 'Organic search is the highest-value growth channel for most businesses — the customers who find you on Google already need what you do. We build the technical foundation, earn the authority, and create the content that wins rankings and holds them in competitive markets.',
+        icon: Search, tags: ['Technical SEO', 'Local & Map Pack', 'Content Strategy'],
+        stats: [{ val: 'Local', label: '& Map Pack Focus', suffix: '' }, { val: 'Tech', label: 'Content & Authority', suffix: '' }]
     },
     {
-        id: '03', title: 'Web Development',
-        description: 'A well-engineered website makes every other marketing channel perform better. We design and build sites that are fast, focused, and built around a single goal: turning the right visitors into clients.',
-        icon: Globe, tags: ['Conversion-First Design', 'Speed Engineering', 'CRO'],
-        stats: [{ val: '98', label: 'PageSpeed Score', suffix: '' }, { val: '52', label: 'Average Conversion Uplift', suffix: '%' }]
+        id: '03', title: 'Website Design',
+        description: 'A well-engineered website makes every other channel perform better. We design and build websites that are fast, accessible, and built around a single goal: turning the right visitors into qualified leads.',
+        icon: Globe, tags: ['Conversion-First Design', 'Speed Engineering', 'Accessibility'],
+        stats: [{ val: 'Fast', label: 'Conversion-First Build', suffix: '' }, { val: 'Mobile', label: 'First & Accessible', suffix: '' }]
     },
     {
-        id: '04', title: 'Content Marketing',
-        description: 'Clients make decisions long before they reach out. Strategic content positions you as the authoritative voice in your space, shortening sales cycles, reducing friction, and building the trust that converts at a higher rate.',
-        icon: Cpu, tags: ['Authority Content', 'SEO Articles', 'Social & Video'],
-        stats: [{ val: '4.2', label: 'Lower Cost Per Lead vs Paid', suffix: 'x' }, { val: '67', label: 'Increase in Qualified Enquiries', suffix: '%' }]
+        id: '04', title: 'Content & Authority',
+        description: 'Customers decide who to trust long before they reach out. Strategic content positions you as the authoritative voice in your market — answering the questions prospects are already asking and building the trust that converts.',
+        icon: Cpu, tags: ['Thought Leadership', 'SEO Articles', 'Guides & FAQs'],
+        stats: [{ val: 'Authority', label: 'Building Content', suffix: '' }, { val: 'SEO', label: 'Driven Articles', suffix: '' }]
     },
     {
         id: '05', title: 'Analytics & Tracking',
-        description: 'Growth decisions are only as good as the data behind them. We implement rigorous tracking across every channel and touchpoint, giving you a clear and accurate picture of where revenue comes from and where to invest next.',
-        icon: BarChart3, tags: ['GA4 & GTM Setup', 'Revenue Attribution', 'Custom Dashboards'],
-        stats: [{ val: '100', label: 'Full-Funnel Attribution', suffix: '%' }, { val: '28', label: 'Hours Saved Per Week', suffix: 'hrs' }]
+        description: 'Growth decisions are only as good as the data behind them. We implement rigorous tracking and attribution across every channel, giving you a clear picture of which leads come from where — and where to invest next.',
+        icon: BarChart3, tags: ['GA4 & GTM Setup', 'Attribution', 'Custom Dashboards'],
+        stats: [{ val: 'GA4', label: '& Full-Stack Tracking', suffix: '' }, { val: 'Clear', label: 'Lead Attribution', suffix: '' }]
     },
     {
-        id: '06', title: 'Elite Branding',
-        description: 'The strongest brands do not just look good. They create an immediate sense of quality that justifies premium pricing. We craft visual identities from the ground up, built to position you as the definitive choice in your category.',
+        id: '06', title: 'Brand & Identity',
+        description: 'The strongest brands do not just look credible — they create an immediate sense of trust that justifies premium pricing. We craft visual identities from the ground up, built to position you as the definitive choice in your market.',
         icon: Layers, tags: ['Brand Identity', 'Visual Language', 'Logo & Guidelines'],
-        stats: [{ val: '100', label: 'Bespoke, No Templates', suffix: '%' }, { val: '3', label: 'Weeks to Full Delivery', suffix: 'wk' }]
+        stats: [{ val: '100%', label: 'Bespoke, No Templates', suffix: '' }, { val: 'Full', label: 'Identity System', suffix: '' }]
     }
 ];
 
@@ -141,7 +142,7 @@ const ServiceCard = ({ service, index, total, scrollYProgress, scrollVelocity }:
     return (
         <motion.div
             style={{ y, scale, rotateX: tilt, zIndex: index, position: 'sticky', top: `${140 + index * 20}px`, perspective: 1200 }}
-            className="w-full mb-[55vh] last:mb-0"
+            className="w-full mb-[30vh] last:mb-0"
         >
             <motion.div
                 ref={cardRef}
@@ -246,7 +247,7 @@ export default function ExpertiseSection() {
     }, [scrollYProgress]);
 
     return (
-        <section ref={ref} className="relative bg-[#050505] min-h-[700vh] overflow-visible">
+        <section id="services" ref={ref} className="relative bg-[#050505] overflow-visible">
 
             {/* Absolute Background System */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -284,7 +285,7 @@ export default function ExpertiseSection() {
                     </div>
 
                     <p className="text-gray-400 text-base md:text-lg font-sans font-light leading-relaxed mb-12 max-w-sm">
-                        Six services. One obsession: making your growth measurable, defensible, and impossible to ignore.
+                        Six services. One focus: turning more of the right prospects into paying customers for your business.
                     </p>
 
                     <div className="flex flex-col gap-6 pl-2 border-l border-white/[0.05] ml-2 mb-auto">
@@ -295,12 +296,12 @@ export default function ExpertiseSection() {
                     </div>
 
                     <div className="mt-12">
-                        <motion.a href="#contact" whileHover={{ x: 10 }} transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                        <motion.a href={CAL_BOOKING_URL} target="_blank" rel="noopener noreferrer" whileHover={{ x: 10 }} transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                             className="group relative flex items-center justify-between px-8 py-6 rounded-[1.5rem] border border-white/[0.08] bg-white/[0.02] overflow-hidden backdrop-blur-3xl">
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.05] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                             <div className="relative">
                                 <div className="font-sans text-sm font-semibold text-white tracking-wide">Book a Free Strategy Session</div>
-                                <div className="text-xs text-gray-500 mt-1">No commitment. 30 minutes. Real advice.</div>
+                                <div className="text-xs text-gray-300 mt-1">No commitment. 30 minutes. Real advice.</div>
                             </div>
                             <div className="relative w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center group-hover:rotate-45 transition-transform duration-1000 shadow-[0_0_40px_rgba(37,99,235,0.3)]">
                                 <ArrowUpRight size={24} className="text-white" />
@@ -310,7 +311,7 @@ export default function ExpertiseSection() {
                 </aside>
 
                 {/* Right Stack */}
-                <div className="lg:col-span-7 pt-[20vh] pb-[60vh]">
+                <div className="lg:col-span-7 pt-[12vh] pb-[15vh]">
                     {services.map((service, index) => (
                         <ServiceCard key={service.id} service={service} index={index} total={services.length}
                             scrollYProgress={scrollYProgress} scrollVelocity={velocity} />
