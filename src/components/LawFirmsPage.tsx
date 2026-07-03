@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
-import { MapPin, Star, Phone, Search, TrendingUp, Globe, BarChart3, ArrowRight, Check } from 'lucide-react';
+import { MapPin, Star, Phone, Search, TrendingUp, Globe, BarChart3, ArrowRight, Check, X } from 'lucide-react';
 import { CAL_BOOKING_URL } from '../constants';
 
 const reveal = {
@@ -130,6 +130,62 @@ export default function LawFirmsPage() {
     'Site speed and mobile experience, tested the way a client on a phone experiences it',
     'The paid-search landscape for your practice areas: who bids, on what, and the gaps',
     'A 30-minute walkthrough of what we found. No obligation, and the findings are yours to keep',
+  ];
+
+  const comparison = [
+    {
+      label: 'Who does the work',
+      stenth: 'The founders, directly',
+      typical: 'Whoever was assigned this month',
+    },
+    {
+      label: 'Contract',
+      stenth: 'Month to month, earn it or lose it',
+      typical: '12-month lock-in',
+    },
+    {
+      label: 'Client roster',
+      stenth: 'A handful of firms, by design',
+      typical: 'Hundreds of accounts per manager',
+    },
+    {
+      label: 'Reporting',
+      stenth: 'Cost per enquiry, by channel',
+      typical: 'Impressions, clicks, and vibes',
+    },
+    {
+      label: 'Audit findings',
+      stenth: 'Yours to keep, free',
+      typical: 'A teaser for the sales pitch',
+    },
+    {
+      label: 'Your website',
+      stenth: 'Fully yours, always',
+      typical: 'Held on their platform',
+    },
+  ];
+
+  const roadmap = [
+    {
+      period: '0–3 months',
+      title: 'Foundations',
+      copy: 'Tracking installed, Google Business Profile rebuilt, site speed fixed, and the first high-intent campaigns live. You see every enquiry and its source from week one.',
+    },
+    {
+      period: '3–6 months',
+      title: 'Early Wins',
+      copy: 'Paid campaigns tuned on real enquiry data, map pack movement in your suburbs, and review velocity that keeps compounding.',
+    },
+    {
+      period: '6–12 months',
+      title: 'Compounding',
+      copy: 'Organic rankings mature and start replacing paid clicks. Cost per enquiry falls while enquiry volume grows.',
+    },
+    {
+      period: '12+ months',
+      title: 'Market Position',
+      copy: 'Your firm holds the searches that matter in your practice areas. Competitors budget around you, not the other way round.',
+    },
   ];
 
   return (
@@ -271,6 +327,140 @@ export default function LawFirmsPage() {
                 budget, and reporting that ties spend to enquiries, not impressions.
               </p>
             </motion.div>
+          </div>
+        </section>
+
+        {/* ── Comparison: Stenth vs typical agency ─────────────────────── */}
+        <section className="px-6 md:px-12 py-20 md:py-28 border-t border-white/[0.06]">
+          <div className="max-w-5xl mx-auto">
+            <motion.div {...reveal} className="max-w-3xl mb-14">
+              <p className="font-mono text-xs uppercase tracking-[0.4em] text-brand-accent mb-6">
+                The Difference
+              </p>
+              <h2 className="font-display text-4xl md:text-6xl uppercase tracking-tighter leading-[0.95]">
+                Stenth vs the typical <span className="text-brand-accent">agency retainer.</span>
+              </h2>
+            </motion.div>
+
+            <motion.div {...reveal} className="rounded-[2rem] border border-white/10 overflow-hidden">
+              {/* Header row */}
+              <div className="grid grid-cols-[1.1fr_1fr_1fr] md:grid-cols-3 bg-white/[0.04] border-b border-white/10">
+                <div className="p-4 md:p-6" />
+                <div className="p-4 md:p-6 flex items-center gap-2">
+                  <img src="/Logo.png" alt="" className="w-5 h-5 object-contain hidden md:block" />
+                  <span className="font-display text-base md:text-xl uppercase tracking-tight text-brand-accent">Stenth</span>
+                </div>
+                <div className="p-4 md:p-6">
+                  <span className="font-display text-base md:text-xl uppercase tracking-tight text-brand-light/50">Typical Agency</span>
+                </div>
+              </div>
+              {comparison.map((row, i) => (
+                <div
+                  key={row.label}
+                  className={`grid grid-cols-[1.1fr_1fr_1fr] md:grid-cols-3 ${i % 2 ? 'bg-white/[0.02]' : ''} ${i ? 'border-t border-white/[0.06]' : ''}`}
+                >
+                  <div className="p-4 md:p-6 font-mono text-[10px] md:text-xs uppercase tracking-[0.15em] text-brand-light/50 flex items-center">
+                    {row.label}
+                  </div>
+                  <div className="p-4 md:p-6 flex items-start gap-2.5">
+                    <span className="mt-0.5 flex-shrink-0 w-4.5 h-4.5 md:w-5 md:h-5 rounded-full bg-brand-accent/15 border border-brand-accent/40 flex items-center justify-center">
+                      <Check size={10} className="text-brand-accent" />
+                    </span>
+                    <span className="text-sm md:text-base text-brand-light/85 leading-snug">{row.stenth}</span>
+                  </div>
+                  <div className="p-4 md:p-6 flex items-start gap-2.5">
+                    <span className="mt-0.5 flex-shrink-0 w-4.5 h-4.5 md:w-5 md:h-5 rounded-full bg-white/[0.05] border border-white/15 flex items-center justify-center">
+                      <X size={10} className="text-brand-light/40" />
+                    </span>
+                    <span className="text-sm md:text-base text-brand-light/40 leading-snug">{row.typical}</span>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── Roadmap: the first 12 months ─────────────────────────────── */}
+        <section className="px-6 md:px-12 py-20 md:py-28 border-t border-white/[0.06]">
+          <div className="max-w-7xl mx-auto">
+            <motion.div {...reveal} className="max-w-3xl mb-16">
+              <p className="font-mono text-xs uppercase tracking-[0.4em] text-brand-accent mb-6">
+                What To Expect
+              </p>
+              <h2 className="font-display text-4xl md:text-6xl uppercase tracking-tighter leading-[0.95]">
+                Your first <span className="text-brand-accent">12 months.</span>
+              </h2>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {roadmap.map((step, i) => (
+                <motion.div
+                  key={step.period}
+                  {...reveal}
+                  transition={{ duration: 0.7, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative rounded-[2rem] border border-white/10 bg-white/[0.02] p-8 hover:border-brand-accent/30 transition-colors duration-500"
+                >
+                  <span className="font-display text-5xl tracking-tighter text-brand-accent/20 absolute top-6 right-7">
+                    0{i + 1}
+                  </span>
+                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-brand-accent mb-4">
+                    {step.period}
+                  </p>
+                  <h3 className="font-display text-2xl uppercase tracking-tight mb-4">{step.title}</h3>
+                  <p className="text-sm text-brand-light/60 leading-relaxed">{step.copy}</p>
+                </motion.div>
+              ))}
+            </div>
+            <motion.p {...reveal} className="mt-8 text-xs text-brand-light/35 font-mono uppercase tracking-[0.2em]">
+              Timelines shift with budget and market competitiveness. Your audit call comes with a plan for your firm, not a template.
+            </motion.p>
+          </div>
+        </section>
+
+        {/* ── Founders: who you'll work with ───────────────────────────── */}
+        <section className="px-6 md:px-12 py-20 md:py-28 border-t border-white/[0.06]">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <motion.div {...reveal} className="lg:col-span-5">
+              <p className="font-mono text-xs uppercase tracking-[0.4em] text-brand-accent mb-6">
+                No Account Managers
+              </p>
+              <h2 className="font-display text-4xl md:text-6xl uppercase tracking-tighter leading-[0.95] mb-8">
+                The people on your audit call <span className="text-brand-accent">own the company.</span>
+              </h2>
+              <p className="text-lg text-brand-light/70 leading-relaxed max-w-xl">
+                Stenth is run by its two founders, and every law firm engagement is
+                handled by them personally. When you call, you reach the person
+                responsible for your results, not a coordinator reading your file.
+              </p>
+            </motion.div>
+            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                {
+                  name: 'Ansh Rai',
+                  role: 'Co-Founder',
+                  copy: 'AI, computer science, and marketing technology. Builds the systems that find where your enquiries really come from.',
+                },
+                {
+                  name: 'Aakash Lakhataria',
+                  role: 'Co-Founder',
+                  copy: 'AI-driven marketing, analytics, and paid media. Runs campaigns shaped by hands-on work with Google Ads specialists.',
+                },
+              ].map((f, i) => (
+                <motion.div
+                  key={f.name}
+                  {...reveal}
+                  transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="rounded-[2rem] border border-white/10 bg-white/[0.02] p-8 hover:border-brand-accent/30 transition-colors duration-500"
+                >
+                  <div className="w-12 h-12 rounded-full bg-brand-accent/15 border border-brand-accent/40 flex items-center justify-center font-display text-lg text-brand-accent mb-6">
+                    {f.name.split(' ').map((w) => w[0]).join('')}
+                  </div>
+                  <h3 className="font-display text-2xl uppercase tracking-tight">{f.name}</h3>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-brand-accent mt-1 mb-4">{f.role}</p>
+                  <p className="text-sm text-brand-light/60 leading-relaxed">{f.copy}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 

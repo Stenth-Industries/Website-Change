@@ -202,9 +202,8 @@ export default function ScanPage() {
     return () => clearInterval(id);
   }, [phase]);
 
-  const runScan = async (e: React.FormEvent) => {
-    e.preventDefault();
-    let target = (inputRef.current?.value ?? '').trim();
+  const startScan = async (raw: string) => {
+    let target = raw.trim();
     if (!target) return;
     if (!/^https?:\/\//i.test(target)) target = 'https://' + target;
     try {
@@ -253,6 +252,22 @@ export default function ScanPage() {
       clearTimeout(timeout);
     }
   };
+
+  const runScan = (e: React.FormEvent) => {
+    e.preventDefault();
+    startScan(inputRef.current?.value ?? '');
+  };
+
+  /* Outreach and homepage handoff: /scan?site=firm.com.au starts the scan on
+     arrival. Ref guard keeps StrictMode's double effect from scanning twice. */
+  const autoRan = useRef(false);
+  useEffect(() => {
+    const site = new URLSearchParams(window.location.search).get('site');
+    if (!site || autoRan.current) return;
+    autoRan.current = true;
+    if (inputRef.current) inputRef.current.value = site;
+    startScan(site);
+  }, []);
 
   const overall = result ? Math.round(result.scores.reduce((s, x) => s + x.value, 0) / result.scores.length) : 0;
 

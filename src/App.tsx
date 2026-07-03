@@ -20,6 +20,7 @@ import ExpertiseSection from './components/ExpertiseSection';
 import { motion, useScroll, useSpring, MotionConfig } from 'motion/react';
 import LawFirmsPage from './components/LawFirmsPage';
 import ScanPage from './components/ScanPage';
+import ScanCTA from './components/ScanCTA';
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -65,6 +66,7 @@ export default function App() {
         <BuildingSection />
         <About />
         <Reasons />
+        <ScanCTA />
         <HowItWorks />
         <GlobalMap />
         <Process />
