@@ -33,16 +33,20 @@ const stats = [
   { to: 100, suffix: '%', label: 'Focused on Your Growth' },
 ];
 
+/* A matched pair, in story order: the dream gave Stenth its name, the
+   engine gave it its business. Epithets echo the origin story above. */
 const founders = [
-  {
-    name: 'Ansh Rai',
-    role: 'Co-Founder · Systems & AI',
-    bio: 'The engineer of the two, and the one the consultancy idea struck mid-run. Ansh builds the machinery behind every engagement: AI, analytics, and marketing technology that show exactly where each enquiry came from and what it cost. Trained in computer science, sharpened on projects across Canada, Australia, the US, and the Dominican Republic. If it matters, he measures it.',
-  },
   {
     name: 'Aakash Lakhataria',
     role: 'Co-Founder · Growth & Media',
-    bio: 'The one who dreamed the name. Aakash turns strategy into campaigns that answer for their spend: AI-driven marketing, business analytics, and paid media shaped by hands-on work with Google Ads specialists. He has built ventures of his own, Bellacana and The Moon Stadium among them, and brings that operator instinct to every client account.',
+    epithet: 'The Dream',
+    bio: 'Aakash saw the name STENTH before there was a company to carry it. He works the same way: vision first, then paid media and analytics that make the vision pay for itself. He has built ventures of his own, so he treats your budget the way he treats his: spend has to answer.',
+  },
+  {
+    name: 'Ansh Rai',
+    role: 'Co-Founder · Systems & AI',
+    epithet: 'The Engine',
+    bio: 'The consultancy hit Ansh mid-run in Australia, and he built it the way an engineer would: AI, tracking, and attribution under every campaign, so nothing runs on faith. Ask him how your marketing is going and you will not get an opinion. You will get a number.',
   },
 ];
 
@@ -164,12 +168,22 @@ export default function About() {
               className="group relative rounded-[2rem] border border-white/10 bg-white/[0.02] backdrop-blur-sm p-8 md:p-10 overflow-hidden transition-all duration-500 hover:border-white/25 hover:bg-white/[0.04]"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-brand-accent/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              {/* Ghost epithet echo */}
+              <span
+                aria-hidden
+                className="pointer-events-none select-none absolute -bottom-6 -right-2 font-display text-[7rem] leading-none uppercase tracking-tighter text-white/[0.03]"
+              >
+                {f.epithet.split(' ')[1]}
+              </span>
               <div className="relative">
-                <div className="flex items-baseline justify-between mb-5">
-                  <h3 className="font-display text-3xl md:text-4xl uppercase tracking-tighter">
+                <p className="font-display text-4xl md:text-5xl uppercase tracking-tighter leading-none mb-6">
+                  {f.epithet}<span className="text-brand-accent">.</span>
+                </p>
+                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 justify-between mb-5">
+                  <h3 className="font-display text-2xl md:text-3xl uppercase tracking-tighter text-brand-light/90">
                     {f.name}
                   </h3>
-                  <span className="font-mono text-xs uppercase tracking-[0.3em] text-brand-accent">
+                  <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-brand-accent">
                     {f.role}
                   </span>
                 </div>
