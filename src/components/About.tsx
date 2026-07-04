@@ -103,14 +103,19 @@ export default function About() {
               something of our own.
             </p>
             <p>
-              In 2022, that belief finally took shape. Ansh had the idea: a growth
-              consultancy, senior-led and data-first, built around revenue instead of
-              vanity metrics. It was missing only one thing, a name worthy of it. Then
-              one night, Aakash had a dream so vivid he woke up knowing exactly what it
-              was called. The very next morning, he drove to Ansh's house and, with fire
-              in his eyes, said,{' '}
+              In 2022, the name arrived first. One night, Aakash had a dream so vivid he
+              woke up knowing exactly what our future was called. The very next morning,
+              he drove to Ansh's house and, with fire in his eyes, said,{' '}
               <span className="italic text-brand-light/90">"I saw our future. It's called STENTH."</span>{' '}
-              Ansh's idea, Aakash's vision. From that moment on, it was real.
+              The vision behind that name was bigger than anything we could build in a
+              day, and we knew we would grow into it.
+            </p>
+            <p>
+              The beginning came later, on the other side of the world. Ansh had moved
+              to Australia, and one day, mid-run, it clicked: start with what we do
+              best. Build a growth consultancy, senior-led and data-first, and let it
+              carry us toward the bigger vision. <span className="text-brand-accent font-semibold">STENTH</span>{' '}
+              finally had its first chapter.
             </p>
             <p>
               What began with two childhood friends and a dream has grown into a focused,
