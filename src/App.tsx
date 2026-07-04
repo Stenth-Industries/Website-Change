@@ -26,6 +26,7 @@ const GlobalMap = lazy(() => import('./components/GlobalMap'));
 const LawFirmsPage = lazy(() => import('./components/LawFirmsPage'));
 const ScanPage = lazy(() => import('./components/ScanPage'));
 const RoiPage = lazy(() => import('./components/RoiPage'));
+const ChecklistPage = lazy(() => import('./components/ChecklistPage'));
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -63,6 +64,15 @@ export default function App() {
       <MotionConfig reducedMotion="user">
         <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
           <RoiPage />
+        </Suspense>
+      </MotionConfig>
+    );
+  }
+  if (path === '/funnel-check') {
+    return (
+      <MotionConfig reducedMotion="user">
+        <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+          <ChecklistPage />
         </Suspense>
       </MotionConfig>
     );

@@ -50,14 +50,22 @@ export default function ContactForm() {
 
             <div className="p-8 rounded-3xl bg-brand-light/5 border border-brand-light/5">
               <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-muted mb-4">Not ready to chat?</p>
-              <h3 className="text-2xl mb-6">Download our 2026 B2B Funnel Checklist</h3>
-              <a
-                href="/stenth-funnel-checklist.pdf"
-                download
-                className="flex items-center gap-2 text-brand-accent font-bold uppercase tracking-widest text-xs hover:gap-4 transition-all"
-              >
-                Download Free PDF <ArrowRight size={16} />
-              </a>
+              <h3 className="text-2xl mb-6">Take the 2026 B2B Funnel Checklist, live</h3>
+              <div className="flex flex-col gap-3">
+                <a
+                  href="/funnel-check"
+                  className="flex items-center gap-2 text-brand-accent font-bold uppercase tracking-widest text-xs hover:gap-4 transition-all"
+                >
+                  Score Your Funnel in 3 Minutes <ArrowRight size={16} />
+                </a>
+                <a
+                  href="/stenth-funnel-checklist.pdf"
+                  download
+                  className="flex items-center gap-2 text-brand-light/50 font-bold uppercase tracking-widest text-xs hover:text-brand-light hover:gap-4 transition-all"
+                >
+                  Or download the PDF <ArrowRight size={14} />
+                </a>
+              </div>
             </div>
           </div>
 

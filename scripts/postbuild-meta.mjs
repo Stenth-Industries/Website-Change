@@ -21,6 +21,11 @@ const ROUTES = [
     desc: 'What is one enquiry actually worth to your firm? Three numbers you already know, one answer most firms have never calculated.',
   },
   {
+    route: 'funnel-check',
+    title: 'The B2B Funnel Checklist 2026, Live — Stenth',
+    desc: 'Thirty checks that separate funnels that leak revenue from funnels that compound. Take it live, get your score and your three biggest gaps, download your results.',
+  },
+  {
     route: 'law-firms',
     title: 'Digital Marketing for Melbourne Law Firms — Stenth',
     desc: 'Local SEO, Google Ads, and websites that convert enquiries, built for Melbourne law firms. Free audit with findings you keep, no lock-in contracts.',
