@@ -40,13 +40,13 @@ const founders = [
     name: 'Aakash Lakhataria',
     role: 'Co-Founder · Growth & Media',
     epithet: 'The Dream',
-    bio: 'Aakash saw the name STENTH before there was a company to carry it. He works the same way: vision first, then paid media and analytics that make the vision pay for itself. He has built ventures of his own, so he treats your budget the way he treats his: spend has to answer.',
+    bio: 'Aakash woke up one morning knowing what our future was called. That is just how he is. He sees things before they exist, and then he cannot rest until they do. He has started ventures of his own, some that worked and some that taught him plenty, and every one of those lessons shows up in how he treats what you have built. When he puts a dollar somewhere, he expects it to come back bigger.',
   },
   {
     name: 'Ansh Rai',
     role: 'Co-Founder · Systems & AI',
     epithet: 'The Engine',
-    bio: 'The consultancy hit Ansh mid-run in Australia, and he built it the way an engineer would: AI, tracking, and attribution under every campaign, so nothing runs on faith. Ask him how your marketing is going and you will not get an opinion. You will get a number.',
+    bio: 'Ansh thinks in systems. Always has. The idea for Stenth hit him mid-run in Australia, and by the time he got home it already had a blueprint. He is the reason nothing here runs on gut feeling: he builds the machinery that shows what is working, what is not, and exactly what it costs. Ask him how things are going and he will not tell you. He will show you.',
   },
 ];
 
