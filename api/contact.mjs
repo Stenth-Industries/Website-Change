@@ -1,10 +1,14 @@
 /* Same-origin lead relay. Browsers post here (immune to ad-block DNS) and
-   this function delivers the lead to info@stenth.com.
+   this function delivers the lead to the Stenth inbox.
 
-   Primary: Resend API when RESEND_API_KEY is set in the environment.
-   Fallback: FormSubmit (works only from real browsers; Cloudflare 403s
-   datacenter traffic, so this path exists for completeness, not reliance). */
-const TO = 'info@stenth.com';
+   Delivery order, first configured wins:
+   1. Gmail/Workspace SMTP via nodemailer (EMAIL_USER + EMAIL_PASS app
+      password), same structure the previous stenth.com used.
+   2. Resend API (RESEND_API_KEY).
+   3. FormSubmit (keyless fallback; Cloudflare 403s most server traffic). */
+import nodemailer from 'nodemailer';
+
+const TO = process.env.EMAIL_TO || 'info@stenth.com';
 
 const asLines = (body) =>
   Object.entries(body)
@@ -22,31 +26,54 @@ export default async function handler(req, res) {
     return res.status(413).json({ error: 'Payload too large' });
   }
 
-  const key = process.env.RESEND_API_KEY;
-  if (key) {
+  const subject = String(body._subject || 'New website lead');
+  const replyTo = typeof body.email === 'string' && body.email.includes('@') ? body.email : undefined;
+
+  // 1. SMTP (Gmail app password), the old site's structure
+  if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
     try {
-      const replyTo = typeof body.email === 'string' && body.email.includes('@') ? body.email : undefined;
+      const transporter = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+        port: Number(process.env.EMAIL_PORT || 587),
+        secure: Number(process.env.EMAIL_PORT || 587) === 465,
+        auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+      });
+      await transporter.sendMail({
+        from: `"Stenth Website" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
+        to: TO,
+        subject,
+        text: asLines(body),
+        ...(replyTo ? { replyTo } : {}),
+      });
+      return res.status(200).json({ success: 'true' });
+    } catch (err) {
+      console.error('smtp error:', err?.message);
+      // fall through to the next provider
+    }
+  }
+
+  // 2. Resend
+  if (process.env.RESEND_API_KEY) {
+    try {
       const r = await fetch('https://api.resend.com/emails', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+        headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           from: 'Stenth Website <onboarding@resend.dev>',
           to: [TO],
-          subject: String(body._subject || 'New website lead'),
+          subject,
           text: asLines(body),
           ...(replyTo ? { reply_to: [replyTo] } : {}),
         }),
       });
       if (r.ok) return res.status(200).json({ success: 'true' });
       console.error('resend rejected:', r.status, (await r.text()).slice(0, 300));
-      return res.status(502).json({ error: 'Send failed' });
     } catch (err) {
       console.error('resend error:', err?.message);
-      return res.status(502).json({ error: 'Send failed' });
     }
   }
 
-  // No Resend key configured: attempt FormSubmit (usually 403s from servers).
+  // 3. FormSubmit (rarely succeeds from datacenters, kept as last resort)
   try {
     const r = await fetch(`https://formsubmit.co/ajax/${TO}`, {
       method: 'POST',
@@ -57,6 +84,6 @@ export default async function handler(req, res) {
     const ok = r.ok && String(data.success) !== 'false';
     return res.status(ok ? 200 : 502).json(data);
   } catch {
-    return res.status(502).json({ error: 'Relay failed' });
+    return res.status(502).json({ error: 'All delivery paths failed' });
   }
 }
