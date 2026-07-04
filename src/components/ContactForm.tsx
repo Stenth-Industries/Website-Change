@@ -2,33 +2,24 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { CAL_BOOKING_URL } from '../constants';
+import { submitLead } from '../leads';
 
 export default function ContactForm() {
   const [phase, setPhase] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
-  /* Submissions deliver to info@stenth.com via FormSubmit's AJAX endpoint.
-     The first-ever submission triggers a one-time activation email to that
-     inbox; until it is confirmed, messages are held, not lost. */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     setPhase('sending');
     try {
-      const res = await fetch('https://formsubmit.co/ajax/info@stenth.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          _subject: `Growth audit request: ${data.get('name')}`,
-          _template: 'table',
-          _captcha: 'false',
-          name: data.get('name'),
-          email: data.get('email'),
-          website: data.get('website'),
-          goal: data.get('goal'),
-          message: data.get('message'),
-        }),
+      await submitLead({
+        _subject: `Growth audit request: ${data.get('name')}`,
+        name: data.get('name'),
+        email: data.get('email'),
+        website: data.get('website'),
+        goal: data.get('goal'),
+        message: data.get('message'),
       });
-      if (!res.ok) throw new Error(`Submit failed (${res.status})`);
       setPhase('sent');
     } catch {
       setPhase('error');

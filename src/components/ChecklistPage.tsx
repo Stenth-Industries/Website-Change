@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { ArrowRight, Check, X, Download, Mail, ListChecks } from 'lucide-react';
 import { CAL_BOOKING_URL } from '../constants';
 import { SECTIONS, TOTAL, bandFor, gapsFor } from '../checklist';
+import { submitLead } from '../leads';
 
 type Answer = 'yes' | 'no';
 
@@ -38,23 +39,16 @@ export default function ChecklistPage() {
     const email = new FormData(e.currentTarget).get('email');
     setEmailState('sending');
     try {
-      const res = await fetch('https://formsubmit.co/ajax/info@stenth.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          _subject: `Funnel checklist result: ${score}/30 (${band.label})`,
-          _template: 'table',
-          _captcha: 'false',
-          email,
-          score: `${score}/30 · ${band.label}`,
-          biggest_gaps: gaps.map((g) => g.text).join(' | ') || 'none',
-          not_ticked: SECTIONS.flatMap((s) => s.items)
-            .filter((i) => !checked.has(i.id))
-            .map((i) => i.id)
-            .join(', ') || 'none',
-        }),
+      await submitLead({
+        _subject: `Funnel checklist result: ${score}/30 (${band.label})`,
+        email,
+        score: `${score}/30 · ${band.label}`,
+        biggest_gaps: gaps.map((g) => g.text).join(' | ') || 'none',
+        not_ticked: SECTIONS.flatMap((s) => s.items)
+          .filter((i) => !checked.has(i.id))
+          .map((i) => i.id)
+          .join(', ') || 'none',
       });
-      if (!res.ok) throw new Error();
       setEmailState('sent');
     } catch {
       setEmailState('error');

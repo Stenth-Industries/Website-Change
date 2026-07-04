@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Search, CheckCircle2, AlertTriangle, XCircle, RefreshCw, Swords, Mail } from 'lucide-react';
 import { CAL_BOOKING_URL } from '../constants';
+import { submitLead } from '../leads';
 
 /* Optional PageSpeed Insights API key (free, 25k queries/day). Without it the
    scan uses Google's shared anonymous quota, which throttles quickly. Safe to
@@ -186,21 +187,14 @@ const EmailReportCard = ({ result, vsResult }: { result: ScanResult; vsResult: S
     if (!email) return;
     setState('sending');
     try {
-      const res = await fetch('https://formsubmit.co/ajax/info@stenth.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          _subject: `Full scan report request: ${domainOf(result.url)}`,
-          _template: 'table',
-          _captcha: 'false',
-          email,
-          scanned_site: result.url,
-          scores: result.scores.map((s) => `${s.label} ${s.value}`).join(', '),
-          top_findings: result.findings.slice(0, 4).map((f) => `[${f.verdict}] ${f.text}`).join(' | '),
-          competitor: vsResult ? `${vsResult.url} (${vsResult.scores.map((s) => `${s.label} ${s.value}`).join(', ')})` : 'none',
-        }),
+      await submitLead({
+        _subject: `Full scan report request: ${domainOf(result.url)}`,
+        email,
+        scanned_site: result.url,
+        scores: result.scores.map((s) => `${s.label} ${s.value}`).join(', '),
+        top_findings: result.findings.slice(0, 4).map((f) => `[${f.verdict}] ${f.text}`).join(' | '),
+        competitor: vsResult ? `${vsResult.url} (${vsResult.scores.map((s) => `${s.label} ${s.value}`).join(', ')})` : 'none',
       });
-      if (!res.ok) throw new Error();
       setState('sent');
     } catch {
       setState('error');
