@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { MapPin, Star, Phone, Search, TrendingUp, Globe, BarChart3, ArrowRight, Check, X } from 'lucide-react';
 import { CAL_BOOKING_URL } from '../constants';
+import { PRACTICES, Practice } from '../practices';
 
 const reveal = {
   initial: { opacity: 0, y: 28 },
@@ -27,7 +28,7 @@ function getFirmName(): string | null {
 }
 
 /* ── Google results mockup: the signature visual ─────────────────────────── */
-const SearchMockup = ({ firm }: { firm: string | null }) => (
+const SearchMockup = ({ firm, query }: { firm: string | null; query: string }) => (
   <motion.div
     initial={{ opacity: 0, y: 40, rotate: -1 }}
     whileInView={{ opacity: 1, y: 0, rotate: 0 }}
@@ -38,7 +39,7 @@ const SearchMockup = ({ firm }: { firm: string | null }) => (
     {/* Search bar */}
     <div className="flex items-center gap-3 px-6 py-4 border-b border-white/[0.07] bg-white/[0.03]">
       <Search size={16} className="text-white/40" />
-      <span className="font-sans text-sm text-white/80">family lawyer melbourne</span>
+      <span className="font-sans text-sm text-white/80">{query}</span>
     </div>
 
     <div className="p-6 space-y-3">
@@ -83,17 +84,21 @@ const SearchMockup = ({ firm }: { firm: string | null }) => (
 );
 
 /* ── Page ─────────────────────────────────────────────────────────────────── */
-export default function LawFirmsPage() {
+export default function LawFirmsPage({ practice }: { practice?: Practice | null }) {
   const firm = getFirmName();
 
   useEffect(() => {
     document.title = firm
       ? `${firm} — Growth Audit by Stenth`
-      : 'Digital Marketing for Melbourne Law Firms — Stenth';
+      : practice?.title ?? 'Digital Marketing for Melbourne Law Firms — Stenth';
     window.scrollTo(0, 0);
-  }, [firm]);
+  }, [firm, practice]);
 
-  const pains = [
+  const audienceLabel = practice ? `Melbourne ${practice.name} Firms` : 'Melbourne Law Firms';
+  const searchQuery = practice?.searchQuery ?? 'family lawyer melbourne';
+  const clientNoun = practice?.clientNoun ?? 'a lawyer';
+
+  const pains = practice?.pains ?? [
     'New matters depend on referrals, and referrals are unpredictable.',
     "You're invisible in the map pack for the searches that matter.",
     'Directories and comparison sites outrank your own website.',
@@ -217,14 +222,14 @@ export default function LawFirmsPage() {
                 transition={{ duration: 0.8 }}
                 className="font-mono text-xs uppercase tracking-[0.4em] text-brand-accent mb-6"
               >
-                {firm ? `Prepared for ${firm}` : 'For Melbourne Law Firms'}
+                {firm ? `Prepared for ${firm}` : `For ${audienceLabel}`}
               </motion.p>
               <h1 className="font-display text-5xl md:text-7xl uppercase tracking-tighter leading-[0.95] mb-8">
                 Your next client is searching{' '}
                 <span className="text-brand-accent">right now.</span>
               </h1>
               <p className="text-lg md:text-xl text-brand-light/70 leading-relaxed max-w-xl mb-10">
-                When someone in Melbourne needs a lawyer, they search, compare the top
+                When someone in Melbourne needs {clientNoun}, they search, compare the top
                 results, and call one or two firms. The firms they find first win the
                 matter.{' '}
                 {firm
@@ -244,7 +249,7 @@ export default function LawFirmsPage() {
               </div>
             </div>
             <div className="lg:col-span-6">
-              <SearchMockup firm={firm} />
+              <SearchMockup firm={firm} query={searchQuery} />
             </div>
           </div>
         </section>
@@ -520,6 +525,34 @@ export default function LawFirmsPage() {
                 </ul>
               </div>
             </motion.div>
+          </div>
+        </section>
+
+        {/* ── Practice-area cross-links ────────────────────────────────── */}
+        <section className="px-6 md:px-12 py-14 border-t border-white/[0.06]">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center gap-6">
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-brand-light/40 flex-shrink-0">
+              Built for your practice:
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {practice && (
+                <a
+                  href="/law-firms"
+                  className="text-xs uppercase tracking-[0.2em] font-bold text-brand-light/60 border border-white/15 px-4 py-2 rounded-full hover:border-brand-accent/50 hover:text-brand-accent transition-all duration-300"
+                >
+                  All Law Firms
+                </a>
+              )}
+              {PRACTICES.filter((p) => p.slug !== practice?.slug).map((p) => (
+                <a
+                  key={p.slug}
+                  href={`/law-firms/${p.slug}`}
+                  className="text-xs uppercase tracking-[0.2em] font-bold text-brand-light/60 border border-white/15 px-4 py-2 rounded-full hover:border-brand-accent/50 hover:text-brand-accent transition-all duration-300"
+                >
+                  {p.name}
+                </a>
+              ))}
+            </div>
           </div>
         </section>
       </main>

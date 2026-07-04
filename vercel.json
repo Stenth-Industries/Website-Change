@@ -1,7 +1,11 @@
 {
   "rewrites": [
-    { "source": "/law-firms", "destination": "/index.html" },
-    { "source": "/scan", "destination": "/index.html" },
-    { "source": "/roi", "destination": "/index.html" }
+    { "source": "/law-firms", "destination": "/law-firms.html" },
+    { "source": "/law-firms/family-law", "destination": "/law-firms/family-law.html" },
+    { "source": "/law-firms/immigration-law", "destination": "/law-firms/immigration-law.html" },
+    { "source": "/law-firms/personal-injury", "destination": "/law-firms/personal-injury.html" },
+    { "source": "/law-firms/conveyancing", "destination": "/law-firms/conveyancing.html" },
+    { "source": "/scan", "destination": "/scan.html" },
+    { "source": "/roi", "destination": "/roi.html" }
   ]
 }

@@ -18,6 +18,7 @@ import ShowcaseVideo from './components/ShowcaseVideo';
 import ExpertiseSection from './components/ExpertiseSection';
 import { motion, useScroll, useSpring, MotionConfig } from 'motion/react';
 import ScanCTA from './components/ScanCTA';
+import { getPractice } from './practices';
 
 /* Code-split the heavy leaves: the D3 world map and the standalone pages
    load their own chunks instead of shipping in the main bundle. */
@@ -35,13 +36,15 @@ export default function App() {
   });
 
   // Lightweight routing for standalone pages. Static hosts need a rewrite
-  // of these paths -> /index.html in production.
+  // of these paths -> /index.html in production (vercel.json).
   const path = window.location.pathname.replace(/\/$/, '');
-  if (path === '/law-firms') {
+  if (path === '/law-firms' || path.startsWith('/law-firms/')) {
+    // Unknown practice slugs fall back to the generic law-firms page.
+    const practice = getPractice(path.slice('/law-firms/'.length));
     return (
       <MotionConfig reducedMotion="user">
         <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
-          <LawFirmsPage />
+          <LawFirmsPage practice={practice} />
         </Suspense>
       </MotionConfig>
     );

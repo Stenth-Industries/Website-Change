@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/Logo.png" />
+  <title>Page Not Found — Stenth</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: #01080F;
+      color: #F2F8FC;
+      font-family: 'Inter', system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+    }
+    .code {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(96px, 22vw, 220px);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: #6F9CEB;
+      opacity: 0.9;
+    }
+    h1 {
+      font-family: 'Anton', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      font-size: clamp(24px, 5vw, 44px);
+      margin: 16px 0 12px;
+    }
+    p { color: rgba(242, 248, 252, 0.6); max-width: 440px; line-height: 1.6; font-size: 15px; }
+    .actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 32px; }
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .btn-primary { background: #6F9CEB; color: #01080F; }
+    .btn-primary:hover { box-shadow: 0 0 40px rgba(111, 156, 235, 0.5); }
+    .btn-ghost { color: #6F9CEB; border: 1px solid rgba(111, 156, 235, 0.3); }
+    .btn-ghost:hover { background: #6F9CEB; color: #01080F; }
+    .brand { position: fixed; top: 24px; left: 24px; display: flex; align-items: center; gap: 12px; text-decoration: none; color: #F2F8FC; }
+    .brand img { width: 32px; height: 32px; object-fit: contain; }
+    .brand span { font-family: 'Anton', sans-serif; font-size: 20px; letter-spacing: -0.02em; }
+  </style>
+</head>
+<body>
+  <a class="brand" href="/"><img src="/Logo.png" alt="" /><span>STENTH</span></a>
+  <div class="code">404</div>
+  <h1>This page is invisible.</h1>
+  <p>Which is exactly the problem we fix for websites. The page you're after has moved or never existed, but the good stuff is one click away.</p>
+  <div class="actions">
+    <a class="btn btn-primary" href="/">Back to Stenth</a>
+    <a class="btn btn-ghost" href="/scan">Run the Free Scan</a>
+  </div>
+</body>
+</html>
