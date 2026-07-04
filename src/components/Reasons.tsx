@@ -25,7 +25,7 @@ const reasons = [
   {
     line1: 'Revenue Is The',
     line2: 'Metric That Matters.',
-    desc: 'Impressions don\'t pay wages. We track enquiries, conversions, and revenue — the numbers that actually move your business forward.',
+    desc: 'Impressions don\'t pay wages. We track enquiries, conversions, and revenue: the numbers that actually move your business forward.',
     stat: '100',
     suffix: '%',
     statLabel: 'Focused on real results',
@@ -43,7 +43,7 @@ const reasons = [
   {
     line1: 'We Move Fast,',
     line2: 'From Day One.',
-    desc: 'We don\'t take six months to warm up. We audit, build, and launch quickly — because every delayed week is revenue your business doesn\'t get back.',
+    desc: 'We don\'t take six months to warm up. We audit, build, and launch quickly, because every delayed week is revenue your business doesn\'t get back.',
     stat: '14',
     suffix: '',
     statLabel: 'Day strategy roadmap',
@@ -66,7 +66,7 @@ function useCountUp(target: number, decimals: number, active: boolean) {
   useEffect(() => {
     if (!active) return;
     let start = 0;
-    const duration = 1400;
+    const duration = 600;
     const interval = 16;
     const steps = duration / interval;
     const increment = target / steps;
@@ -86,7 +86,7 @@ function useCountUp(target: number, decimals: number, active: boolean) {
 
 const FeatureRow = ({ item, index }: { key?: React.Key; item: (typeof reasons)[0]; index: number }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const isInView = useInView(ref, { once: true, margin: '0px' });
   const isEven = index % 2 === 0;
 
   // Count-up
@@ -165,13 +165,10 @@ const FeatureRow = ({ item, index }: { key?: React.Key; item: (typeof reasons)[0
           initial={{ opacity: 0, x: isEven ? 40 : -40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className={`w-full md:w-1/3 flex flex-col gap-6 ${isEven
-            ? 'md:pl-12 md:items-end md:text-right'
-            : 'md:pr-12 md:items-start md:text-left'
-            }`}
+          className={`w-full md:w-1/3 flex flex-col gap-6 items-start text-left ${isEven ? 'md:pl-12' : 'md:pr-12'}`}
         >
           <p className="text-brand-light/80 text-base md:text-lg leading-relaxed max-w-sm">{item.desc}</p>
-          <div className={`flex flex-col gap-0.5 ${isEven ? 'items-end' : 'items-start'}`}>
+          <div className="flex flex-col gap-0.5 items-start">
             <motion.span
               className="font-display text-4xl text-brand-accent"
             >
@@ -215,8 +212,8 @@ export default function Reasons() {
               Reasons Clients<br />
               <span className="text-gradient">Rely On Us.</span>
             </h2>
-            <p className="text-brand-light/80 text-base md:text-lg leading-relaxed max-w-sm md:text-right md:pb-2 hidden md:block">
-              Six principles that define how we work — and why the right brands choose to partner with Stenth.
+            <p className="text-brand-light/80 text-base md:text-lg leading-relaxed max-w-sm md:pb-2 hidden md:block">
+              Six principles that define how we work, and why the right brands choose to partner with Stenth.
             </p>
           </motion.div>
         </div>

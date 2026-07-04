@@ -5,19 +5,21 @@ import { BrandIcons } from './BrandIcons';
 import { Search, Palette, Rocket, Activity } from 'lucide-react';
 
 // ─── Process nodes ───────────────────────────────────────────────────────
+/* One accent, everywhere: the platform logos are the only color in this
+   scene, so the system reads as a single brand rather than a rainbow. */
 const processNodes = [
     { label: 'Strategy', color: '#6F9CEB', angle: 0 },
-    { label: 'Creative', color: '#a78bfa', angle: 90 },
-    { label: 'Launch', color: '#34d399', angle: 180 },
-    { label: 'Optimise', color: '#fbbf24', angle: 270 },
+    { label: 'Creative', color: '#6F9CEB', angle: 90 },
+    { label: 'Launch', color: '#6F9CEB', angle: 180 },
+    { label: 'Optimise', color: '#6F9CEB', angle: 270 },
 ];
 
 // ─── Floating activity cards that cycle ───────────────────────────────────────
 const activityCards = [
     { title: 'Strategy Mapped', metric: '01', sub: 'audit complete', color: '#6F9CEB' },
-    { title: 'Campaign Built', metric: '02', sub: 'ready to launch', color: '#34d399' },
-    { title: 'Live & Tracked', metric: '03', sub: 'enquiries flowing', color: '#fbbf24' },
-    { title: 'Optimised Weekly', metric: '04', sub: 'every metric reviewed', color: '#a78bfa' },
+    { title: 'Campaign Built', metric: '02', sub: 'ready to launch', color: '#6F9CEB' },
+    { title: 'Live & Tracked', metric: '03', sub: 'enquiries flowing', color: '#6F9CEB' },
+    { title: 'Optimised Weekly', metric: '04', sub: 'every metric reviewed', color: '#6F9CEB' },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -54,7 +56,7 @@ export default function HowItWorks() {
                         <span className="text-brand-accent">centre of it all.</span>
                     </h2>
                     <p className="text-brand-light/80 max-w-xl mx-auto text-lg leading-relaxed font-sans normal-case tracking-normal">
-                        One growth partner. Every channel connected. Your entire marketing ecosystem — orchestrated, measured, and optimised in one place.
+                        One growth partner. Every channel connected. Your entire marketing ecosystem orchestrated, measured, and optimised in one place.
                     </p>
                 </motion.div>
 
@@ -168,7 +170,7 @@ export default function HowItWorks() {
                         <div>
                             <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-accent mb-4">One hub. Every channel.</p>
                             <p className="text-2xl md:text-3xl font-medium leading-tight mb-6">
-                                Stenth plugs into your full marketing stack and acts as the <span className="text-brand-accent">strategic brain</span> — connecting signals across every platform into one unified growth system.
+                                Stenth plugs into your full marketing stack and acts as the <span className="text-brand-accent">strategic brain</span>, connecting signals across every platform into one unified growth system.
                             </p>
                             <p className="text-brand-light/80 leading-relaxed">
                                 Strategy shaped by data. Creative built to convert. Campaigns launched fast. Every result tracked and fed back into the next cycle.
@@ -203,7 +205,7 @@ export default function HowItWorks() {
                                             {[
                                                 'Deep audit of your current stack, competitors, and untapped market opportunities.',
                                                 'Campaigns crafted around your brand voice, product, and conversion goals.',
-                                                'Full-funnel rollout across all channels — from day one with real data.',
+                                                'Full-funnel rollout across all channels, live from day one with real data.',
                                                 'Continuous iteration tracking every metric that matters to your bottom line.',
                                             ][i]}
                                         </p>

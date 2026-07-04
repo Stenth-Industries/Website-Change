@@ -6,13 +6,13 @@ import { CAL_BOOKING_URL } from '../constants';
 const services = [
     {
         id: '01', title: 'Paid Media & Google Ads',
-        description: 'We manage paid campaigns built around how your customers actually search — high-intent, precisely targeted, and tied to real buying signals. Every budget decision is grounded in conversion data, not vanity metrics, so your spend works exactly as hard as it should.',
+        description: 'We manage paid campaigns built around how your customers actually search: high-intent, precisely targeted, and tied to real buying signals. Every budget decision is grounded in conversion data, not vanity metrics, so your spend works exactly as hard as it should.',
         icon: Zap, tags: ['Google Search Ads', 'Paid Social', 'Conversion Tracking'],
         stats: [{ val: 'High', label: 'Intent Keywords Only', suffix: '' }, { val: 'Zero', label: 'Focus on Wasted Spend', suffix: '' }]
     },
     {
         id: '02', title: 'SEO & Organic Growth',
-        description: 'Organic search is the highest-value growth channel for most businesses — the customers who find you on Google already need what you do. We build the technical foundation, earn the authority, and create the content that wins rankings and holds them in competitive markets.',
+        description: 'Organic search is the highest-value growth channel for most businesses, because the customers who find you on Google already need what you do. We build the technical foundation, earn the authority, and create the content that wins rankings and holds them in competitive markets.',
         icon: Search, tags: ['Technical SEO', 'Local & Map Pack', 'Content Strategy'],
         stats: [{ val: 'Local', label: '& Map Pack Focus', suffix: '' }, { val: 'Tech', label: 'Content & Authority', suffix: '' }]
     },
@@ -24,19 +24,19 @@ const services = [
     },
     {
         id: '04', title: 'Content & Authority',
-        description: 'Customers decide who to trust long before they reach out. Strategic content positions you as the authoritative voice in your market — answering the questions prospects are already asking and building the trust that converts.',
+        description: 'Customers decide who to trust long before they reach out. Strategic content positions you as the authoritative voice in your market, answering the questions prospects are already asking and building the trust that converts.',
         icon: Cpu, tags: ['Thought Leadership', 'SEO Articles', 'Guides & FAQs'],
         stats: [{ val: 'Authority', label: 'Building Content', suffix: '' }, { val: 'SEO', label: 'Driven Articles', suffix: '' }]
     },
     {
         id: '05', title: 'Analytics & Tracking',
-        description: 'Growth decisions are only as good as the data behind them. We implement rigorous tracking and attribution across every channel, giving you a clear picture of which leads come from where — and where to invest next.',
+        description: 'Growth decisions are only as good as the data behind them. We implement rigorous tracking and attribution across every channel, giving you a clear picture of which leads come from where and where to invest next.',
         icon: BarChart3, tags: ['GA4 & GTM Setup', 'Attribution', 'Custom Dashboards'],
         stats: [{ val: 'GA4', label: '& Full-Stack Tracking', suffix: '' }, { val: 'Clear', label: 'Lead Attribution', suffix: '' }]
     },
     {
         id: '06', title: 'Brand & Identity',
-        description: 'The strongest brands do not just look credible — they create an immediate sense of trust that justifies premium pricing. We craft visual identities from the ground up, built to position you as the definitive choice in your market.',
+        description: 'The strongest brands do not just look credible. They create an immediate sense of trust that justifies premium pricing. We craft visual identities from the ground up, built to position you as the definitive choice in your market.',
         icon: Layers, tags: ['Brand Identity', 'Visual Language', 'Logo & Guidelines'],
         stats: [{ val: '100%', label: 'Bespoke, No Templates', suffix: '' }, { val: 'Full', label: 'Identity System', suffix: '' }]
     }
@@ -79,18 +79,14 @@ const NavDot = ({ isActive, scrollYProgress, index, total, label }: { key?: Reac
     );
 };
 
+/* Fast reveal: the card must never read as empty, so the title lands in
+   under half a second and text never waits on staggered delays. */
 const EditorialReveal = ({ text, active, delay = 0 }: { text: string; active: boolean; delay?: number }) => (
     <span className="inline-block overflow-hidden relative leading-normal">
         <motion.span
-            initial={{ y: "110%", filter: "brightness(1) blur(0px)" }}
-            animate={{
-                y: active ? "0%" : "110%",
-                filter: active ? ["brightness(1) blur(0px)", "brightness(2) blur(4px)", "brightness(1) blur(0px)"] : "brightness(1) blur(0px)"
-            }}
-            transition={{
-                y: { duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: active ? 0.3 + delay : 0 },
-                filter: { duration: 0.8, times: [0, 0.5, 1], ease: "easeOut", delay: active ? 0.3 + delay : 0 }
-            }}
+            initial={{ y: "110%" }}
+            animate={{ y: active ? "0%" : "110%" }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: active ? delay : 0 }}
             className="inline-block"
         >
             {text}
@@ -200,14 +196,14 @@ const ServiceCard = ({ service, index, total, scrollYProgress, scrollVelocity }:
                             </div>
                         </div>
 
-                        {/* Description with bloom potential */}
-                        <p className="text-gray-400 text-lg md:text-xl font-sans font-light max-w-2xl leading-relaxed mb-12">
-                            {service.description.split(' ').map((word, i) => (
-                                <span key={i} className="inline-block mr-[0.3em]">
-                                    <EditorialReveal text={word} active={active} delay={i * 0.02} />
-                                </span>
-                            ))}
-                        </p>
+                        {/* Description: single-block fade, no per-word stagger */}
+                        <motion.p
+                            animate={{ opacity: active ? 1 : 0.25, y: active ? 0 : 6 }}
+                            transition={{ duration: 0.35, delay: active ? 0.1 : 0 }}
+                            className="text-gray-400 text-lg md:text-xl font-sans font-light max-w-2xl leading-relaxed mb-12"
+                        >
+                            {service.description}
+                        </motion.p>
                     </div>
 
                     {/* Footer stats section */}

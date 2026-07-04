@@ -6,14 +6,14 @@ const testimonials = [
     name: 'Ansh Rai',
     role: 'Co-Founder',
     company: 'Stenth',
-    quote: "You'll work directly with the founders on your account — never a junior learning on your budget. The people who win your business are the people who run it, start to finish.",
+    quote: "You'll work directly with the founders on your account, never a junior learning on your budget. The people who win your business are the people who run it, start to finish.",
     result: 'Senior-Led'
   },
   {
     name: 'Aakash Lakhataria',
     role: 'Co-Founder',
     company: 'Stenth',
-    quote: "We earn your business every month — no long lock-in contracts and no vanity reports. Just clear work tied to real results, and a straight answer if we're not the right fit for you.",
+    quote: "We earn your business every month. No long lock-in contracts and no vanity reports. Just clear work tied to real results, and a straight answer if we're not the right fit for you.",
     result: 'No Lock-In'
   }
 ];

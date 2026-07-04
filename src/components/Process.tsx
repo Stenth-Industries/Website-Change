@@ -1,79 +1,24 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Plus } from 'lucide-react';
 
-const stages = [
-  { id: '01', name: 'Audit', pos: 'top' },
-  { id: '02', name: 'Strategy', pos: 'right' },
-  { id: '03', name: 'Creative', pos: 'bottom' },
-  { id: '04', name: 'Launch', pos: 'left' },
-  { id: '05', name: 'Optimisation', pos: 'center-left' },
-  { id: '06', name: 'Analytics', pos: 'center-right' },
-];
-
+/* The orbital hub in HowItWorks already visualises the working system, so
+   this section keeps a single job: the four-step engagement narrative. */
 const steps = [
   { id: '01', title: 'Request', desc: 'After your enquiry, you meet directly with our strategy team to map out your goals and the customers you want more of.' },
   { id: '02', title: 'Deep Brief', desc: 'We unpack your offers, ideal customers, and market to build a strategy tailored to your business.' },
-  { id: '03', title: 'Quick Launch', desc: 'In 7-14 days, we roll out a focused setup — landing page, tracking, and a first campaign — that starts collecting real enquiry data.' },
-  { id: '04', title: 'Scaling', desc: 'We analyse, optimise, and scale what works — every next step backed by real enquiry and conversion data, not intuition.' },
+  { id: '03', title: 'Quick Launch', desc: 'In 7 to 14 days, we roll out a focused setup: landing page, tracking, and a first campaign that starts collecting real enquiry data.' },
+  { id: '04', title: 'Scaling', desc: 'We analyse, optimise, and scale what works. Every next step is backed by real enquiry and conversion data, not intuition.' },
 ];
 
 export default function Process() {
   return (
     <section id="process" className="py-24 px-6 md:px-12 bg-brand-dark overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-32">
+        <div className="text-center mb-24">
           <h2 className="text-6xl md:text-9xl leading-none mb-8">
             You run the business. <br />
             <span className="text-brand-accent">We run the growth.</span>
           </h2>
-        </div>
-
-        {/* Circular Stages Diagram */}
-        <div className="relative h-[600px] flex items-center justify-center mb-48">
-          <div className="absolute inset-0 flex items-center justify-center opacity-[0.05] pointer-events-none">
-            <h3 className="text-[30vw] font-display">STAGES</h3>
-          </div>
-          
-          <div className="relative w-full max-w-2xl aspect-square">
-            {/* Center Plus */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full border border-brand-accent flex items-center justify-center z-10 bg-brand-dark">
-              <Plus className="text-brand-accent" size={40} />
-            </div>
-
-            {/* Stage Nodes */}
-            {stages.map((stage, i) => {
-              const angle = (i / stages.length) * Math.PI * 2;
-              const x = Math.cos(angle) * 40;
-              const y = Math.sin(angle) * 40;
-              
-              return (
-                <motion.div
-                  key={stage.id}
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="absolute"
-                  style={{ 
-                    left: `${50 + x}%`, 
-                    top: `${50 + y}%`,
-                    transform: 'translate(-50%, -50%)'
-                  }}
-                >
-                  <div className="flex flex-col items-center gap-2">
-                    <span className="text-xs font-bold text-brand-accent">{stage.id}</span>
-                    <span className="text-sm uppercase tracking-widest font-bold whitespace-nowrap">{stage.name}</span>
-                  </div>
-                </motion.div>
-              );
-            })}
-
-            {/* Connecting Lines (SVG) */}
-            <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none">
-              <circle cx="50%" cy="50%" r="40%" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="4 4" />
-            </svg>
-          </div>
         </div>
 
         {/* Step by Step */}

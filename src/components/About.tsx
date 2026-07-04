@@ -4,13 +4,13 @@ import { motion, useInView, animate } from 'motion/react';
 /* ── Animated count-up stat ───────────────────────────────────────────── */
 const CountUp = ({ to, suffix = '', prefix = '' }: { to: number; suffix?: string; prefix?: string }) => {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
   const [val, setVal] = useState(0);
 
   useEffect(() => {
     if (!inView) return;
     const controls = animate(0, to, {
-      duration: 2,
+      duration: 0.7,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (v) => setVal(v),
     });
@@ -28,7 +28,7 @@ const CountUp = ({ to, suffix = '', prefix = '' }: { to: number; suffix?: string
 
 const stats = [
   { to: 2, suffix: '', label: 'Founders, Hands-On' },
-  { to: 2, suffix: '', label: 'Countries — CA & AU' },
+  { to: 2, suffix: '', label: 'Countries: CA & AU' },
   { to: 24, suffix: 'h', label: 'Response Time' },
   { to: 100, suffix: '%', label: 'Focused on Your Growth' },
 ];
@@ -37,12 +37,12 @@ const founders = [
   {
     name: 'Ansh Rai',
     role: 'Co-Founder',
-    bio: 'Global expertise in Artificial Intelligence, Computer Science, and Marketing Technology — shaped by projects across Canada, Australia, the Dominican Republic, and the US.',
+    bio: 'Global expertise in Artificial Intelligence, Computer Science, and Marketing Technology, shaped by projects across Canada, Australia, the Dominican Republic, and the US.',
   },
   {
     name: 'Aakash Lakhataria',
     role: 'Co-Founder',
-    bio: 'Deep experience in AI-driven marketing, business analytics, and project management — forged through ventures like Bellacana and The Moon Stadium, alongside hands-on collaboration with Google Ads experts.',
+    bio: 'Deep experience in AI-driven marketing, business analytics, and project management, forged through ventures like Bellacana and The Moon Stadium alongside hands-on collaboration with Google Ads experts.',
   },
 ];
 
@@ -92,8 +92,8 @@ export default function About() {
           >
             <p>
               The story of STENTH is, at its core, the story of two best friends chasing a dream.
-              We — <span className="text-brand-light font-medium">Aakash Lakhataria</span> and{' '}
-              <span className="text-brand-light font-medium">Ansh Rai</span> — grew up side by side,
+              We, <span className="text-brand-light font-medium">Aakash Lakhataria</span> and{' '}
+              <span className="text-brand-light font-medium">Ansh Rai</span>, grew up side by side,
               always talking about the future, always dreaming of creating something bigger than ourselves.
             </p>
             <p>
@@ -103,7 +103,7 @@ export default function About() {
               something of our own.
             </p>
             <p>
-              In 2022, that belief finally took shape. One night, Aakash had a dream — so vivid he
+              In 2022, that belief finally took shape. One night, Aakash had a dream so vivid he
               woke up knowing exactly what to do. The dream gave us a name:{' '}
               <span className="text-brand-accent font-semibold">STENTH</span>. The very next morning,
               he drove to Ansh's house and, with fire in his eyes, said,{' '}
@@ -113,13 +113,13 @@ export default function About() {
             <p>
               What began with two childhood friends and a dream has grown into a focused,
               senior team operating across{' '}
-              <span className="text-brand-light font-medium">Canada and Australia</span> — with
+              <span className="text-brand-light font-medium">Canada and Australia</span>, with
               experience spanning projects in the United States, India, the Dominican Republic,
               and beyond.
             </p>
             <p className="text-brand-light/90 text-xl font-medium pt-2 border-l-2 border-brand-accent/40 pl-6">
               Because at STENTH, this isn't just business. It's personal. It's our story, our
-              friendship, and our future — shared with every brand we partner with.
+              friendship, and our future, shared with every brand we partner with.
             </p>
           </motion.div>
 
@@ -186,7 +186,7 @@ export default function About() {
               <p className="font-display text-4xl md:text-6xl tracking-tighter mb-3">
                 <CountUp to={s.to} suffix={s.suffix} />
               </p>
-              <p className="font-mono text-xs uppercase tracking-[0.3em] text-brand-light/50">
+              <p className="font-mono text-xs uppercase tracking-[0.3em] text-brand-light/70">
                 {s.label}
               </p>
             </motion.div>

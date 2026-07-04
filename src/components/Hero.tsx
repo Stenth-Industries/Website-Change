@@ -98,14 +98,14 @@ export default function Hero() {
           className="hidden md:block text-right"
         >
           <p className="text-xs uppercase tracking-[0.4em] text-brand-light/70 font-mono">Stenth Agency</p>
-          <p className="text-xs uppercase tracking-[0.4em] text-brand-light/40 font-mono">Est. 2024</p>
+          <p className="text-xs uppercase tracking-[0.4em] text-brand-light/40 font-mono">Est. 2022</p>
         </motion.div>
       </div>
 
       {/* ── Layer 4: Main Copy + Headline ── */}
       <motion.div
         style={{ opacity: headlineOpacity, y: headlineY }}
-        className="relative z-10 px-6 md:px-12 flex flex-col gap-10 md:gap-16"
+        className="relative z-10 px-6 md:px-12 flex flex-col gap-8 md:gap-10"
       >
         {/* Sub-copy block */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
@@ -145,7 +145,7 @@ export default function Hero() {
             <motion.div
               initial={{ y: '110%' }}
               animate={{ y: '0%' }}
-              transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
               className="text-[13vw] md:text-[13vw] leading-[0.85] font-display text-brand-light whitespace-nowrap"
             >
               GROW YOUR
@@ -156,7 +156,7 @@ export default function Hero() {
             <motion.div
               initial={{ y: '110%' }}
               animate={{ y: '0%' }}
-              transition={{ duration: 1, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-[13vw] md:text-[13vw] leading-[0.85] font-display whitespace-nowrap pl-[6vw]"
               style={{ color: '#6F9CEB' }}
             >
@@ -169,7 +169,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.4, duration: 0.8 }}
+          transition={{ delay: 0.9, duration: 0.8 }}
           className="w-full overflow-hidden border-t border-b border-white/5 py-3"
         >
           <div className="flex animate-marquee whitespace-nowrap gap-0 w-max">
@@ -193,7 +193,7 @@ export default function Hero() {
               key={s}
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.7 }}
-              transition={{ delay: 1.6 + i * 0.07 }}
+              transition={{ delay: 1.0 + i * 0.05 }}
               className="text-xs uppercase tracking-[0.3em] font-mono text-brand-light"
             >
               {s}
@@ -206,7 +206,7 @@ export default function Hero() {
           rel="noopener noreferrer"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 2.0 }}
+          transition={{ delay: 1.3 }}
           whileHover={{ scale: 1.02 }}
           className="flex-shrink-0 text-xs uppercase tracking-[0.4em] font-bold text-brand-accent border border-brand-accent/30 px-5 py-2.5 rounded-full hover:bg-brand-accent hover:text-brand-dark transition-all duration-300"
         >

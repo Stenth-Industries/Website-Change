@@ -4,19 +4,19 @@ import { Plus, Minus } from 'lucide-react';
 
 const faqs = [
   {
-    question: "What if we waste the budget again – like last time?",
+    question: "What if we waste the budget again, like last time?",
     answer: "We don't launch in a silo. All budget is deployed based on real-time data and pre-defined KPIs. If something isn't working, we pivot immediately. Our 'MVP Launch' phase ensures you're not burning cash on unproven strategies."
   },
   {
-    question: "Our product is complex – will you even get it?",
+    question: "Our product is complex. Will you even get it?",
     answer: "We specialize in complex products. Our 'Deep Brief' phase is designed to extract the core value proposition and translate it into high-converting messaging."
   },
   {
-    question: "We've launched before – nothing worked. Why should this be different?",
+    question: "We've launched before and nothing worked. Why should this be different?",
     answer: "Most agencies focus on traffic. We focus on the entire growth engine: from the first click to the final conversion and retention."
   },
   {
-    question: "We're a small team – we don't have the bandwidth.",
+    question: "We're a small team. We don't have the bandwidth.",
     answer: "That's exactly why we're here. We act as your extended growth team, handling everything from strategy to execution so you can focus on your product."
   },
   {

@@ -91,8 +91,8 @@ export default function BuildingSection() {
   const hlOpacity = useTransform(smooth, [0.48, 0.64], [0, 1]);
   const hlScale = useTransform(smooth, [0.48, 0.78], [1.14, 1]);
   const hlFilter = useTransform(smooth, [0.48, 0.64], ['blur(8px)', 'blur(0px)']);
-  const subOpacity = useTransform(smooth, [0.64, 0.76], [0, 1]);
-  const subY = useTransform(smooth, [0.64, 0.76], [24, 0]);
+  const subOpacity = useTransform(smooth, [0.58, 0.68], [0, 1]);
+  const subY = useTransform(smooth, [0.58, 0.68], [24, 0]);
   const ctaEvents = useTransform(smooth, v => (v > 0.64 ? 'auto' : 'none'));
 
   // Caption crossfade: the act labels
@@ -157,7 +157,7 @@ export default function BuildingSection() {
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
-              className="px-8 md:px-12 py-4 md:py-5 rounded-full bg-brand-accent text-brand-dark text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold hover:shadow-[0_0_40px_rgba(111,156,235,0.6)] transition-all duration-300"
+              className="px-8 md:px-12 py-4 md:py-5 rounded-full bg-brand-accent text-brand-dark text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold shadow-[0_0_50px_rgba(111,156,235,0.45)] hover:shadow-[0_0_70px_rgba(111,156,235,0.7)] transition-all duration-300"
             >
               Book a Free Strategy Session
             </motion.a>

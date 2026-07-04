@@ -120,9 +120,10 @@ export default function GlobalMap() {
             <p className="text-xs uppercase tracking-[0.4em] font-bold text-brand-accent mb-4">Where We Work</p>
             <h2 className="text-5xl md:text-7xl leading-none">Rooted in <br /> <span className="text-brand-accent">Canada &amp; Australia.</span></h2>
           </div>
-          <div className="max-w-xs text-right">
-            <p className="text-brand-muted text-sm italic">
-              "Based in Canada and Australia, with project experience across the US, India and beyond — we help businesses grow with data-driven, search-first strategies."
+          <div className="max-w-xs">
+            <p className="text-brand-muted text-sm leading-relaxed">
+              Based in Canada and Australia, with project experience across the US,
+              India, and beyond. Wherever your customers search, we help you get found.
             </p>
           </div>
         </div>

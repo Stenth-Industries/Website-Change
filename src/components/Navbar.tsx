@@ -46,6 +46,7 @@ const MagneticLink: React.FC<{ children: React.ReactNode; href: string }> = ({ c
 export default function Navbar() {
   const { scrollYProgress, scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   const navScale = useTransform(scrollY, [0, 100], [1, 0.95]);
   const navY = useTransform(scrollY, [0, 100], [24, 16]);
@@ -60,6 +61,10 @@ export default function Navbar() {
   useEffect(() => {
     const unsub = scrollY.on('change', (latest) => {
       setIsScrolled(latest > 50);
+      // Get out of the content's way going down; return on any upward intent.
+      const prev = scrollY.getPrevious() ?? 0;
+      if (latest > prev + 4 && latest > 400) setHidden(true);
+      else if (latest < prev - 4 || latest <= 400) setHidden(false);
     });
     return () => unsub();
   }, [scrollY]);
@@ -72,7 +77,11 @@ export default function Navbar() {
   ];
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 flex justify-center pointer-events-none p-6 md:p-8">
+    <motion.div
+      animate={{ y: hidden ? -130 : 0 }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed top-0 left-0 w-full z-50 flex justify-center pointer-events-none p-6 md:p-8"
+    >
       <motion.nav
         style={{ scale: navScale, y: navY }}
         className={`pointer-events-auto relative flex items-center gap-4 md:gap-8 px-4 md:px-6 py-3 rounded-full border transition-all duration-500 overflow-hidden ${isScrolled
@@ -139,6 +148,6 @@ export default function Navbar() {
           style={{ backgroundImage: NOISE_SVG }}
         />
       </motion.nav>
-    </div>
+    </motion.div>
   );
 }
