@@ -33,20 +33,20 @@ const stats = [
   { to: 100, suffix: '%', label: 'Focused on Your Growth' },
 ];
 
-/* A matched pair, in story order: the dream gave Stenth its name, the
-   engine gave it its business. Epithets echo the origin story above. */
+/* A matched pair of equals: the drive made Stenth real, the dream gave it
+   its name. Epithets echo the origin story above. */
 const founders = [
+  {
+    name: 'Kushagra Rai',
+    role: 'Co-Founder · Systems & AI',
+    epithet: 'The Drive',
+    bio: 'Stenth exists because Kushagra decided it should. The idea hit him mid-run in Australia, and by the time he got home it already had a blueprint. He thinks in systems, always has, and he builds the machinery that shows what is working, what is not, and exactly what it costs. Ask him how things are going and he will not tell you. He will show you.',
+  },
   {
     name: 'Aakash Lakhataria',
     role: 'Co-Founder · Growth & Media',
     epithet: 'The Dream',
     bio: 'Aakash woke up one morning knowing what our future was called. That is just how he is. He sees things before they exist, and then he cannot rest until they do. He has started ventures of his own, some that worked and some that taught him plenty, and every one of those lessons shows up in how he treats what you have built. When he puts a dollar somewhere, he expects it to come back bigger.',
-  },
-  {
-    name: 'Ansh Rai',
-    role: 'Co-Founder · Systems & AI',
-    epithet: 'The Engine',
-    bio: 'Ansh thinks in systems. Always has. The idea for Stenth hit him mid-run in Australia, and by the time he got home it already had a blueprint. He is the reason nothing here runs on gut feeling: he builds the machinery that shows what is working, what is not, and exactly what it costs. Ask him how things are going and he will not tell you. He will show you.',
   },
 ];
 
@@ -96,8 +96,8 @@ export default function About() {
           >
             <p>
               The story of STENTH is, at its core, the story of two best friends chasing a dream.
-              We, <span className="text-brand-light font-medium">Aakash Lakhataria</span> and{' '}
-              <span className="text-brand-light font-medium">Ansh Rai</span>, grew up side by side,
+              We, <span className="text-brand-light font-medium">Kushagra Rai</span> and{' '}
+              <span className="text-brand-light font-medium">Aakash Lakhataria</span>, grew up side by side,
               always talking about the future, always dreaming of creating something bigger than ourselves.
             </p>
             <p>
@@ -109,13 +109,13 @@ export default function About() {
             <p>
               In 2022, the name arrived first. One night, Aakash had a dream so vivid he
               woke up knowing exactly what our future was called. The very next morning,
-              he drove to Ansh's house and, with fire in his eyes, said,{' '}
+              he drove to Kushagra's house and, with fire in his eyes, said,{' '}
               <span className="italic text-brand-light/90">"I saw our future. It's called STENTH."</span>{' '}
               The vision behind that name was bigger than anything we could build in a
               day, and we knew we would grow into it.
             </p>
             <p>
-              The beginning came later, on the other side of the world. Ansh had moved
+              The beginning came later, on the other side of the world. Kushagra had moved
               to Australia, and one day, mid-run, it clicked: start with what we do
               best. Build a growth consultancy, senior-led and data-first, and let it
               carry us toward the bigger vision. <span className="text-brand-accent font-semibold">STENTH</span>{' '}

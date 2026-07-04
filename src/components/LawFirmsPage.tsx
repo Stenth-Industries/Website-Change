@@ -441,7 +441,7 @@ export default function LawFirmsPage({ practice }: { practice?: Practice | null 
             <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 {
-                  name: 'Ansh Rai',
+                  name: 'Kushagra Rai',
                   role: 'Co-Founder',
                   copy: 'AI, computer science, and marketing technology. Builds the systems that find where your enquiries really come from.',
                 },

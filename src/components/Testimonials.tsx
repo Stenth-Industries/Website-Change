@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 
 const testimonials = [
   {
-    name: 'Ansh Rai',
+    name: 'Kushagra Rai',
     role: 'Co-Founder',
     company: 'Stenth',
     quote: "You'll work directly with the founders on your account, never a junior learning on your budget. The people who win your business are the people who run it, start to finish.",
