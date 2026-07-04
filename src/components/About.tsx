@@ -36,13 +36,13 @@ const stats = [
 const founders = [
   {
     name: 'Ansh Rai',
-    role: 'Co-Founder',
-    bio: 'Global expertise in Artificial Intelligence, Computer Science, and Marketing Technology, shaped by projects across Canada, Australia, the Dominican Republic, and the US.',
+    role: 'Co-Founder · Systems & AI',
+    bio: 'The engineer of the two, and the one the consultancy idea struck mid-run. Ansh builds the machinery behind every engagement: AI, analytics, and marketing technology that show exactly where each enquiry came from and what it cost. Trained in computer science, sharpened on projects across Canada, Australia, the US, and the Dominican Republic. If it matters, he measures it.',
   },
   {
     name: 'Aakash Lakhataria',
-    role: 'Co-Founder',
-    bio: 'Deep experience in AI-driven marketing, business analytics, and project management, forged through ventures like Bellacana and The Moon Stadium alongside hands-on collaboration with Google Ads experts.',
+    role: 'Co-Founder · Growth & Media',
+    bio: 'The one who dreamed the name. Aakash turns strategy into campaigns that answer for their spend: AI-driven marketing, business analytics, and paid media shaped by hands-on work with Google Ads specialists. He has built ventures of his own, Bellacana and The Moon Stadium among them, and brings that operator instinct to every client account.',
   },
 ];
 
