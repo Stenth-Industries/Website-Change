@@ -50,14 +50,22 @@ const ROUTES = [
     title: 'Conveyancing Marketing Melbourne — Stenth',
     desc: 'Marketing for Melbourne conveyancers: get the call before the price-shoppers move on. Free audit, founder-led, no lock-in.',
   },
+  {
+    // Shared entry for every /r/<slug> prospect report (see vercel.json).
+    // Reports are private, one-recipient pages: keep them out of the index.
+    route: 'r',
+    title: 'Your Local Search Report — Stenth',
+    desc: 'A private local search report prepared for your business by Stenth.',
+    noindex: true,
+  },
 ];
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
 const base = fs.readFileSync('dist/index.html', 'utf8');
-for (const { route, title, desc } of ROUTES) {
+for (const { route, title, desc, noindex } of ROUTES) {
   const url = `${ORIGIN}/${route}`;
-  const html = base
+  let html = base
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`)
     .replace(/(<meta name="description"[\s\S]*?content=")[^"]*(")/, `$1${esc(desc)}$2`)
     .replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${url}$2`)
@@ -66,6 +74,10 @@ for (const { route, title, desc } of ROUTES) {
     .replace(/(<meta property="og:description"[\s\S]*?content=")[^"]*(")/, `$1${esc(desc)}$2`)
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${esc(title)}$2`)
     .replace(/(<meta name="twitter:description"[\s\S]*?content=")[^"]*(")/, `$1${esc(desc)}$2`);
+
+  if (noindex) {
+    html = html.replace('</title>', '</title>\n    <meta name="robots" content="noindex, nofollow" />');
+  }
 
   const out = path.join('dist', `${route}.html`);
   fs.mkdirSync(path.dirname(out), { recursive: true });

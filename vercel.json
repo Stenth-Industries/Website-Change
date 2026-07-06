@@ -7,6 +7,7 @@
     { "source": "/law-firms/conveyancing", "destination": "/law-firms/conveyancing.html" },
     { "source": "/scan", "destination": "/scan.html" },
     { "source": "/roi", "destination": "/roi.html" },
-    { "source": "/funnel-check", "destination": "/funnel-check.html" }
+    { "source": "/funnel-check", "destination": "/funnel-check.html" },
+    { "source": "/r/:slug", "destination": "/r.html" }
   ]
 }

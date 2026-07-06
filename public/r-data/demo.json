@@ -1,0 +1,56 @@
+{
+  "business": "Westgate Heating & Cooling",
+  "suburb": "Werribee",
+  "trade": "ducted heating repair",
+  "keyword": "ducted heating repair werribee",
+  "searchesPerMonth": 480,
+  "position": 9,
+  "aboveYou": [
+    { "name": "Plum Heating & Cooling", "note": "Also outranks you for 6 related searches" },
+    { "name": "Specair", "note": "Running Google Ads on top of their organic spot" },
+    { "name": "Willira Heating and Cooling" }
+  ],
+  "reviews": {
+    "rating": 4.8,
+    "count": 46,
+    "unanswered": 11,
+    "competitorName": "Plum Heating & Cooling",
+    "competitorRating": 4.5,
+    "competitorCount": 312
+  },
+  "findings": [
+    {
+      "verdict": "fail",
+      "text": "Your site takes 7.2 seconds to appear on a phone",
+      "detail": "Most emergency heating searches happen on mobile. Under 2.5 seconds is the target; past 4, half your visitors give up."
+    },
+    {
+      "verdict": "fail",
+      "text": "You do not appear in the map pack for your own suburb",
+      "detail": "The three map results above the regular listings take the majority of calls for urgent repair searches."
+    },
+    {
+      "verdict": "warn",
+      "text": "Your homepage title does not mention Werribee or repairs",
+      "detail": "It currently reads like a brand name only. The title is the strongest signal Google has for matching you to a search."
+    },
+    {
+      "verdict": "warn",
+      "text": "11 of your last 20 Google reviews have no reply",
+      "detail": "Unanswered reviews read as an unattended business, to Google and to the customer choosing between you and the next result."
+    },
+    {
+      "verdict": "pass",
+      "text": "Your site is secure and mobile-friendly",
+      "detail": "The foundations are fine. The problem is visibility, not the website itself."
+    }
+  ],
+  "stealPoint": {
+    "competitor": "a top-3 competitor",
+    "quote": "Booked a heater service two weeks ago, nobody showed and nobody called back. Had to chase them twice to get a refund.",
+    "insight": "The businesses above you are winning on visibility, not on service. Their own customers say response time is the weak point. A same-day-callback promise, made visible where people compare you, takes that advantage apart."
+  },
+  "missedEnquiries": 26,
+  "generatedAt": "2026-07-06",
+  "expires": "2026-09-30"
+}

@@ -37,16 +37,16 @@ const stats = [
    its name. Epithets echo the origin story above. */
 const founders = [
   {
-    name: 'Kushagra Rai',
-    role: 'Co-Founder · Systems & AI',
-    epithet: 'The Drive',
-    bio: 'Stenth exists because Kushagra decided it should. The idea hit him mid-run in Australia, and by the time he got home it already had a blueprint. He thinks in systems, always has, and he builds the machinery that shows what is working, what is not, and exactly what it costs. Ask him how things are going and he will not tell you. He will show you.',
-  },
-  {
     name: 'Aakash Lakhataria',
     role: 'Co-Founder · Growth & Media',
     epithet: 'The Dream',
-    bio: 'Aakash woke up one morning knowing what our future was called. That is just how he is. He sees things before they exist, and then he cannot rest until they do. He has started ventures of his own, some that worked and some that taught him plenty, and every one of those lessons shows up in how he treats what you have built. When he puts a dollar somewhere, he expects it to come back bigger.',
+    bio: 'Aakash woke up one morning knowing what our future was called. That is just how he is. He sees things before they exist, and then he cannot rest until they do. His instincts were shaped by ventures like Bellacana and The Moon Stadium, along with hands-on collaboration with Google Ads experts, and every one of those lessons shows up in how he treats what you have built. When he puts a dollar somewhere, he expects it to come back bigger.',
+  },
+  {
+    name: 'Kushagra Rai',
+    role: 'Co-Founder · Systems & AI',
+    epithet: 'The Drive',
+    bio: 'The idea for Stenth hit Kushagra mid-run in Australia, and by the time he got home it already had a blueprint. He thinks in systems, always has, and he builds the machinery that shows what is working, what is not, and exactly what it costs. Ask him how things are going and he will not tell you. He will show you.',
   },
 ];
 
@@ -96,8 +96,8 @@ export default function About() {
           >
             <p>
               The story of STENTH is, at its core, the story of two best friends chasing a dream.
-              We, <span className="text-brand-light font-medium">Kushagra Rai</span> and{' '}
-              <span className="text-brand-light font-medium">Aakash Lakhataria</span>, grew up side by side,
+              We, <span className="text-brand-light font-medium">Aakash Lakhataria</span> and{' '}
+              <span className="text-brand-light font-medium">Kushagra Rai</span>, grew up side by side,
               always talking about the future, always dreaming of creating something bigger than ourselves.
             </p>
             <p>
@@ -142,12 +142,21 @@ export default function About() {
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 relative"
           >
-            <div className="aspect-[3/4] rounded-[40px] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+            <div className="relative aspect-[3/4] rounded-[40px] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
               <img
                 src="/tower.jpg"
-                alt="Stenth — Founders & Team"
+                alt="Aakash Lakhataria (left) and Kushagra Rai (right), co-founders of Stenth"
                 className="w-full h-full object-cover object-center"
               />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 p-6 md:p-7 space-y-1.5">
+                <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-brand-light/90">
+                  Left · Aakash Lakhataria
+                </p>
+                <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-brand-light/90">
+                  Right · Kushagra Rai
+                </p>
+              </div>
             </div>
             <div className="absolute -bottom-6 -right-6 bg-brand-accent text-brand-dark p-7 rounded-3xl hidden md:block shadow-[0_20px_60px_-15px_rgba(111,156,235,0.5)]">
               <p className="text-sm font-bold uppercase tracking-widest">Est. 2022</p>

@@ -27,6 +27,7 @@ const LawFirmsPage = lazy(() => import('./components/LawFirmsPage'));
 const ScanPage = lazy(() => import('./components/ScanPage'));
 const RoiPage = lazy(() => import('./components/RoiPage'));
 const ChecklistPage = lazy(() => import('./components/ChecklistPage'));
+const ReportPage = lazy(() => import('./components/ReportPage'));
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -64,6 +65,16 @@ export default function App() {
       <MotionConfig reducedMotion="user">
         <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
           <RoiPage />
+        </Suspense>
+      </MotionConfig>
+    );
+  }
+  if (path.startsWith('/r/')) {
+    // Per-prospect outreach reports; data ships as /r-data/<slug>.json.
+    return (
+      <MotionConfig reducedMotion="user">
+        <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+          <ReportPage slug={path.slice('/r/'.length)} />
         </Suspense>
       </MotionConfig>
     );
