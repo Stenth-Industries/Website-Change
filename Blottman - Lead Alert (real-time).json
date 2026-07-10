@@ -1,0 +1,250 @@
+{
+  "name": "Blottman - Lead Alert (real-time)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "blottman-lead",
+        "options": {}
+      },
+      "id": "ec797c74-d045-42f9-9f1e-7ff2d398173d",
+      "name": "Lead Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        304
+      ],
+      "webhookId": "3193459e-96d8-445d-a060-9a522e4fec17"
+    },
+    {
+      "parameters": {
+        "jsCode": "const b = $json.body || $json || {};\nconst tz = \"America/Toronto\";\nconst stamp = new Intl.DateTimeFormat(\"en-CA\", { timeZone: tz, year: \"numeric\", month: \"2-digit\", day: \"2-digit\", hour: \"2-digit\", minute: \"2-digit\", hour12: false }).format(new Date());\nconst pick = (...ks) => { for (const k of ks) { if (b[k]) return String(b[k]).slice(0, 500); } return \"\"; };\nconst name = pick(\"name\", \"fullName\", \"full_name\");\nconst phone = pick(\"phone\", \"tel\", \"phoneNumber\");\nconst email = pick(\"email\");\nconst charge = pick(\"charge\", \"ticketType\", \"ticket_type\", \"offence\", \"subject\");\nconst message = pick(\"message\", \"details\", \"whatHappened\", \"what_happened\");\nconst page = pick(\"page\", \"source\", \"path\", \"referer\");\nconst gclid = pick(\"gclid\");\nconst esc = (s) => String(s || \"\").replace(/&/g, \"&amp;\").replace(/</g, \"&lt;\");\nconst telHref = \"tel:\" + phone.replace(/[^0-9+]/g, \"\");\nconst subject = \"New lead from blottman.ca: \" + (name || \"unknown\") + (charge ? \" (\" + charge + \")\" : \"\");\nlet html = \"<div style=\\\"font-family:Arial,sans-serif;max-width:520px;margin:0 auto;color:#1F2937\\\">\";\nhtml += \"<table cellspacing=\\\"0\\\" cellpadding=\\\"0\\\" style=\\\"width:100%;background:#0D1B2A\\\"><tr><td style=\\\"padding:12px 16px\\\"><span style=\\\"color:#C9A84C;font-family:Arial,sans-serif;font-size:16px;font-weight:bold;letter-spacing:4px\\\">STENTH</span></td><td align=\\\"right\\\" style=\\\"padding:12px 16px\\\"><span style=\\\"color:#ffffff;font-family:Arial,sans-serif;font-size:12px;letter-spacing:1px\\\">Lead Alert</span></td></tr></table>\";\nhtml += \"<h2 style=\\\"margin:18px 0 2px;color:#0D1B2A\\\">You have a new lead</h2>\";\nhtml += \"<p style=\\\"margin:0 0 12px;color:#6B7280;font-size:13px\\\">Received \" + stamp + \", Toronto time, via the blottman.ca contact form.</p>\";\nhtml += \"<table cellspacing=\\\"0\\\" style=\\\"width:100%;font-size:14px;border-collapse:collapse\\\">\";\nconst row = (k, v) => v ? \"<tr><td style=\\\"padding:8px 10px;background:#F5F7FA;font-weight:bold;width:110px;vertical-align:top\\\">\" + k + \"</td><td style=\\\"padding:8px 10px;border-bottom:1px solid #e8e8e8\\\">\" + v + \"</td></tr>\" : \"\";\nhtml += row(\"Name\", esc(name));\nhtml += row(\"Phone\", \"<a href=\\\"\" + telHref + \"\\\" style=\\\"color:#0D1B2A;font-weight:bold;font-size:16px;text-decoration:none\\\">\" + esc(phone) + \"</a>\");\nhtml += row(\"Email\", esc(email));\nhtml += row(\"Charge\", esc(charge));\nhtml += row(\"Message\", esc(message));\nhtml += row(\"Page\", esc(page));\nhtml += \"</table>\";\nhtml += \"<p style=\\\"background:#FEF2F2;border-left:4px solid #B42318;padding:12px 14px;font-size:13px;line-height:1.6;margin-top:14px\\\"><b>Quick response wins cases.</b> A callback within five minutes makes this lead several times more likely to sign than one made an hour later.</p>\";\nhtml += \"<p style=\\\"color:#6B7280;font-size:11px;border-top:1px solid #e8e8e8;padding-top:10px\\\">This lead has been saved to the Blottman Lead Tracker sheet. Update the Retained column once the outcome is known. Sent automatically by Stenth.</p></div>\";\nreturn [{ json: { Date: stamp, Name: name, Phone: phone, Email: email, Charge: charge, Message: message, Page: page, GCLID: gclid, Retained: \"\", Notes: \"\", subject: subject, html: html } }];"
+      },
+      "id": "e5b898da-c26f-4d8f-a520-c25803be620a",
+      "name": "Normalize Lead",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        464,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "info@stenth.com",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.html }}",
+        "options": {
+          "appendAttribution": false,
+          "senderName": "Blottman Lead Alert"
+        }
+      },
+      "id": "45847416-57c4-4d13-9595-1c97dccaf803",
+      "name": "Send Lead Alert",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        304
+      ],
+      "webhookId": "d21d4b2c-df38-4c91-8ad8-0f737020580e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "sS0XGt1ScqTcUYwp",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "16yCYXDCncH5jVEl2EW47MJ716SE5TUfWsXiOugJTMZk",
+          "cachedResultName": "Blottman Lead Tracker (Stenth)"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Leads"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $('Normalize Lead').item.json.Date }}",
+            "Name": "={{ $('Normalize Lead').item.json.Name }}",
+            "Phone": "={{ $('Normalize Lead').item.json.Phone }}",
+            "Email": "={{ $('Normalize Lead').item.json.Email }}",
+            "Charge": "={{ $('Normalize Lead').item.json.Charge }}",
+            "Message": "={{ $('Normalize Lead').item.json.Message }}",
+            "Page": "={{ $('Normalize Lead').item.json.Page }}",
+            "GCLID": "={{ $('Normalize Lead').item.json.GCLID }}",
+            "Retained?": "",
+            "Notes": ""
+          },
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Charge",
+              "displayName": "Charge",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Page",
+              "displayName": "Page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "GCLID",
+              "displayName": "GCLID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Retained?",
+              "displayName": "Retained?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5f40eeac-4144-4c18-946c-7916e10968af",
+      "name": "Log to Lead Tracker",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        912,
+        304
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S94irVPntj8503Ev",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Lead Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Lead": {
+      "main": [
+        [
+          {
+            "node": "Send Lead Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Lead Alert": {
+      "main": [
+        [
+          {
+            "node": "Log to Lead Tracker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "0db5f325-0574-46f9-95f7-38e6c5ec3f91",
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp",
+    "instanceId": "a88e6d138f79015b398bec4a86d68bd1ca13984e49e3cc70955af043b9814e5a"
+  },
+  "nodeGroups": [],
+  "id": "zHflYJhx5391uGu7",
+  "tags": []
+}

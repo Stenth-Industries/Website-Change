@@ -1,0 +1,56 @@
+{
+  "business": "Air Elite",
+  "suburb": "Reservoir",
+  "trade": "ducted heating repair",
+  "keyword": "ducted heating repair melbourne",
+  "searchesPerMonth": 1300,
+  "position": 8,
+  "aboveYou": [
+    { "name": "Plum Heating & Cooling", "note": "4,118 reviews — owns the map pack across north Melbourne" },
+    { "name": "Gastek Heating & Cooling", "note": "Ranks for 5 related repair searches you don't appear on" },
+    { "name": "Easy Air" }
+  ],
+  "reviews": {
+    "rating": 4.7,
+    "count": 47,
+    "unanswered": 9,
+    "competitorName": "Plum Heating & Cooling",
+    "competitorRating": 4.9,
+    "competitorCount": 4118
+  },
+  "findings": [
+    {
+      "verdict": "fail",
+      "text": "You are not in the top 3 map results for your own suburb",
+      "detail": "The three businesses in the map pack take the majority of calls for urgent heating searches. You sit below them, in 8th."
+    },
+    {
+      "verdict": "fail",
+      "text": "Your homepage takes 6.4 seconds to load on a phone",
+      "detail": "Most emergency heating searches happen on mobile. Past 4 seconds, roughly half of visitors leave before it opens."
+    },
+    {
+      "verdict": "warn",
+      "text": "9 of your last 20 Google reviews have no reply",
+      "detail": "Unanswered reviews read as an unattended business — to Google's ranking and to the customer deciding between you and the next result."
+    },
+    {
+      "verdict": "warn",
+      "text": "Your homepage title doesn't mention Reservoir or repairs",
+      "detail": "It reads like a brand name only. The title is the strongest signal Google has for matching you to a local repair search."
+    },
+    {
+      "verdict": "pass",
+      "text": "Your website is secure and mobile-friendly",
+      "detail": "The foundations are fine. The problem is visibility, not the site itself."
+    }
+  ],
+  "stealPoint": {
+    "competitor": "a top-3 competitor",
+    "quote": "Booked a ducted heating service, waited all day, nobody showed and nobody called. Had to ring twice the next week just to rebook.",
+    "insight": "The businesses ranked above you are winning on visibility, not service — their own reviews name slow callbacks as the weak spot. A visible same-day-callback promise, placed where customers compare you, turns their biggest complaint into your opening line."
+  },
+  "missedEnquiries": 31,
+  "generatedAt": "2026-07-08",
+  "expires": "2026-09-30"
+}

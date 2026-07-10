@@ -1,0 +1,46 @@
+{
+  "business": "Gastek Heating & Cooling",
+  "suburb": "Fairfield",
+  "trade": "ducted heating repair",
+  "keyword": "ducted heating repair melbourne",
+  "searchesPerMonth": 700,
+  "position": 6,
+  "aboveYou": [
+    { "name": "Casey Air" },
+    { "name": "Advance Heating and Cooling", "note": "Also ranks for related repair searches you don't appear on" },
+    { "name": "Cranbourne AC" }
+  ],
+  "reviews": {
+    "rating": 4.9,
+    "count": 549,
+    "unanswered": 0,
+    "competitorName": "Advance Heating and Cooling",
+    "competitorRating": 4.7,
+    "competitorCount": 194
+  },
+  "findings": [
+    {
+      "verdict": "fail",
+      "text": "You are not in the top 3 map results for ducted heating repair in Melbourne",
+      "detail": "Casey Air, Advance Heating and Cooling, and Cranbourne AC all appear before you at position 6 — they take the majority of clicks on this search."
+    },
+    {
+      "verdict": "warn",
+      "text": "Your homepage title doesn't mention Fairfield or repair",
+      "detail": "It currently reads \"GASTEK | Brivis Service Partner | Heating & Cooling Specialists\" — a brand name and a supplier badge, not the words people actually search."
+    },
+    {
+      "verdict": "pass",
+      "text": "Your Google rating is strong — 4.9 from 549 reviews",
+      "detail": "That beats most of the businesses ranked above you. The problem is visibility, not reputation."
+    },
+    {
+      "verdict": "pass",
+      "text": "Your Google Business Profile is claimed and active",
+      "detail": "Unlike some competitors in this patch, nobody else can edit your listing details."
+    }
+  ],
+  "missedEnquiries": 22,
+  "generatedAt": "2026-07-08",
+  "expires": "2026-09-30"
+}

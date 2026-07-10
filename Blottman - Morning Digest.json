@@ -1,0 +1,307 @@
+{
+  "name": "Blottman - Morning Digest",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 12
+            }
+          ]
+        }
+      },
+      "id": "2894274e-e111-4d1f-a0b5-949b1d1b860d",
+      "name": "Daily 12:00 UTC (8am Toronto)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://googleads.googleapis.com/v24/customers/8586214705/googleAds:search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleAdsOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "login-customer-id",
+              "value": "6997473992"
+            },
+            {
+              "name": "developer-token",
+              "value": "965QrImlxS3vdQPjjKEseQ"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"query\": \"SELECT campaign.name, metrics.impressions, metrics.clicks, metrics.cost_micros FROM campaign WHERE segments.date DURING YESTERDAY AND metrics.impressions > 0\"}",
+        "options": {}
+      },
+      "id": "fc616f28-6602-4c3b-851f-f2aa5fa2c4a7",
+      "name": "Fetch Campaign Stats",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        464,
+        304
+      ],
+      "credentials": {
+        "googleAdsOAuth2Api": {
+          "id": "aqwQVCPldu26z2Ve",
+          "name": "Google Ads account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://googleads.googleapis.com/v24/customers/8586214705/googleAds:search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleAdsOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "login-customer-id",
+              "value": "6997473992"
+            },
+            {
+              "name": "developer-token",
+              "value": "965QrImlxS3vdQPjjKEseQ"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"query\": \"SELECT campaign.name, segments.conversion_action_name, metrics.all_conversions FROM campaign WHERE segments.date DURING YESTERDAY AND metrics.all_conversions > 0\"}",
+        "options": {}
+      },
+      "id": "1773b828-dc29-4a1a-a1a3-7bf44580fdf7",
+      "name": "Fetch Conversions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        688,
+        304
+      ],
+      "credentials": {
+        "googleAdsOAuth2Api": {
+          "id": "aqwQVCPldu26z2Ve",
+          "name": "Google Ads account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://googleads.googleapis.com/v24/customers/8586214705/googleAds:search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleAdsOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "login-customer-id",
+              "value": "6997473992"
+            },
+            {
+              "name": "developer-token",
+              "value": "965QrImlxS3vdQPjjKEseQ"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"query\": \"SELECT call_view.start_call_date_time, call_view.call_duration_seconds, call_view.caller_area_code, call_view.caller_country_code, call_view.call_status, campaign.name FROM call_view\"}",
+        "options": {}
+      },
+      "id": "93295df1-0df4-4e9b-8512-c6c14a9f57f1",
+      "name": "Fetch Calls",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        912,
+        304
+      ],
+      "credentials": {
+        "googleAdsOAuth2Api": {
+          "id": "aqwQVCPldu26z2Ve",
+          "name": "Google Ads account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://googleads.googleapis.com/v24/customers/8586214705/googleAds:search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleAdsOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "login-customer-id",
+              "value": "6997473992"
+            },
+            {
+              "name": "developer-token",
+              "value": "965QrImlxS3vdQPjjKEseQ"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"query\": \"SELECT lead_form_submission_data.submission_date_time, lead_form_submission_data.lead_form_submission_fields, campaign.name FROM lead_form_submission_data\"}",
+        "options": {}
+      },
+      "id": "9b4d0c5c-f3ce-47c0-bcc3-fbbd0dd09ccb",
+      "name": "Fetch Lead Form Submissions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1120,
+        304
+      ],
+      "credentials": {
+        "googleAdsOAuth2Api": {
+          "id": "aqwQVCPldu26z2Ve",
+          "name": "Google Ads account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const tz = \"America/Toronto\";\nconst yDate = new Date(Date.now() - 24 * 3600 * 1000);\nconst iso = new Intl.DateTimeFormat(\"en-CA\", { timeZone: tz, year: \"numeric\", month: \"2-digit\", day: \"2-digit\" }).format(yDate);\nconst nice = new Intl.DateTimeFormat(\"en-CA\", { timeZone: tz, weekday: \"long\", month: \"long\", day: \"numeric\", year: \"numeric\" }).format(yDate);\nconst short = new Intl.DateTimeFormat(\"en-CA\", { timeZone: tz, month: \"long\", day: \"numeric\" }).format(yDate);\nconst safe = (name) => { try { const j = $(name).first().json; return Array.isArray(j.results) ? j.results : []; } catch (e) { return []; } };\nconst stats = safe(\"Fetch Campaign Stats\");\nconst convs = safe(\"Fetch Conversions\");\nconst callsAll = safe(\"Fetch Calls\");\nconst formsAll = safe(\"Fetch Lead Form Submissions\");\nconst money = (m) => Number(m || 0) / 1e6;\nconst dollars = (v) => \"$\" + v.toFixed(2);\nconst plural = (n, w) => n + \" \" + w + (Number(n) === 1 ? \"\" : \"s\");\nlet spend = 0, clicks = 0;\nconst statRows = stats.map(r => { const c = money(r.metrics.costMicros); spend += c; clicks += Number(r.metrics.clicks || 0); return { name: r.campaign.name, impr: r.metrics.impressions, clicks: r.metrics.clicks, cost: c }; });\nconst calls = callsAll.filter(r => (r.callView.startCallDateTime || \"\").startsWith(iso));\nconst missed = calls.filter(r => r.callView.callStatus === \"MISSED\" || Number(r.callView.callDurationSeconds || 0) < 30);\nconst answered = calls.length - missed.length;\nconst forms = formsAll.filter(r => ((r.leadFormSubmissionData || {}).submissionDateTime || \"\").startsWith(iso));\nconst UNTRACKED = [\"Contact Us\", \"Phone Click\"];\nconst convRows = convs.map(r => { const n = Number(r.metrics.allConversions || 0); const action = r.segments.conversionActionName; const isRef = UNTRACKED.some(u => action.indexOf(u) === 0); return { campaign: r.campaign.name, action: action, n: n, isRef: isRef }; });\nconst verified = convRows.filter(r => !r.isRef).reduce((a, r) => a + r.n, 0);\nconst esc = (s) => String(s || \"\").replace(/&/g, \"&amp;\").replace(/</g, \"&lt;\");\nconst td = \"padding:7px 10px;border-bottom:1px solid #e8e8e8;vertical-align:top\";\nconst th = (t) => \"<th align=\\\"left\\\" style=\\\"padding:7px 10px;background:#F5F7FA;color:#0D1B2A;font-size:12px;letter-spacing:0.4px;border-bottom:2px solid #C9A84C\\\">\" + t + \"</th>\";\nconst callRow = (r) => {\n  const v = r.callView;\n  const time = (v.startCallDateTime || \"\").slice(11, 16);\n  const dur = Number(v.callDurationSeconds || 0);\n  let label, color;\n  if (v.callStatus === \"MISSED\") { label = \"Missed. Worth a callback today\"; color = \"#B42318\"; }\n  else if (dur < 30) { label = \"Ended after \" + plural(dur, \"second\"); color = \"#B42318\"; }\n  else { label = \"Answered, \" + plural(dur, \"second\"); color = \"#1B7F3B\"; }\n  const caller = v.callerAreaCode ? \"(\" + v.callerAreaCode + \") number\" : \"Number unavailable\";\n  return \"<tr><td style=\\\"\" + td + \"\\\">\" + time + \"</td><td style=\\\"\" + td + \"\\\">\" + caller + \"</td><td style=\\\"\" + td + \";color:\" + color + \"\\\">\" + label + \"</td><td style=\\\"\" + td + \";color:#6B7280\\\">\" + esc(r.campaign.name) + \"</td></tr>\";\n};\nlet html = \"<div style=\\\"font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#1F2937\\\">\";\nhtml += \"<table cellspacing=\\\"0\\\" cellpadding=\\\"0\\\" style=\\\"width:100%;background:#0D1B2A\\\"><tr><td style=\\\"padding:12px 16px\\\"><span style=\\\"color:#C9A84C;font-family:Arial,sans-serif;font-size:16px;font-weight:bold;letter-spacing:4px\\\">STENTH</span></td><td align=\\\"right\\\" style=\\\"padding:12px 16px\\\"><span style=\\\"color:#ffffff;font-family:Arial,sans-serif;font-size:12px;letter-spacing:1px\\\">Daily Performance Report</span></td></tr></table>\";\nhtml += \"<h2 style=\\\"margin:18px 0 2px;color:#0D1B2A\\\">Blottman Legal Services</h2>\";\nhtml += \"<p style=\\\"margin:0 0 14px;color:#6B7280;font-size:13px\\\">Advertising results for \" + nice + \"</p>\";\nhtml += \"<div style=\\\"background:#F5F7FA;border-radius:8px;padding:14px 16px;font-size:15px;line-height:1.7\\\">\";\nhtml += \"<b>Spend</b> \" + dollars(spend) + \" &nbsp;&middot;&nbsp; <b>Clicks</b> \" + clicks + \" &nbsp;&middot;&nbsp; <b>Calls</b> \" + calls.length + \" (\" + answered + \" answered, \" + missed.length + \" missed or short) &nbsp;&middot;&nbsp; <b>Verified leads</b> \" + verified;\nhtml += \"</div>\";\nif (missed.length > 0) {\n  html += \"<p style=\\\"background:#FEF2F2;border-left:4px solid #B42318;padding:12px 14px;font-size:14px;line-height:1.6\\\"><b>\" + plural(missed.length, \"call\") + \" went unanswered or lasted under 30 seconds yesterday.</b> These callers have already been paid for. A callback today can still turn them into clients.</p>\";\n}\nif (calls.length > 0) {\n  html += \"<h3 style=\\\"color:#0D1B2A;margin:20px 0 6px;font-size:15px\\\">Phone calls</h3><table cellspacing=\\\"0\\\" style=\\\"width:100%;font-size:13px;border-collapse:collapse\\\"><tr>\" + th(\"Time\") + th(\"Caller\") + th(\"Outcome\") + th(\"Campaign\") + \"</tr>\" + calls.map(callRow).join(\"\") + \"</table>\";\n}\nif (forms.length > 0) {\n  html += \"<h3 style=\\\"color:#0D1B2A;margin:20px 0 6px;font-size:15px\\\">Lead form submissions</h3>\";\n  forms.forEach(f => {\n    const flds = ((f.leadFormSubmissionData || {}).leadFormSubmissionFields || []).map(x => esc(x.fieldType) + \": \" + esc(x.fieldValue)).join(\" &middot; \");\n    html += \"<p style=\\\"font-size:13px;background:#F5F7FA;padding:10px 12px;border-radius:6px\\\">\" + flds + \" <span style=\\\"color:#6B7280\\\">(\" + esc(f.campaign.name) + \")</span></p>\";\n  });\n  html += \"<p style=\\\"color:#6B7280;font-size:12px\\\">These submissions are saved automatically. Google would otherwise delete them after 30 days.</p>\";\n}\nif (convRows.length > 0) {\n  html += \"<h3 style=\\\"color:#0D1B2A;margin:20px 0 6px;font-size:15px\\\">Conversions recorded</h3><table cellspacing=\\\"0\\\" style=\\\"width:100%;font-size:13px;border-collapse:collapse\\\"><tr>\" + th(\"Action\") + th(\"Campaign\") + th(\"Count\") + \"</tr>\" + convRows.map(r => \"<tr><td style=\\\"\" + td + \"\\\">\" + esc(r.action) + (r.isRef ? \" <span style=\\\"color:#6B7280\\\">(for reference, not a verified lead)</span>\" : \"\") + \"</td><td style=\\\"\" + td + \";color:#6B7280\\\">\" + esc(r.campaign) + \"</td><td style=\\\"\" + td + \"\\\">\" + r.n + \"</td></tr>\").join(\"\") + \"</table>\";\n}\nhtml += \"<h3 style=\\\"color:#0D1B2A;margin:20px 0 6px;font-size:15px\\\">Campaign spend</h3><table cellspacing=\\\"0\\\" style=\\\"width:100%;font-size:13px;border-collapse:collapse\\\"><tr>\" + th(\"Campaign\") + th(\"Impressions\") + th(\"Clicks\") + th(\"Cost\") + \"</tr>\" + statRows.map(r => \"<tr><td style=\\\"\" + td + \"\\\">\" + esc(r.name) + \"</td><td style=\\\"\" + td + \"\\\">\" + r.impr + \"</td><td style=\\\"\" + td + \"\\\">\" + r.clicks + \"</td><td style=\\\"\" + td + \"\\\">\" + dollars(r.cost) + \"</td></tr>\").join(\"\") + \"</table>\";\nhtml += \"<p style=\\\"color:#6B7280;font-size:11px;margin-top:22px;border-top:1px solid #e8e8e8;padding-top:10px\\\">Prepared automatically each morning by Stenth for Blottman Legal Services. Google Ads account 858 621 4705.</p></div>\";\nconst subject = \"Stenth daily report, \" + short + \": \" + dollars(spend) + \" spent, \" + plural(calls.length, \"call\") + \", \" + plural(verified, \"verified lead\");\nreturn [{ json: { subject: subject, html: html, date: iso } }];"
+      },
+      "id": "2744bc6f-0884-4a35-b278-2928df2709ad",
+      "name": "Build Digest",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "info@stenth.com",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.html }}",
+        "options": {
+          "appendAttribution": false,
+          "senderName": "Blottman Ads Digest"
+        }
+      },
+      "id": "720323da-4db3-481b-9e94-dc098a833dca",
+      "name": "Send Digest Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1568,
+        304
+      ],
+      "webhookId": "2306721d-507b-4fd8-8f8a-66442d15cca1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "sS0XGt1ScqTcUYwp",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily 12:00 UTC (8am Toronto)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Campaign Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Campaign Stats": {
+      "main": [
+        [
+          {
+            "node": "Fetch Conversions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Conversions": {
+      "main": [
+        [
+          {
+            "node": "Fetch Calls",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Calls": {
+      "main": [
+        [
+          {
+            "node": "Fetch Lead Form Submissions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Lead Form Submissions": {
+      "main": [
+        [
+          {
+            "node": "Build Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Digest": {
+      "main": [
+        [
+          {
+            "node": "Send Digest Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "419999a5-e78a-4eee-a8aa-01fc92eb618a",
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp",
+    "instanceId": "a88e6d138f79015b398bec4a86d68bd1ca13984e49e3cc70955af043b9814e5a"
+  },
+  "nodeGroups": [],
+  "id": "gygOH974zcMjpauc",
+  "tags": []
+}

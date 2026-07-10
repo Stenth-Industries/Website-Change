@@ -1,0 +1,23 @@
+● Just point the new session at the runbook. Copy-paste this as your first message:
+  
+  ▎ Read prospecting/infra/INFRA-RUNBOOK.md and prospecting/SYSTEM-BLUEPRINT.md, then tell me the current state and what's next.
+
+  That one line makes any fresh Claude — even on a different account — load the full picture: all credentials, the server access, what's built, what's pending. It'll SSH in, check the warmup is still
+  running, and be ready to continue.
+
+  Then tell it what you want to do that session. For example:
+  - "Build the n8n workflows" → starts the 8-workflow construction (the main remaining work)
+  - "Check how warmup is going" → it pulls the logs and reports the ramp / deliverability
+  - "Akash started the bot, wire his channel" → grabs his Telegram chat ID
+  - "I have the VoIP numbers, update the signatures"
+
+  Shortcut version if you just want it to resume the obvious next step:
+
+  ▎ Read prospecting/infra/INFRA-RUNBOOK.md, verify everything's still running, and let's build the n8n workflows.
+
+  One note: on the same account, your memory (MEMORY.md + the leadgen file) also auto-loads, so it'll already know most of this — but naming the runbook explicitly is what makes it work reliably on  
+  any login, which is what you asked for. The runbook is the single source of truth; keep referencing it and you'll never lose the thread.
+
+
+
+   Same account: it'll already know from memory — you can just say "let's continue the lead-gen machine" and it'll pull the runbook.
