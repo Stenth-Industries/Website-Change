@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowUpRight, Gauge, Scale } from 'lucide-react';
+import { ArrowUpRight, Gauge, Scale, LogOut } from 'lucide-react';
 
 interface HubLink {
   title: string;
@@ -25,6 +25,8 @@ const LINKS: HubLink[] = [
 ];
 
 export default function HubPage() {
+  const [state, setState] = useState<'checking' | 'ready'>('checking');
+
   useEffect(() => {
     const meta = document.createElement('meta');
     meta.name = 'robots';
@@ -32,6 +34,30 @@ export default function HubPage() {
     document.head.appendChild(meta);
     return () => { document.head.removeChild(meta); };
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/hub-check', { credentials: 'same-origin' })
+      .then((r) => {
+        if (cancelled) return;
+        if (r.ok) setState('ready');
+        else window.location.href = '/login';
+      })
+      .catch(() => {
+        if (!cancelled) window.location.href = '/login';
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  function signOut() {
+    fetch('/api/hub-logout', { method: 'POST', credentials: 'same-origin' }).finally(() => {
+      window.location.href = '/login';
+    });
+  }
+
+  if (state === 'checking') {
+    return <div className="min-h-screen bg-brand-dark" />;
+  }
 
   return (
     <div className="relative min-h-screen bg-brand-dark font-sans overflow-hidden">
@@ -95,6 +121,14 @@ export default function HubPage() {
           <p className="mt-8 text-center text-[12.5px] text-white/30">
             More client dashboards will show up here as they're added.
           </p>
+
+          <button
+            onClick={signOut}
+            className="group mx-auto mt-6 flex items-center gap-1.5 text-[12.5px] text-white/30 hover:text-white/60 transition-colors"
+          >
+            <LogOut size={13} />
+            Sign out
+          </button>
         </motion.div>
       </div>
     </div>
