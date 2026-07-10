@@ -28,6 +28,8 @@ const ScanPage = lazy(() => import('./components/ScanPage'));
 const RoiPage = lazy(() => import('./components/RoiPage'));
 const ChecklistPage = lazy(() => import('./components/ChecklistPage'));
 const ReportPage = lazy(() => import('./components/ReportPage'));
+const LoginPage = lazy(() => import('./components/LoginPage'));
+const HubPage = lazy(() => import('./components/HubPage'));
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -84,6 +86,24 @@ export default function App() {
       <MotionConfig reducedMotion="user">
         <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
           <ChecklistPage />
+        </Suspense>
+      </MotionConfig>
+    );
+  }
+  if (path === '/login') {
+    return (
+      <MotionConfig reducedMotion="user">
+        <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+          <LoginPage />
+        </Suspense>
+      </MotionConfig>
+    );
+  }
+  if (path === '/hub') {
+    return (
+      <MotionConfig reducedMotion="user">
+        <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+          <HubPage />
         </Suspense>
       </MotionConfig>
     );

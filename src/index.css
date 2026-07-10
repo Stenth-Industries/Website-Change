@@ -12,10 +12,17 @@
   --color-brand-muted: #8b929b; /* AA contrast on brand-dark */
 
   --animate-shimmer: shimmer 8s linear infinite;
+  --animate-border-beam: border-beam calc(var(--duration)*1s) infinite linear;
 
   @keyframes shimmer {
     to {
       background-position: 200% center;
+    }
+  }
+
+  @keyframes border-beam {
+    100% {
+      offset-distance: 100%;
     }
   }
 }
@@ -42,6 +49,11 @@
   .animate-orbit[class*="[animation-direction:reverse]"],
   .orbit-reverse {
     animation-direction: reverse;
+  }
+
+  .animate-border-beam {
+    animation: border-beam calc(var(--duration) * 1s) infinite linear;
+    animation-delay: var(--delay);
   }
 }
 

@@ -32,12 +32,12 @@ interface ReportData {
     rating: number;
     count: number;
     unanswered: number;
-    competitorName: string;
-    competitorRating: number;
-    competitorCount: number;
+    competitorName?: string;
+    competitorRating?: number;
+    competitorCount?: number;
   };
   findings: { verdict: Verdict; text: string; detail?: string }[];
-  stealPoint: { competitor: string; quote: string; insight: string };
+  stealPoint?: { competitor: string; quote: string; insight: string };
   missedEnquiries: number;
   generatedAt: string;
   expires: string;
@@ -288,9 +288,9 @@ export default function ReportPage({ slug }: { slug: string }) {
       {/* ── Reviews: the gap nobody is managing ── */}
       <section className="mt-20">
         <h2 className="font-display text-3xl md:text-4xl uppercase tracking-tighter mb-8">
-          Your reviews vs theirs<span className="text-brand-accent">.</span>
+          {r.competitorName ? <>Your reviews vs theirs<span className="text-brand-accent">.</span></> : <>Your reviews<span className="text-brand-accent">.</span></>}
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className={`grid grid-cols-1 gap-4 ${r.competitorName ? 'md:grid-cols-2' : ''}`}>
           <div className="rounded-[2rem] border border-brand-accent/30 bg-brand-accent/[0.05] p-8">
             <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-brand-accent mb-4">
               {data.business}
@@ -299,53 +299,59 @@ export default function ReportPage({ slug }: { slug: string }) {
               {r.rating.toFixed(1)}
               <span className="text-2xl text-brand-light/40"> / {r.count} reviews</span>
             </p>
-            <p className="flex items-center gap-2 text-sm mt-5" style={{ color: VERDICT_COLOR.warn }}>
-              <MessageSquareOff size={15} className="flex-shrink-0" />
-              {r.unanswered} recent {r.unanswered === 1 ? 'review has' : 'reviews have'} no reply from you
-            </p>
+            {r.unanswered > 0 && (
+              <p className="flex items-center gap-2 text-sm mt-5" style={{ color: VERDICT_COLOR.warn }}>
+                <MessageSquareOff size={15} className="flex-shrink-0" />
+                {r.unanswered} recent {r.unanswered === 1 ? 'review has' : 'reviews have'} no reply from you
+              </p>
+            )}
           </div>
-          <div className="rounded-[2rem] border border-white/[0.08] bg-white/[0.02] p-8">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-brand-light/40 mb-4">
-              {r.competitorName}
-            </p>
-            <p className="font-display text-5xl tracking-tighter text-brand-light/70">
-              {r.competitorRating.toFixed(1)}
-              <span className="text-2xl text-brand-light/40"> / {r.competitorCount} reviews</span>
-            </p>
-            <p className="text-sm text-brand-light/45 mt-5">
-              Volume and freshness beat a perfect score. Google reads unanswered reviews as a
-              business that stopped paying attention.
-            </p>
-          </div>
+          {r.competitorName && (
+            <div className="rounded-[2rem] border border-white/[0.08] bg-white/[0.02] p-8">
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-brand-light/40 mb-4">
+                {r.competitorName}
+              </p>
+              <p className="font-display text-5xl tracking-tighter text-brand-light/70">
+                {(r.competitorRating ?? 0).toFixed(1)}
+                <span className="text-2xl text-brand-light/40"> / {r.competitorCount} reviews</span>
+              </p>
+              <p className="text-sm text-brand-light/45 mt-5">
+                Volume and freshness beat a perfect score. Google reads unanswered reviews as a
+                business that stopped paying attention.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
       {/* ── The steal point ── */}
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-20 rounded-[2rem] border border-white/[0.08] bg-white/[0.02] p-8 md:p-12 relative overflow-hidden"
-      >
-        <Quote
-          aria-hidden
-          size={140}
-          className="absolute -top-6 -right-4 text-white/[0.03] pointer-events-none"
-        />
-        <p className="font-mono text-xs uppercase tracking-[0.3em] text-brand-accent mb-6">
-          Where their customers are already unhappy
-        </p>
-        <blockquote className="text-xl md:text-2xl text-brand-light/85 leading-relaxed italic max-w-2xl">
-          "{data.stealPoint.quote}"
-        </blockquote>
-        <p className="text-sm text-brand-light/40 mt-4">
-          Public review left for {data.stealPoint.competitor}
-        </p>
-        <p className="text-brand-light/65 leading-relaxed mt-6 max-w-2xl border-l-2 border-brand-accent/40 pl-6">
-          {data.stealPoint.insight}
-        </p>
-      </motion.section>
+      {data.stealPoint && (
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-20 rounded-[2rem] border border-white/[0.08] bg-white/[0.02] p-8 md:p-12 relative overflow-hidden"
+        >
+          <Quote
+            aria-hidden
+            size={140}
+            className="absolute -top-6 -right-4 text-white/[0.03] pointer-events-none"
+          />
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-brand-accent mb-6">
+            Where their customers are already unhappy
+          </p>
+          <blockquote className="text-xl md:text-2xl text-brand-light/85 leading-relaxed italic max-w-2xl">
+            "{data.stealPoint.quote}"
+          </blockquote>
+          <p className="text-sm text-brand-light/40 mt-4">
+            Public review left for {data.stealPoint.competitor}
+          </p>
+          <p className="text-brand-light/65 leading-relaxed mt-6 max-w-2xl border-l-2 border-brand-accent/40 pl-6">
+            {data.stealPoint.insight}
+          </p>
+        </motion.section>
+      )}
 
       {/* ── CTA ── */}
       <section className="mt-24 text-center">

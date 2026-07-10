@@ -8,6 +8,8 @@
     { "source": "/scan", "destination": "/scan.html" },
     { "source": "/roi", "destination": "/roi.html" },
     { "source": "/funnel-check", "destination": "/funnel-check.html" },
-    { "source": "/r/:slug", "destination": "/r.html" }
+    { "source": "/r/:slug", "destination": "/r.html" },
+    { "source": "/hub", "destination": "/index.html" },
+    { "source": "/login", "destination": "/index.html" }
   ]
 }
