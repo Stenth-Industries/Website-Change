@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Calculator, TrendingUp } from 'lucide-react';
-import { CAL_BOOKING_URL } from '../constants';
+import { CAL_BOOKING_URL, MAIN_SITE_URL } from '../constants';
 
 const fmt = (n: number) => '$' + Math.round(n).toLocaleString();
 
@@ -103,7 +103,7 @@ export default function RoiPage() {
 
       {/* ── Top bar ───────────────────────────────────────────────────── */}
       <header className="relative z-20 flex items-center justify-between px-6 md:px-12 py-6">
-        <a href="/" className="flex items-center gap-3">
+        <a href={MAIN_SITE_URL} className="flex items-center gap-3">
           <img src="/Logo.png" alt="Stenth" className="w-8 h-8 object-contain" />
           <span className="font-display text-xl tracking-tighter">STENTH</span>
         </a>
@@ -234,7 +234,7 @@ export default function RoiPage() {
             </span>
           </div>
           <div className="flex gap-8 text-xs text-brand-light/40 uppercase tracking-widest">
-            <a href="/" className="hover:text-brand-light transition-colors">Main Site</a>
+            <a href={MAIN_SITE_URL} className="hover:text-brand-light transition-colors">Main Site</a>
             <a href="/scan" className="hover:text-brand-light transition-colors">Free Scan</a>
             <a href="/law-firms" className="hover:text-brand-light transition-colors">For Law Firms</a>
           </div>

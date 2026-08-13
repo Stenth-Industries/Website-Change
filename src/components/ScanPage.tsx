@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Search, CheckCircle2, AlertTriangle, XCircle, RefreshCw, Swords, Mail } from 'lucide-react';
-import { CAL_BOOKING_URL } from '../constants';
+import { CAL_BOOKING_URL, MAIN_SITE_URL } from '../constants';
 import { submitLead } from '../leads';
 
 /* Optional PageSpeed Insights API key (free, 25k queries/day). Without it the
@@ -384,7 +384,7 @@ export default function ScanPage() {
 
       {/* ── Top bar ───────────────────────────────────────────────────── */}
       <header className="relative z-20 flex items-center justify-between px-6 md:px-12 py-6">
-        <a href="/" className="flex items-center gap-3">
+        <a href={MAIN_SITE_URL} className="flex items-center gap-3">
           <img src="/Logo.png" alt="Stenth" className="w-8 h-8 object-contain" />
           <span className="font-display text-xl tracking-tighter">STENTH</span>
         </a>
@@ -638,7 +638,7 @@ export default function ScanPage() {
             </span>
           </div>
           <div className="flex gap-8 text-xs text-brand-light/40 uppercase tracking-widest">
-            <a href="/" className="hover:text-brand-light transition-colors">Main Site</a>
+            <a href={MAIN_SITE_URL} className="hover:text-brand-light transition-colors">Main Site</a>
             <a href="/roi" className="hover:text-brand-light transition-colors">Enquiry Calculator</a>
             <a href="/law-firms" className="hover:text-brand-light transition-colors">For Law Firms</a>
             <a href="/privacy.html" className="hover:text-brand-light transition-colors">Privacy</a>

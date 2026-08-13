@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { MapPin, Star, Phone, Search, TrendingUp, Globe, BarChart3, ArrowRight, Check, X } from 'lucide-react';
-import { CAL_BOOKING_URL } from '../constants';
+import { CAL_BOOKING_URL, MAIN_SITE_URL } from '../constants';
 import { PRACTICES, Practice } from '../practices';
 
 const reveal = {
@@ -199,7 +199,7 @@ export default function LawFirmsPage({ practice }: { practice?: Practice | null 
 
       {/* ── Top bar ──────────────────────────────────────────────────── */}
       <header className="relative z-20 flex items-center justify-between px-6 md:px-12 py-6">
-        <a href="/" className="flex items-center gap-3">
+        <a href={MAIN_SITE_URL} className="flex items-center gap-3">
           <img src="/Logo.png" alt="Stenth" className="w-8 h-8 object-contain" />
           <span className="font-display text-xl tracking-tighter">STENTH</span>
         </a>
@@ -567,7 +567,7 @@ export default function LawFirmsPage({ practice }: { practice?: Practice | null 
             </span>
           </div>
           <div className="flex gap-8 text-xs text-brand-light/40 uppercase tracking-widest">
-            <a href="/" className="hover:text-brand-light transition-colors">Main Site</a>
+            <a href={MAIN_SITE_URL} className="hover:text-brand-light transition-colors">Main Site</a>
             <a href="/privacy.html" className="hover:text-brand-light transition-colors">Privacy</a>
             <a href="/terms.html" className="hover:text-brand-light transition-colors">Terms</a>
           </div>
