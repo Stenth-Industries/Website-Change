@@ -1,24 +1,14 @@
 # CI for STENTH Operator (SPEC.md §25 Day 1).
 #
-# Runs on every commit that touches operator/. The adversarial structural
+# Runs on every commit. The adversarial structural
 # assertions of §23 run here too — §23 is explicit that if the build runs late,
 # they are not what gets cut.
-name: operator-ci
+name: ci
 
 on:
   push:
-    paths:
-      - 'operator/**'
-      - '.github/workflows/operator-ci.yml'
   pull_request:
-    paths:
-      - 'operator/**'
-      - '.github/workflows/operator-ci.yml'
   workflow_dispatch:
-
-defaults:
-  run:
-    working-directory: operator
 
 jobs:
   verify:
@@ -50,7 +40,6 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: operator/package-lock.json
 
       - name: Install
         run: npm ci
@@ -72,6 +61,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      # The image the VPS runs is the artefact; a build that only works on a
+      # developer's machine is not verified.
+      - name: Build images
+        run: docker compose --profile migrate build
+
   # A migration is never edited once applied (§19 rule 3). On a pull request,
   # that is checkable: a migration already on the default branch must not have
   # changed in the diff.
@@ -85,10 +79,9 @@ jobs:
           fetch-depth: 0
 
       - name: Check no applied migration was modified
-        working-directory: ${{ github.workspace }}
         run: |
           base="origin/${{ github.base_ref }}"
-          changed=$(git diff --name-only --diff-filter=MDR "$base"...HEAD -- operator/migrations || true)
+          changed=$(git diff --name-only --diff-filter=MDR "$base"...HEAD -- migrations || true)
           if [ -n "$changed" ]; then
             echo "::error::These migrations were modified or removed. Migrations are forward-only and are never edited once applied (SPEC.md §19 rule 3). Add a new migration instead."
             echo "$changed"
